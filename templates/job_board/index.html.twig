@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JobBoard index{% endblock %}
+
+{% block body %}
+    <h1>JobBoard index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Link</th>
+                <th>Profile</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for job_board in job_boards %}
+            <tr>
+                <td>{{ job_board.id }}</td>
+                <td>{{ job_board.name }}</td>
+                <td>{{ job_board.link }}</td>
+                <td>{{ job_board.profile ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_job_board_show', {'id': job_board.id}) }}">show</a>
+                    <a href="{{ path('app_job_board_edit', {'id': job_board.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_job_board_new') }}">Create new</a>
+{% endblock %}
