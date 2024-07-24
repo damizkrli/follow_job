@@ -10,11 +10,14 @@ Objectif
 L'objectif de Follow_Job est de fournir un outil centralisé et intuitif pour les chercheurs d'emploi, leur permettant de gérer efficacement toutes les étapes de leur recherche d'emploi, du suivi des candidatures à la gestion des contacts et des notes personnelles.
 
 ## Technologies Utilisées
-Framework : Symfony
-Base de Données : MySQL / PostgreSQL
-Frontend : HTML, CSS, JavaScript
-Intégrations : API des jobboards (Indeed, HelloWork, etc.)
-Installation
+- Framework : Symfony
+- Base de Données : MySQL
+- Frontend : HTML, CSS, JavaScript
+- Intégrations : API des Jobboards (Indeed, HelloWork, etc.)
+- Autres : 
+  - [Cocur/Slugify](github.com/cocur/slugifyl)
+
+## Installation
 Pour installer et exécuter Follow_Job localement, veuillez suivre les étapes ci-dessous :
 
 ### Clonez ce repository :
