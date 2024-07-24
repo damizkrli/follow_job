@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Application{% endblock %}
+
+{% block body %}
+    <h1>Application</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ application.id }}</td>
+            </tr>
+            <tr>
+                <th>Job_title</th>
+                <td>{{ application.jobTitle }}</td>
+            </tr>
+            <tr>
+                <th>Sent</th>
+                <td>{{ application.sent ? application.sent|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Response</th>
+                <td>{{ application.response ? application.response|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Link</th>
+                <td>{{ application.link }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ application.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_application_index') }}">back to list</a>
+
+    <a href="{{ path('app_application_edit', {'id': application.id}) }}">edit</a>
+
+    {{ include('application/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Application index{% endblock %}
+
+{% block body %}
+    <h1>Application index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Job_title</th>
+                <th>Sent</th>
+                <th>Response</th>
+                <th>Link</th>
+                <th>Note</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for application in applications %}
+            <tr>
+                <td>{{ application.id }}</td>
+                <td>{{ application.jobTitle }}</td>
+                <td>{{ application.sent ? application.sent|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ application.response ? application.response|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ application.link }}</td>
+                <td>{{ application.note }}</td>
+                <td>
+                    <a href="{{ path('app_application_show', {'id': application.id}) }}">show</a>
+                    <a href="{{ path('app_application_edit', {'id': application.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_application_new') }}">Create new</a>
+{% endblock %}
