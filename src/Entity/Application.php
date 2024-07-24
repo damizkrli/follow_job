@@ -41,10 +41,6 @@ class Application
     #[ORM\JoinColumn(nullable: false)]
     private ?JobBoard $job_board = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Statut $statut = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -82,18 +78,6 @@ class Application
     public function setJobBoard(JobBoard $job_board): static
     {
         $this->job_board = $job_board;
-
-        return $this;
-    }
-
-    public function getStatut(): ?Statut
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(Statut $statut): static
-    {
-        $this->statut = $statut;
 
         return $this;
     }
