@@ -37,15 +37,18 @@ class ApplicationType extends AbstractType
             ->add('note')
             ->add('company', EntityType::class, [
                 'class'        => Company::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
+                'empty_data'    => '',
             ])
             ->add('contact', EntityType::class, [
                 'class'        => Contact::class,
-                'choice_label' => 'id',
+                'choice_label' => 'firstname',
+                'empty_data'    => '',
             ])
             ->add('job_board', EntityType::class, [
                 'class'        => JobBoard::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
+                'empty_data'    => '',
             ])
             ->add('statut', ChoiceType::class, [
                 'choices'       => self::STATUT,
