@@ -41,6 +41,9 @@ class Application
     #[ORM\JoinColumn(nullable: false)]
     private ?JobBoard $job_board = null;
 
+    #[ORM\Column(length: 10)]
+    private ?string $statut = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +141,18 @@ class Application
     public function setNote(?string $note): static
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): static
+    {
+        $this->statut = $statut;
 
         return $this;
     }
