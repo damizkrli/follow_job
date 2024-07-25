@@ -13,6 +13,9 @@
                 <th>Sent</th>
                 <th>Response</th>
                 <th>Link</th>
+{#                <th>Company</th>#}
+{#                <th>Contact</th>#}
+{#                <th>Job Board</th>#}
                 <th>Note</th>
                 <th>actions</th>
             </tr>
@@ -25,6 +28,9 @@
                 <td>{{ application.sent ? application.sent|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ application.response ? application.response|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ application.link }}</td>
+{#                <td>{{ application.company }}</td>#}
+{#                <td>{{ application.contact }}</td>#}
+{#                <td>{{ application.jobboard }}</td>#}
                 <td>{{ application.note }}</td>
                 <td>
                     <a href="{{ path('app_application_show', {'id': application.id}) }}">show</a>
