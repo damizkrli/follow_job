@@ -28,6 +28,11 @@ class Company
     #[ORM\Column(length: 75)]
     private ?string $city = null;
 
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

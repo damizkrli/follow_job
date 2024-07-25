@@ -28,6 +28,11 @@ class Contact
     #[ORM\Column(length: 50)]
     private ?string $social = null;
 
+    public function __toString(): string
+    {
+        return $this->lastname;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

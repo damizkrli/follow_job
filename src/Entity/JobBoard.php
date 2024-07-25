@@ -23,6 +23,11 @@ class JobBoard
     #[ORM\Column]
     private ?bool $profile = null;
 
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
