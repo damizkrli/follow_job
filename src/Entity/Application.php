@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ApplicationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,10 +33,6 @@ class Application
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
-    private ?Company $company = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
     private ?Contact $contact = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -44,21 +42,20 @@ class Application
     #[ORM\Column(length: 10)]
     private ?string $statut = null;
 
+    /**
+     * @var Collection<int, Company>
+     */
+    #[ORM\ManyToMany(targetEntity: Company::class)]
+    private Collection $company;
+
+    public function __construct()
+    {
+        $this->company = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(Company $company): static
-    {
-        $this->company = $company;
-
-        return $this;
     }
 
     public function getContact(): ?Contact
@@ -153,6 +150,30 @@ class Application
     public function setStatut(string $statut): static
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Company>
+     */
+    public function getCompany(): Collection
+    {
+        return $this->company;
+    }
+
+    public function addCompany(Company $company): static
+    {
+        if (!$this->company->contains($company)) {
+            $this->company->add($company);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(Company $company): static
+    {
+        $this->company->removeElement($company);
 
         return $this;
     }
