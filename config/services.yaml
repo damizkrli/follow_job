@@ -1,3 +1,5 @@
+# config/services.yaml
+
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 
@@ -6,11 +8,9 @@
 parameters:
 
 services:
-
     Cocur\Slugify\Slugify: ~
 
-    Cocur\Slugify\SlugifyInterface:
-        alias: 'Cocur\Slugify\Slugify'
+    Cocur\Slugify\SlugifyInterface: '@Cocur\Slugify\Slugify'
 
     # default configuration for services in *this* file
     _defaults:
@@ -26,5 +26,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Twig\AppExtension:
+        arguments:
+            $slugify: '@Cocur\Slugify\SlugifyInterface'
+        tags:
+            - { name: 'twig.extension' }
