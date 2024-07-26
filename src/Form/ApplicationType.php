@@ -6,8 +6,6 @@ use App\Entity\Application;
 use App\Entity\Company;
 use App\Entity\Contact;
 use App\Entity\JobBoard;
-use App\Entity\Statut;
-use App\Repository\ApplicationRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -37,26 +35,23 @@ class ApplicationType extends AbstractType
             ->add('note')
             ->add('company', EntityType::class, [
                 'class'        => Company::class,
-                'choice_label' => 'name',
-                'empty_data'    => '',
+                'multiple' => true,
             ])
             ->add('contact', EntityType::class, [
                 'class'        => Contact::class,
                 'choice_label' => 'firstname',
-                'empty_data'    => '',
             ])
             ->add('job_board', EntityType::class, [
                 'class'        => JobBoard::class,
                 'choice_label' => 'name',
-                'empty_data'    => '',
             ])
             ->add('statut', ChoiceType::class, [
-                'choices'       => self::STATUT,
-                'placeholder'   => 'Choisissez un statut',
-                'label'         => "Statut",
-                'required'      => false,
-                'empty_data'    => 'Envoyée',
-                'multiple'      => false,
+                'choices'     => self::STATUT,
+                'placeholder' => 'Choisissez un statut',
+                'label'       => "Statut",
+                'required'    => false,
+                'empty_data'  => 'Envoyée',
+                'multiple'    => false,
             ]);
     }
 
