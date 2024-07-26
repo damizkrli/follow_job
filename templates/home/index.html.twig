@@ -3,24 +3,33 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div class="example-wrapper">
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
 
-    <a href="{{ path('home', { 'title': 'follow-job-homepage'|slugify }) }}">Accueil</a>
-        <a href="{{ path('app_company_index') }}">Entreprises</a>
-        <a href="{{ path('app_contact_index') }}">Contacts</a>
-        <a href="{{ path('app_job_board_index') }}">JobBoards</a>
+    <div class="example-wrapper">
 
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {# BARRE DE NAV #}
+        {% include 'tools/navbar.html.twig' %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/vador/Projets/Symfony/Perso/follow_job/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/home/vador/Projets/Symfony/Perso/follow_job/templates/home/index.html.twig</code></li>
-    </ul>
-</div>
+        <h1>Hello {{ controller_name }}! ✅</h1>
+
+        This friendly message is coming from:
+        <ul>
+            <li>Your controller at
+                <code>/home/vador/Projets/Symfony/Perso/follow_job/src/Controller/HomeController.php</code></li>
+            <li>Your template at
+                <code>/home/vador/Projets/Symfony/Perso/follow_job/templates/home/index.html.twig</code></li>
+        </ul>
+    </div>
 {% endblock %}
