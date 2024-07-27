@@ -31,6 +31,12 @@ class Application
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $note = null;
 
+    /**
+     * @var Collection<int, Company>
+     */
+    #[ORM\ManyToMany(targetEntity: Company::class)]
+    private Collection $company;
+
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private ?Contact $contact = null;
@@ -38,15 +44,6 @@ class Application
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private ?JobBoard $job_board = null;
-
-    #[ORM\Column(length: 10)]
-    private ?string $statut = null;
-
-    /**
-     * @var Collection<int, Company>
-     */
-    #[ORM\ManyToMany(targetEntity: Company::class)]
-    private Collection $company;
 
     public function __construct()
     {
@@ -56,30 +53,6 @@ class Application
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getContact(): ?Contact
-    {
-        return $this->contact;
-    }
-
-    public function setContact(Contact $contact): static
-    {
-        $this->contact = $contact;
-
-        return $this;
-    }
-
-    public function getJobBoard(): ?JobBoard
-    {
-        return $this->job_board;
-    }
-
-    public function setJobBoard(JobBoard $job_board): static
-    {
-        $this->job_board = $job_board;
-
-        return $this;
     }
 
     public function getJobTitle(): ?string
@@ -142,18 +115,6 @@ class Application
         return $this;
     }
 
-    public function getStatut(): ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(string $statut): static
-    {
-        $this->statut = $statut;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Company>
      */
@@ -174,6 +135,30 @@ class Application
     public function removeCompany(Company $company): static
     {
         $this->company->removeElement($company);
+
+        return $this;
+    }
+
+    public function getContact(): ?Contact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(Contact $contact): static
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getJobBoard(): ?JobBoard
+    {
+        return $this->job_board;
+    }
+
+    public function setJobBoard(JobBoard $job_board): static
+    {
+        $this->job_board = $job_board;
 
         return $this;
     }
