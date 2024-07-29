@@ -6,12 +6,17 @@ use App\Entity\Application;
 use App\Form\ApplicationType;
 use App\Repository\ApplicationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/application')]
+#[UniqueEntity(
+    fields: ['lastname', 'firstname', 'email'],
+    message: 'Cette entrée existe déjà en base de données. Veuillez modifier votre saisie.'
+)]
 class ApplicationController extends AbstractController
 {
     #[Route('/', name: 'app_application_index', methods: ['GET'])]
