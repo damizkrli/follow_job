@@ -1,3 +1,9 @@
 body {
     background-color: skyblue;
 }
+
+.btn {
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+}
