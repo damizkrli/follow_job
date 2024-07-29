@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as AcmeAssert;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
@@ -17,6 +18,7 @@ class Contact
     private ?string $firstname = null;
 
     #[ORM\Column(length: 15)]
+    #[AcmeAssert\HasUniqueContact(mode: "strict")]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 25)]
