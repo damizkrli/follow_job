@@ -8,6 +8,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class HasUniqueContactValidator extends ConstraintValidator
 {
+    /*
+     * @var ContactRepository
+    */
     private ContactRepository $contactRepository;
 
     public function __construct(ContactRepository $contactRepository)
@@ -15,7 +18,7 @@ class HasUniqueContactValidator extends ConstraintValidator
         $this->contactRepository = $contactRepository;
     }
 
-    public function validate(mixed $value, Constraint $constraint): void
+    public function validate($value, Constraint $constraint): void
     {
         $existingContact = $this->contactRepository->findOneBy([
             'lastname' => $value,
@@ -26,7 +29,7 @@ class HasUniqueContactValidator extends ConstraintValidator
         }
 
         $this->context->buildViolation($constraint->message)
-            ->setParameter('{{ string }}', $value)
+            ->setParameter('{{ value }}', $value)
             ->addViolation();
     }
 }

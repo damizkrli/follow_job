@@ -5,8 +5,17 @@ namespace App\Entity;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator as AcmeAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
+ * @HasUniqueContact
+ */
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
+#[UniqueEntity(
+    fields: ['firstname', 'lastname', 'email'],
+    message: 'Ce contact existe déjà en base de données. Veuillez modifier votre saisie.',
+)]
 class Contact
 {
     #[ORM\Id]
@@ -18,7 +27,7 @@ class Contact
     private ?string $firstname = null;
 
     #[ORM\Column(length: 15)]
-    #[AcmeAssert\HasUniqueContact(mode: "strict")]
+    #[AcmeAssert\HasUniqueContact]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 25)]
@@ -47,7 +56,7 @@ class Contact
 
     public function setFirstname(string $firstname): static
     {
-        $this->firstname = $firstname;
+        $this->firstname = trim(ucfirst($firstname));
 
         return $this;
     }
@@ -59,7 +68,7 @@ class Contact
 
     public function setLastname(string $lastname): static
     {
-        $this->lastname = $lastname;
+        $this->lastname = trim(ucfirst($lastname));
 
         return $this;
     }
@@ -71,7 +80,13 @@ class Contact
 
     public function setEmail(string $email): static
     {
-        $this->email = $email;
+        $email = trim(strtolower($email));
+
+        $this->email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+        if (!$email) {
+             echo 'Votre email n\'est pas valide. Merci de renseigner une adresse valide.';
+        }
 
         return $this;
     }

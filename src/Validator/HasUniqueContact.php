@@ -7,13 +7,12 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class HasUniqueContact extends Constraint
 {
-    public string $message = '{{ value }} existe déjà en base de données. }}';
+    public string $message = 'Ce contact existe déjà en base de données. Veuillez modifier votre saisie.';
     public string $mode    = 'strict';
 
-// all configurable options must be passed to the constructor
-    public function __construct(?string $mode = null, ?string $message = null, ?array $groups = null, $payload = null)
+    public function __construct(?string $mode = null, ?string $message = null)
     {
-        parent::__construct([], $groups, $payload);
+        parent::__construct([]);
 
         $this->mode    = $mode ?? $this->mode;
         $this->message = $message ?? $this->message;
