@@ -12,6 +12,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @HasUniqueContact
  */
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
+#[UniqueEntity(
+    fields: ['firstname', 'lastname', 'email'],
+    message: 'Ce contact existe déjà en base de données. Veuillez modifier votre saisie.',
+)]
 class Contact
 {
     #[ORM\Id]
