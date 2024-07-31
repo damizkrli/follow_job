@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator;
+namespace App\Validator\Contact;
 
 use App\Repository\ContactRepository;
 use Symfony\Component\Validator\Constraint;

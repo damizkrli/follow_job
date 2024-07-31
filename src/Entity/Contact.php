@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Validator as AcmeAssert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Contact as PhoneLengthValidator;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
@@ -13,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 #[UniqueEntity(
-    fields: ['firstname', 'lastname', 'email'],
+    fields : ['firstname', 'lastname', 'email'],
     message: 'Ce contact existe déjà en base de données. Veuillez modifier votre saisie.',
 )]
 class Contact
@@ -24,18 +26,68 @@ class Contact
     private ?int $id = null;
 
     #[ORM\Column(length: 15)]
+    #[Assert\NotBlank(
+        message: "Cette valeur ne doit pas être vide."
+    )]
+    #[Assert\Length(
+        min       : 3,
+        max       : 15,
+        minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
+        maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.'
+    )]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 15)]
+    #[Assert\NotBlank(
+        message: "Cette valeur ne doit pas être vide."
+    )]
+    #[Assert\Length(
+        min       : 3,
+        max       : 15,
+        minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
+        maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.'
+    )]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 25)]
+    #[Assert\NotBlank(
+        message: "Cette valeur ne doit pas être vide."
+    )]
+    #[Assert\Email(
+        message: "Cette valeur n'est pas une adresse électronique valide.",
+        mode   : 'html5-allow-no-tld'
+    )]
+    #[Assert\Length(
+        min       : 10,
+        max       : 30,
+        minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
+        maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.',
+    )]
     private ?string $email = null;
 
     #[ORM\Column(length: 13)]
+    #[Assert\NotBlank(
+        message: 'Cette valeur ne doit pas être vide.'
+    )]
+    #[Assert\Positive(
+        message: 'Cette valeur doit être positive.'
+    )]
+    #[PhoneLengthValidator\HasPhoneNumberHasTenDigits]
     private ?string $phone = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(
+        message: "Cette valeur ne doit pas être vide."
+    )]
+    #[Assert\Url(
+        message: "Cette valeur n'est pas une URL valide."
+    )]
+    #[Assert\Length(
+        min       : 10,
+        max       : 50,
+        minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
+        maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.'
+    )]
     private ?string $social = null;
 
     public function __toString(): string
@@ -94,7 +146,8 @@ class Contact
     public function setPhone(string $phone): static
     {
         $characters = "0\''";
-        $this->phone = '+33' . ' ' . ltrim($phone, $characters);
+
+        $this->phone = ltrim(($phone), $characters);
 
         return $this;
     }
