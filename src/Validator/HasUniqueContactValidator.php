@@ -28,8 +28,10 @@ class HasUniqueContactValidator extends ConstraintValidator
             return;
         }
 
-        $this->context->buildViolation($constraint->message)
-            ->setParameter('{{ value }}', $value)
-            ->addViolation();
+        if ($existingContact && $existingContact->getId() !== $value->getId()) {
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ value }}', $value)
+                ->addViolation();
+        }
     }
 }
