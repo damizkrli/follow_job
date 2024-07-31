@@ -4,8 +4,18 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as AcmeAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
+ * @HasUniqueContact
+ */
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
+#[UniqueEntity(
+    fields: ['firstname', 'lastname', 'email'],
+    message: 'Ce contact existe déjà en base de données. Veuillez modifier votre saisie.',
+)]
 class Contact
 {
     #[ORM\Id]
@@ -22,8 +32,8 @@ class Contact
     #[ORM\Column(length: 25)]
     private ?string $email = null;
 
-    #[ORM\Column]
-    private ?int $phone = null;
+    #[ORM\Column(length: 13)]
+    private ?string $phone = null;
 
     #[ORM\Column(length: 50)]
     private ?string $social = null;
@@ -45,7 +55,7 @@ class Contact
 
     public function setFirstname(string $firstname): static
     {
-        $this->firstname = $firstname;
+        $this->firstname = trim(ucfirst($firstname));
 
         return $this;
     }
@@ -57,7 +67,7 @@ class Contact
 
     public function setLastname(string $lastname): static
     {
-        $this->lastname = $lastname;
+        $this->lastname = trim(ucfirst($lastname));
 
         return $this;
     }
@@ -69,19 +79,22 @@ class Contact
 
     public function setEmail(string $email): static
     {
-        $this->email = $email;
+        $email = trim(strtolower($email));
+
+        $this->email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(int $phone): static
+    public function setPhone(string $phone): static
     {
-        $this->phone = $phone;
+        $characters = "0\''";
+        $this->phone = '+33' . ' ' . ltrim($phone, $characters);
 
         return $this;
     }
@@ -93,8 +106,12 @@ class Contact
 
     public function setSocial(string $social): static
     {
+
+        $social = strtolower(trim($social));
+
         $this->social = $social;
 
         return $this;
     }
+
 }

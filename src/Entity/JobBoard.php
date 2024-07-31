@@ -20,7 +20,7 @@ class JobBoard
     #[ORM\Column(type: Types::TEXT)]
     private ?string $link = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $profile = null;
 
     public function __toString(): string
