@@ -27,14 +27,13 @@ class Contact
     private ?string $firstname = null;
 
     #[ORM\Column(length: 15)]
-    #[AcmeAssert\HasUniqueContact]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 25)]
     private ?string $email = null;
 
-    #[ORM\Column]
-    private ?int $phone = null;
+    #[ORM\Column(length: 13)]
+    private ?string $phone = null;
 
     #[ORM\Column(length: 50)]
     private ?string $social = null;
@@ -84,21 +83,18 @@ class Contact
 
         $this->email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
-        if (!$email) {
-             echo 'Votre email n\'est pas valide. Merci de renseigner une adresse valide.';
-        }
-
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(int $phone): static
+    public function setPhone(string $phone): static
     {
-        $this->phone = $phone;
+        $characters = "0\''";
+        $this->phone = '+33' . ' ' . ltrim($phone, $characters);
 
         return $this;
     }
@@ -110,8 +106,12 @@ class Contact
 
     public function setSocial(string $social): static
     {
+
+        $social = strtolower(trim($social));
+
         $this->social = $social;
 
         return $this;
     }
+
 }
