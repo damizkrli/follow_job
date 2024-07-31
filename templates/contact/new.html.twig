@@ -2,10 +2,18 @@
 
 {% block title %}New Contact{% endblock %}
 
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+
 {% block body %}
-    <h1>Create new Contact</h1>
 
-    {{ include('contact/_form.html.twig') }}
+    <div class="container-fluid p-5">
 
-    <a href="{{ path('app_contact_index') }}">back to list</a>
+        <h1 class="pb-3">Ajouter un contact</h1>
+
+        {{ include('contact/_form.html.twig') }}
+
+        <a href="{{ path('app_contact_index') }}">Retour</a>
+
+    </div>
+
 {% endblock %}
