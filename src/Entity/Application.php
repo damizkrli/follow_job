@@ -31,6 +31,9 @@ class Application
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $note = null;
 
+    #[ORM\Column(length: 10)]
+    private ?string $statut = "Envoyée";
+
     /**
      * @var Collection<int, Company>
      */
@@ -161,6 +164,16 @@ class Application
         $this->job_board = $job_board;
 
         return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): void
+    {
+        $this->statut = $statut;
     }
 
 }
