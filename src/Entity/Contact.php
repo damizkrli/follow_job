@@ -72,7 +72,7 @@ class Contact
     #[Assert\Positive(
         message: 'Cette valeur doit être positive.'
     )]
-    #[PhoneLengthValidator\HasPhoneNumberHasTenDigits]
+    #[PhoneLengthValidator\HasPhoneNumberHasNineDigits]
     private ?string $phone = null;
 
     #[ORM\Column(length: 50)]
