@@ -3,9 +3,32 @@
 {% block title %}New Application{% endblock %}
 
 {% block body %}
-    <h1>Create new Application</h1>
 
-    {{ include('application/_form.html.twig') }}
+    <div class="container-fluid p-5">
 
-    <a href="{{ path('app_application_index') }}">back to list</a>
+        <h1>Ajouter une candidature</h1>
+
+        {{ form_start(form) }}
+        <div class="m-3 mt-5">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-lg-3">{{ form_row(form.job_title) }}</div>
+                <div class="col-lg-3">{{ form_row(form.sent) }}</div>
+                <div class="col-lg-3">{{ form_row(form.response) }}</div>
+                <div class="col-lg-3">{{ form_row(form.link) }}</div>
+            </div>
+
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-lg-3">{{ form_row(form.company) }}</div>
+                <div class="col-lg-3">{{ form_row(form.contact) }}</div>
+                <div class="col-lg-3">{{ form_row(form.job_board) }}</div>
+                <div class="col-lg-3">{{ form_row(form.statut) }}</div>
+            </div>
+        </div>
+
+        {{ include('application/_form.html.twig') }}
+
+        <a href="{{ path('app_application_index') }}">back to list</a>
+
+    </div>
+
 {% endblock %}
