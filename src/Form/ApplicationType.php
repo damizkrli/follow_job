@@ -9,6 +9,7 @@ use App\Entity\JobBoard;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,11 +32,14 @@ class ApplicationType extends AbstractType
             ->add('response', null, [
                 'widget' => 'single_text',
             ])
-            ->add('link')
+            ->add('link', TextType::class, [
+                'label' => 'Lien'
+            ])
             ->add('note')
             ->add('company', EntityType::class, [
-                'class'        => Company::class,
-                'multiple' => true,
+                'class' => Company::class,
+                'choice_label' => 'name',
+                'mapped' => false,
             ])
             ->add('contact', EntityType::class, [
                 'class'        => Contact::class,
@@ -51,7 +55,6 @@ class ApplicationType extends AbstractType
                 'label'       => "Statut",
                 'required'    => false,
                 'empty_data'  => 'Envoyée',
-                'multiple'    => false,
             ]);
     }
 
