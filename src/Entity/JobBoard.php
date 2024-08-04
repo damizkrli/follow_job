@@ -74,7 +74,7 @@ class JobBoard
 
     public function setName(string $name): static
     {
-        $this->name = trim(ucwords($name));
+        $this->name = trim(ucwords(strtolower($name)));
 
         return $this;
     }
