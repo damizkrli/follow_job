@@ -3,9 +3,18 @@
 {% block title %}New Company{% endblock %}
 
 {% block body %}
-    <h1>Create new Company</h1>
 
-    {{ include('company/_form.html.twig') }}
+    <div class="container-fluid">
 
-    <a href="{{ path('app_company_index') }}">back to list</a>
+        <h1>Create new Company</h1>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('app_company_index') }}">Retour</a>
+
+    </div>
+
 {% endblock %}

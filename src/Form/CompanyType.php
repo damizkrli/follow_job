@@ -58,7 +58,7 @@ class CompanyType extends AbstractType
                 'label' => 'Ville',
                 'required' => true,
                 'attr' => [
-                    'placeholder' => 'Ville',
+                    'placeholder' => 'Paris',
                 ],
                 'row_attr' => [
                     'class' => 'form-floating',

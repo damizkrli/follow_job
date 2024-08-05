@@ -111,7 +111,11 @@ class Company
 
     public function setActivity(string $activity): static
     {
+<<<<<<< Updated upstream
         $this->activity = $activity;
+=======
+        $this->activity = trim(ucwords(strtolower($activity)));
+>>>>>>> Stashed changes
 
         return $this;
     }
