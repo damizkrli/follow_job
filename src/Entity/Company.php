@@ -99,7 +99,7 @@ class Company
 
     public function setName(string $name): static
     {
-        $this->name = $name;
+        $this->name = trim(ucwords($name));
 
         return $this;
     }
@@ -111,7 +111,7 @@ class Company
 
     public function setActivity(string $activity): static
     {
-        $this->activity = $activity;
+        $this->activity = trim(ucwords($activity));
 
         return $this;
     }
@@ -123,7 +123,7 @@ class Company
 
     public function setAddress(string $address): static
     {
-        $this->address = $address;
+        $this->address = trim(strtolower($address));
 
         return $this;
     }
@@ -135,7 +135,7 @@ class Company
 
     public function setPostalCode(int $postalCode): static
     {
-        $this->postalCode = $postalCode;
+        $this->postalCode = trim($postalCode);
 
         return $this;
     }
@@ -147,7 +147,7 @@ class Company
 
     public function setCity(string $city): static
     {
-        $this->city = $city;
+        $this->city = trim(strtoupper($city));
 
         return $this;
     }
