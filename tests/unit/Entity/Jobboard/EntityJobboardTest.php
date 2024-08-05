@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Entity\Jobboard;
+namespace App\Tests\unit\Entity\Jobboard;
 
 use App\Entity\JobBoard;
 use PHPUnit\Framework\TestCase;

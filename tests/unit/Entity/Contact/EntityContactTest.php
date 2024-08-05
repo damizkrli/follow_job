@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Entity\Contact;
+namespace App\Tests\unit\Entity\Contact;
 
 use App\Entity\Contact;
 use PHPUnit\Framework\TestCase;
