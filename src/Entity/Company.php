@@ -111,7 +111,7 @@ class Company
 
     public function setActivity(string $activity): static
     {
-        $this->activity = trim(ucwords($activity));
+        $this->activity = trim(ucwords(strtolower($activity)));
 
         return $this;
     }
