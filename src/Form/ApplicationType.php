@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ApplicationType extends AbstractType
 {
-    public const STATUT = [
+    private const STATUT = [
         'Envoyée'    => 'Envoyée',
         'En attente' => 'En attente',
         'Refusée'    => 'Refusée',
