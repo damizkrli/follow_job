@@ -3,10 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ApplicationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 class Application
@@ -17,41 +16,67 @@ class Application
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(
+        message: "Le nom du poste est obligatoire."
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
+        maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.'
+    )]
     private ?string $job_title = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner une date d\'envoi.',
+    )]
     private ?\DateTimeInterface $sent = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $response = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner un lien vers l\'application.',
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 2100,
+        minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
+        maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.'
+    )]
+    #[Assert\Url(
+        message: 'Veuillez renseigner une url valide.',
+    )]
     private ?string $link = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 5000,
+        minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
+        maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.'
+    )]
     private ?string $note = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner un statut.',
+    )]
     private ?string $statut = "Envoyée";
 
-    /**
-     * @var Collection<int, Company>
-     */
-    #[ORM\ManyToMany(targetEntity: Company::class)]
-    private Collection $company;
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Company $company = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
     private ?Contact $contact = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
     private ?JobBoard $job_board = null;
-
-    public function __construct()
-    {
-        $this->company = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -65,7 +90,7 @@ class Application
 
     public function setJobTitle(string $job_title): static
     {
-        $this->job_title = $job_title;
+        $this->job_title = trim(ucwords($job_title));
 
         return $this;
     }
@@ -101,7 +126,7 @@ class Application
 
     public function setLink(string $link): static
     {
-        $this->link = $link;
+        $this->link = trim($link);
 
         return $this;
     }
@@ -113,55 +138,7 @@ class Application
 
     public function setNote(?string $note): static
     {
-        $this->note = $note;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Company>
-     */
-    public function getCompany(): Collection
-    {
-        return $this->company;
-    }
-
-    public function addCompany(Company $company): static
-    {
-        if (!$this->company->contains($company)) {
-            $this->company->add($company);
-        }
-
-        return $this;
-    }
-
-    public function removeCompany(Company $company): static
-    {
-        $this->company->removeElement($company);
-
-        return $this;
-    }
-
-    public function getContact(): ?Contact
-    {
-        return $this->contact;
-    }
-
-    public function setContact(Contact $contact): static
-    {
-        $this->contact = $contact;
-
-        return $this;
-    }
-
-    public function getJobBoard(): ?JobBoard
-    {
-        return $this->job_board;
-    }
-
-    public function setJobBoard(JobBoard $job_board): static
-    {
-        $this->job_board = $job_board;
+        $this->note = trim(ucfirst($note));
 
         return $this;
     }
@@ -173,7 +150,43 @@ class Application
 
     public function setStatut(?string $statut): void
     {
-        $this->statut = $statut;
+        $this->statut = trim(strtoupper($statut));
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getContact(): ?Contact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?Contact $contact): static
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getJobBoard(): ?JobBoard
+    {
+        return $this->job_board;
+    }
+
+    public function setJobBoard(?JobBoard $job_board): static
+    {
+        $this->job_board = $job_board;
+
+        return $this;
     }
 
 }
