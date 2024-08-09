@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/application')]
+#[Route('/candidature')]
 class ApplicationController extends AbstractController
 {
     #[Route('/', name: 'app_application_index', methods: ['GET'])]
@@ -22,7 +22,7 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_application_new', methods: ['GET', 'POST'])]
+    #[Route('/ajouter/', name: 'app_application_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $application = new Application();
@@ -50,7 +50,7 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_application_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Application $application, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ApplicationType::class, $application);
