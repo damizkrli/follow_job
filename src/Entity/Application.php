@@ -126,7 +126,7 @@ class Application
 
     public function setLink(string $link): static
     {
-        $this->link = trim($link);
+        $this->link = trim(strtolower($link));
 
         return $this;
     }
@@ -138,7 +138,7 @@ class Application
 
     public function setNote(?string $note): static
     {
-        $this->note = trim(ucfirst($note));
+        $this->note = ucfirst(trim(strtolower($note)));
 
         return $this;
     }
