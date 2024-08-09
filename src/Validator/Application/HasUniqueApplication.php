@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
-class HasUniqueApplicationPhp extends Constraint
+class HasUniqueApplication extends Constraint
 {
     public string $message = 'Vous avez déjà postulé à cette annonce.';
 }
