@@ -5,9 +5,14 @@ namespace App\Entity;
 use App\Repository\ApplicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
+#[UniqueEntity(
+    fields: ['link'],
+    message: "Vous avez déjà postulé à cette annonce."
+)]
 class Application
 {
     #[ORM\Id]
