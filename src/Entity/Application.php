@@ -20,13 +20,13 @@ class Application
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 40)]
     #[Assert\NotBlank(
         message: "Le nom du poste est obligatoire."
     )]
     #[Assert\Length(
         min: 2,
-        max: 30,
+        max: 40,
         minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
         maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.'
     )]
