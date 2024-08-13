@@ -44,10 +44,7 @@ class Company
     )]
     private ?string $activity = null;
 
-    #[ORM\Column(length: 75)]
-    #[Assert\NotBlank(
-        message: 'Cette valeur ne doit pas être vide.'
-    )]
+    #[ORM\Column(length: 75, nullable: true)]
     #[Assert\Length(
         min: 2,
         max: 75,
@@ -56,10 +53,7 @@ class Company
     )]
     private ?string $address = null;
 
-    #[ORM\Column]
-    #[Assert\NotBlank(
-        message: 'Cette valeur ne doit pas être vide.'
-    )]
+    #[ORM\Column(length: 5, nullable: true)]
     #[Assert\Length(
         exactly: 5,
         exactMessage: 'Cette valeur doit comporter exactement {{ limit }} caractères.'
@@ -70,10 +64,7 @@ class Company
     #[CompanyValidator\PostalZipCodeFrenchFormat]
     private ?int $postalCode = null;
 
-    #[ORM\Column(length: 75)]
-    #[Assert\NotBlank(
-        message: 'Cette valeur ne doit pas être vide.'
-    )]
+    #[ORM\Column(length: 75, nullable: true)]
     #[Assert\Length(
         min: 2,
         max: 75,
