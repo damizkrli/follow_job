@@ -56,7 +56,7 @@ class ApplicationType extends AbstractType
                 'required' => true,
                 'row_attr' => [
                     'class' => 'form-floating',
-                ]
+                ],
             ])
             ->add('response', DateType::class, [
                 'widget'   => 'single_text',
@@ -87,6 +87,7 @@ class ApplicationType extends AbstractType
             ])
             ->add('company', EntityType::class, [
                 'class'         => Company::class,
+                'placeholder'   => 'Sélectionner une entreprise',
                 'choice_label'  => 'name',
                 'row_attr'      => [
                     'class' => 'form-floating',
@@ -96,10 +97,11 @@ class ApplicationType extends AbstractType
                         ->createQueryBuilder('company')
                         ->orderBy('company.name', 'ASC');
                 },
-                'required'      => true,
+                'required'      => false,
             ])
             ->add('contact', EntityType::class, [
                 'class'         => Contact::class,
+                'placeholder'   => 'Sélectionner un contact',
                 'choice_label'  => 'firstname',
                 'row_attr'      => [
                     'class' => 'form-floating',
@@ -109,10 +111,11 @@ class ApplicationType extends AbstractType
                         ->createQueryBuilder('contact')
                         ->orderBy('contact.firstname', 'ASC');
                 },
-                'required'      => true,
+                'required'      => false,
             ])
             ->add('job_board', EntityType::class, [
                 'class'         => JobBoard::class,
+                'placeholder'   => 'Sélectionner un Jobboard',
                 'choice_label'  => 'name',
                 'row_attr'      => [
                     'class' => 'form-floating',
