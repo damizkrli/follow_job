@@ -36,7 +36,7 @@ class CompanyType extends AbstractType
             ])
             ->add('address', TextType::class, [
                 'label' => 'Adresse',
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'placeholder' => '10 rue de l\'Église',
                 ],
@@ -46,7 +46,7 @@ class CompanyType extends AbstractType
             ])
             ->add('postalCode', IntegerType::class, [
                 'label' => 'Code postal',
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'placeholder' => '75000'
                 ],
@@ -56,7 +56,7 @@ class CompanyType extends AbstractType
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville',
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Paris',
                 ],
