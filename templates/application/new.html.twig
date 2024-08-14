@@ -6,28 +6,32 @@
 
     <div class="container-fluid p-5">
 
-        <h1>Ajouter une candidature</h1>
+        <h1 class="me-3">Ajouter une candidature</h1>
 
         {{ form_start(form) }}
-        <div class="mt-5">
-            <div class="row d-flex align-items-center justify-content-center">
-                <div class="col-lg-3">{{ form_row(form.job_title) }}</div>
-                <div class="col-lg-3">{{ form_row(form.sent) }}</div>
-                <div class="col-lg-3">{{ form_row(form.response) }}</div>
-                <div class="col-lg-3">{{ form_row(form.link) }}</div>
+        <div class="container-fluid mt-3">
+            <div class="row align-items-stretch">
+                <div class="col-md-3 d-flex flex-column">
+                    <div class="mb-1">{{ form_row(form.job_title) }}</div>
+                    <div class="mb-1">{{ form_row(form.sent) }}</div>
+                    <div class="mb-1">{{ form_row(form.response) }}</div>
+                    <div class="mb-1">{{ form_row(form.link) }}</div>
+                    <div class="mb-1">{{ form_row(form.company) }}</div>
+                    <div class="mb-1">{{ form_row(form.contact) }}</div>
+                    <div class="mb-1">{{ form_row(form.job_board) }}</div>
+                    <div class="mb-1">{{ form_row(form.statut) }}</div>
+                </div>
+                <div class="col-md-9 d-flex flex-column">
+                    <div class="">{{ form_row(form.note) }}</div>
+                </div>
             </div>
-
-            <div class="row d-flex align-items-center justify-content-center">
-                <div class="col-lg-3">{{ form_row(form.company) }}</div>
-                <div class="col-lg-3">{{ form_row(form.contact) }}</div>
-                <div class="col-lg-3">{{ form_row(form.job_board) }}</div>
-                <div class="col-lg-3">{{ form_row(form.statut) }}</div>
-            </div>
+            <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+            <a class="btn btn-info btn-sm text-light" href="{{ path('app_company_new') }}">Ajouter une entreprise</a>
+            <a class="btn btn-info btn-sm text-light" href="{{ path('app_contact_new') }}">Ajouter un contact</a>
+            <a class="btn btn-danger btn-sm text-light" href="{{ path('app_application_index') }}">Annuler</a>
         </div>
+        {{ form_end(form) }}
 
-        {{ include('application/_form.html.twig') }}
-
-        <a href="{{ path('app_application_index') }}">back to list</a>
 
     </div>
 
