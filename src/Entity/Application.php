@@ -32,7 +32,13 @@ class Application
     )]
     private ?string $job_title = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false)]
+    #[Assert\NotNull(
+        message: "La date d'envoi ne peut pas être vide."
+    )]
+    #[Assert\Type("\DateTimeInterface",
+        message: "La date d'envoi doit être une date valide."
+    )]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner une date d\'envoi.',
     )]
