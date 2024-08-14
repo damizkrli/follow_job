@@ -29,7 +29,6 @@
                                 <td class="text-center">{{ application.id }}</td>
                                 <td>{{ application.jobtitle }}</td>
                                 <td>{{ application.sent ? application.sent|date('d/m/Y') : '' }}</td>
-
                                 <td>
                                     <a class="btn btn-sm btn-success text-light" href="{{ application.link }}">
                                         <i class="material-icons">open_in_new</i>
@@ -41,9 +40,6 @@
                                 {% else %}
                                     <td>--</td>
                                 {% endif %}
-                                <td>{{ application.link }}</td>
-                                <td>{{ application.company }}</td>
-
                                 <td>{{ application.jobboard }}</td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center">
@@ -70,10 +66,10 @@
                         {% else %}
                             <tr>
                                 <td colspan="7">
-                                  <div class="d-flex align-items-center justify-content-start">
-                                      <i class="material-icons" style="transform: rotate(90deg)" >subdirectory_arrow_right</i>
-                                      Aucune données. Ajoutez une candidature
-                                  </div>
+                                    <div class="d-flex align-items-center justify-content-start">
+                                        <i class="material-icons" style="transform: rotate(90deg)" >subdirectory_arrow_right</i>
+                                        Aucune données. Ajoutez une candidature
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}
