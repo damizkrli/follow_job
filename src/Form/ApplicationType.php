@@ -32,11 +32,11 @@ class ApplicationType extends AbstractType
     {
         $builder
             ->add('statut', ChoiceType::class, [
-                'choices'    => self::STATUT,
-                'label'      => "Choisissez un statut",
-                'required'   => false,
-                'empty_data' => 'Envoyée',
-                'row_attr'   => [
+                'choices'     => self::STATUT,
+                'label'       => "Statut",
+                'placeholder' => "Choisissez un statut",
+                'required'    => false,
+                'row_attr'    => [
                     'class' => 'form-floating',
                 ]
             ])
@@ -77,11 +77,11 @@ class ApplicationType extends AbstractType
                 ]
             ])
             ->add('note', TextareaType::class, [
-                'label'    => 'Informations diverses',
+                'label'    => false,
                 'required' => false,
                 'attr'     => [
-                    'placeholder' => 'Date de création de l\'entreprise, valeurs de l\'entreprise, ...',
-                    'rows'        => '16',
+                    'placeholder' => 'À propos de l\'entreprise...',
+                    'rows'        => '20',
                     'cols'        => '20',
                 ],
             ])
