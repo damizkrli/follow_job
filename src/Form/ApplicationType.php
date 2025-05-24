@@ -84,20 +84,6 @@ class ApplicationType extends AbstractType
                         'class' => 'tinymce',
                     ]
             ])
-            ->add('company', EntityType::class, [
-                'class'         => Company::class,
-                'placeholder'   => 'Sélectionner une entreprise',
-                'choice_label'  => 'name',
-                'row_attr'      => [
-                    'class' => 'form-floating',
-                ],
-                'query_builder' => function (CompanyRepository $companyRepository) {
-                    return $companyRepository
-                        ->createQueryBuilder('company')
-                        ->orderBy('company.name', 'ASC');
-                },
-                'required'      => false,
-            ])
             ->add('contact', EntityType::class, [
                 'class'         => Contact::class,
                 'placeholder'   => 'Sélectionner un contact',
@@ -112,20 +98,7 @@ class ApplicationType extends AbstractType
                 },
                 'required'      => false,
             ])
-            ->add('job_board', EntityType::class, [
-                'class'         => JobBoard::class,
-                'placeholder'   => 'Sélectionner un Jobboard',
-                'choice_label'  => 'name',
-                'row_attr'      => [
-                    'class' => 'form-floating',
-                ],
-                'query_builder' => function (JobBoardRepository $jobBoardRepository) {
-                    return $jobBoardRepository
-                        ->createQueryBuilder('jobboard')
-                        ->orderBy('jobboard.name', 'ASC');
-                },
-                'required'      => true,
-            ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -79,15 +79,7 @@ class Application
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
-    private ?Company $company = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: true)]
     private ?Contact $contact = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?JobBoard $job_board = null;
 
     public function getId(): ?int
     {
@@ -164,18 +156,6 @@ class Application
         $this->statut = trim(strtoupper($statut));
     }
 
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): static
-    {
-        $this->company = $company;
-
-        return $this;
-    }
-
     public function getContact(): ?Contact
     {
         return $this->contact;
@@ -184,18 +164,6 @@ class Application
     public function setContact(?Contact $contact): static
     {
         $this->contact = $contact;
-
-        return $this;
-    }
-
-    public function getJobBoard(): ?JobBoard
-    {
-        return $this->job_board;
-    }
-
-    public function setJobBoard(?JobBoard $job_board): static
-    {
-        $this->job_board = $job_board;
 
         return $this;
     }

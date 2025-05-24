@@ -1,21 +1,26 @@
 <nav class="bg-white border-b border-gray-200 shadow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            <div class="flex items-center space-x-4">
-                <a href="#" class="text-xl font-bold text-blue-600">FOLLOW JOB</a>
-            </div>
-            <div class="hidden md:flex space-x-6">
-                <a href="{{ path('home', { 'title': 'follow-job-homepage'|slugify }) }}"
-                   class="text-gray-700 hover:text-blue-600 text-sm font-medium transition">Accueil</a>
-                <a href="{{ path('app_application_index') }}"
-                   class="text-gray-700 hover:text-blue-600 text-sm font-medium transition">Candidatures</a>
-                <a href="{{ path('app_company_index') }}"
-                   class="text-gray-700 hover:text-blue-600 text-sm font-medium transition">Entreprises</a>
-                <a href="{{ path('app_contact_index') }}"
-                   class="text-gray-700 hover:text-blue-600 text-sm font-medium transition">Contacts</a>
-                <a href="{{ path('app_job_board_index') }}"
-                   class="text-gray-700 hover:text-blue-600 text-sm font-medium transition">JobBoards</a>
-            </div>
-        </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <div class="flex items-center space-x-4">
+        <a href="#" class="text-xl font-bold text-blue-600">FOLLOW JOB</a>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a
+          href="{{ path('home', { title: 'follow-job-homepage' | slugify }) }}"
+          class="text-gray-700 hover:text-blue-600 text-sm font-medium transition"
+          >Accueil</a
+        >
+        <a
+          href="{{ path('app_application_index') }}"
+          class="text-gray-700 hover:text-blue-600 text-sm font-medium transition"
+          >Candidatures</a
+        >
+        <a
+          href="{{ path('app_contact_index') }}"
+          class="text-gray-700 hover:text-blue-600 text-sm font-medium transition"
+          >Contacts</a
+        >
+      </div>
     </div>
+  </div>
 </nav>
