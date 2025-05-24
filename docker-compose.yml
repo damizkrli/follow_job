@@ -1,0 +1,28 @@
+services:
+  symfony_php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: symfony_php
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    command: php -S 0.0.0.0:8000 -t public
+
+  symfony_db:
+    image: mysql:8.0
+    container_name: symfony_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: followjob
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+    ports:
+      - "3306:3306"
+    volumes:
+      - follow_job_database_data:/var/lib/mysql
+
+volumes:
+  follow_job_database_data:
+

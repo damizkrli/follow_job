@@ -1,39 +1,196 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Modifier une candidature{%
+endblock %} {% block body %}
+<div
+  class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-white shadow rounded-md"
+>
+  <h1 class="text-2xl font-bold leading-7 text-gray-900 mb-6">
+    Modifier une candidature
+  </h1>
 
-{% block title %}Edit Application{% endblock %}
+  {{ form_start(form) }}
 
-{% block body %}
+  <div class="space-y-12">
+    <div class="border-b border-gray-200 pb-12">
+      <h2 class="text-base font-semibold leading-7 text-gray-900">
+        Informations de la candidature
+      </h2>
+      <p class="mt-1 text-sm leading-6 text-gray-600">
+        Mettez à jour les champs nécessaires pour cette candidature.
+      </p>
 
-    <div class="container-fluid">
+      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-4">
+          {{ form_label(form.job_title, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
 
-        <h1>Modifier</h1>
 
-        {{ form_start(form) }}
 
-        <div class="container-fluid mt-3">
-            <div class="row align-items-stretch">
-                <div class="col-md-3 d-flex flex-column">
-                    <div class="mb-1">{{ form_row(form.job_title, {'attr': {'readonly': 'readonly'}}) }}</div>
-                    <div class="mb-1">{{ form_row(form.sent, {'attr': {'readonly': 'readonly'}}) }}</div>
-                    <div class="mb-1">{{ form_row(form.response) }}</div>
-                    <div class="mb-1">{{ form_row(form.link, {'attr': {'readonly': 'readonly'}}) }}</div>
-                    <div class="mb-1">{{ form_row(form.company) }}</div>
-                    <div class="mb-1">{{ form_row(form.contact) }}</div>
-                    <div class="mb-1">{{ form_row(form.job_board) }}</div>
-                    <div class="mb-1">{{ form_row(form.statut) }}</div>
-                </div>
-                <div class="col-md-9 d-flex flex-column">
-                    <div class="">{{ form_row(form.note) }}</div>
-                </div>
-            </div>
-            <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
-            <a class="btn btn-info btn-sm text-light" href="{{ path('app_company_new') }}">Ajouter une entreprise</a>
-            <a class="btn btn-info btn-sm text-light" href="{{ path('app_contact_new') }}">Ajouter un contact</a>
-            <a class="btn btn-danger btn-sm text-light" href="{{ path('app_application_index') }}">Annuler</a>
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.job_title, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Intitulé du poste"
+                }
+              })
+            }}
+          </div>
         </div>
 
-        {{ form_end(form) }}
+        <div class="sm:col-span-3">
+          {{ form_label(form.sent, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
 
+
+
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.sent, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Date d'envoi"
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          {{ form_label(form.response, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+
+
+
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.response, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Réponse reçue ?"
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-6">
+          {{ form_label(form.link, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+
+
+
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.link, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "URL de l'annonce"
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          {{ form_label(form.company, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+
+
+
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.company, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Entreprise associée"
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          {{ form_label(form.contact, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+
+
+
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.contact, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Nom du contact"
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          {{ form_label(form.job_board, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+
+
+
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.job_board, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "LinkedIn, Indeed, ..."
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          {{ form_label(form.statut, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+
+
+
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.statut, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "En cours / Acceptée / Refusée"
+                }
+              })
+            }}
+          </div>
+        </div>
+        <div class="col-md-9 d-flex flex-column">
+          <div class="">{{ form_row(form.note) }}</div>
+        </div>
+      </div>
     </div>
+  </div>
 
+  <div class="mt-6 flex items-center justify-end gap-x-6">
+    <a
+      href="{{ path('app_application_index') }}"
+      class="text-sm font-semibold text-gray-900 hover:underline"
+      >Annuler</a
+    >
+    <button
+      type="submit"
+      class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+    >
+      {{ button_label|default('Enregistrer') }}
+    </button>
+  </div>
+
+  {{ form_end(form) }}
+</div>
 {% endblock %}

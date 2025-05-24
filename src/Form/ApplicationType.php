@@ -13,9 +13,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -77,13 +78,11 @@ class ApplicationType extends AbstractType
                 ]
             ])
             ->add('note', TextareaType::class, [
-                'label'    => false,
-                'required' => false,
-                'attr'     => [
-                    'placeholder' => 'À propos de l\'entreprise...',
-                    'rows'        => '20',
-                    'cols'        => '20',
-                ],
+                    'required' => false,
+                    'label' => 'Note',
+                    'attr' => [
+                        'class' => 'tinymce',
+                    ]
             ])
             ->add('company', EntityType::class, [
                 'class'         => Company::class,

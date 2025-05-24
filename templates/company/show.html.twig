@@ -1,42 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Company{% endblock %}
+{% block title %}Entreprise{% endblock %}
 
 {% block body %}
-    <h1>Company</h1>
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ company.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ company.name }}</td>
-            </tr>
-            <tr>
-                <th>Activity</th>
-                <td>{{ company.activity }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ company.address }}</td>
-            </tr>
-            <tr>
-                <th>PostalCode</th>
-                <td>{{ company.postalCode }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ company.city }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Entreprise</h1>
 
-    <a href="{{ path('app_company_index') }}">back to list</a>
+    <div class="overflow-hidden bg-white shadow-md rounded">
+        <table class="min-w-full text-sm text-left text-gray-700">
+            <tbody class="divide-y divide-gray-100">
+                <tr>
+                    <th class="px-4 py-3 w-1/3 font-medium text-gray-600">ID</th>
+                    <td class="px-4 py-3">{{ company.id }}</td>
+                </tr>
+                <tr>
+                    <th class="px-4 py-3 font-medium text-gray-600">Nom</th>
+                    <td class="px-4 py-3">{{ company.name }}</td>
+                </tr>
+                <tr>
+                    <th class="px-4 py-3 font-medium text-gray-600">Activité</th>
+                    <td class="px-4 py-3">{{ company.activity }}</td>
+                </tr>
+                <tr>
+                    <th class="px-4 py-3 font-medium text-gray-600">Adresse</th>
+                    <td class="px-4 py-3">{{ company.address }}</td>
+                </tr>
+                <tr>
+                    <th class="px-4 py-3 font-medium text-gray-600">Code postal</th>
+                    <td class="px-4 py-3">{{ company.postalCode }}</td>
+                </tr>
+                <tr>
+                    <th class="px-4 py-3 font-medium text-gray-600">Ville</th>
+                    <td class="px-4 py-3">{{ company.city }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_company_edit', {'id': company.id}) }}">edit</a>
+    <div class="mt-6 flex gap-2">
+        <a href="{{ path('app_company_index') }}"
+           class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded shadow">
+            Retour à la liste
+        </a>
+        <a href="{{ path('app_company_edit', {'id': company.id}) }}"
+           class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded shadow">
+            Modifier
+        </a>
+        {{ include('company/_delete_form.html.twig') }}
+    </div>
 
-    {{ include('company/_delete_form.html.twig') }}
+</div>
 {% endblock %}

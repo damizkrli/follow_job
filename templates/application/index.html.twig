@@ -1,85 +1,107 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Application index{% endblock %}
-
+{% extends 'base.html.twig' %} {% block title %}Mes candidatures{% endblock %}
 {% block body %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Mes Candidatures</h1>
+    <a
+      href="{{ path('app_application_new') }}"
+      class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow"
+    >
+      <i class="material-icons mr-2 text-base">add</i> Ajouter une candidature
+    </a>
+  </div>
 
-    <div class="container-fluid">
-        <div class="title">
-            <h3>Mes Candidatures</h3>
-        </div>
-        <div class="row">
-            <div class="ml-auto mr-auto">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th class="text-center">N°</th>
-                            <th>Intitulé du poste</th>
-                            <th>Date d'envoi</th>
-                            <th>Lien vers l'annonce</th>
-                            <th>Entreprise</th>
-                            <th>Job Board</th>
-                            <th class="text-right"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for application in applications %}
-                            <tr>
-                                <td class="text-center">{{ application.id }}</td>
-                                <td>{{ application.jobtitle }}</td>
-                                <td>{{ application.sent ? application.sent|date('d/m/Y') : '' }}</td>
-                                <td>
-                                    <a class="btn btn-sm btn-success text-light" href="{{ application.link }}">
-                                        <i class="material-icons">open_in_new</i>
-                                        Lien vers l'annonce
-                                    </a>
-                                </td>
-                                {% if application.company %}
-                                    <td>{{ application.company }}</td>
-                                {% else %}
-                                    <td>--</td>
-                                {% endif %}
-                                <td>{{ application.jobboard }}</td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <a class="btn btn-info btn-just-icon btn-sm"
-                                           href="{{ path('app_application_show', {'id': application.id}) }}">
-                                            <i class="material-icons">person</i>
-                                        </a>
-                                        <a class="btn btn-success btn-just-icon btn-sm"
-                                           href="{{ path('app_application_edit', {'id': application.id}) }}">
-                                            <i class="material-icons">edit</i>
-                                        </a>
-                                        <form method="post"
-                                              action="{{ path('app_application_delete', {'id': application.id}) }}"
-                                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');">
-                                            <input type="hidden" name="_token"
-                                                   value="{{ csrf_token('delete' ~ application.id) }}">
-                                            <button class="btn btn-danger btn-just-icon btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="7">
-                                    <div class="d-flex align-items-center justify-content-start">
-                                        <i class="material-icons" style="transform: rotate(90deg)" >subdirectory_arrow_right</i>
-                                        Aucune données. Ajoutez une candidature
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    <a class="btn btn-primary btn-sm text-light" href="{{ path('app_application_new') }}">
-                        Ajouter une candidature
-                    </a>
-                </div>
+  <div class="overflow-x-auto bg-white shadow-md rounded">
+    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-center font-medium text-gray-600">N°</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Intitulé du poste</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Date d'envoi</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Lien</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Entreprise</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Job Board</th>
+          <th class="px-4 py-3 text-right font-medium text-gray-600">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% for application in applications %}
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 text-center text-gray-800">
+            {{ application.id }}
+          </td>
+          <td class="px-4 py-2 text-gray-800">{{ application.jobtitle }}</td>
+          <td class="px-4 py-2 text-gray-800">
+            {{ application.sent ? application.sent|date('d/m/Y') : '' }}
+          </td>
+          <td class="px-4 py-2">
+            <a
+              href="{{ application.link }}"
+              class="inline-flex items-center px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded shadow"
+            >
+              <i class="material-icons text-sm mr-1">open_in_new</i> Voir
+            </a>
+          </td>
+          <td class="px-4 py-2 text-gray-800">
+            {{ application.company ?? "--" }}
+          </td>
+          <td class="px-4 py-2 text-gray-800">{{ application.jobboard }}</td>
+          <td class="px-4 py-2 text-right">
+            <div class="flex justify-end space-x-2">
+              <a
+                href="{{
+                  path('app_application_show', { id: application.id })
+                }}"
+                class="inline-flex items-center px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-xs shadow"
+              >
+                <i class="material-icons text-sm">person</i>
+              </a>
+              <a
+                href="{{
+                  path('app_application_edit', { id: application.id })
+                }}"
+                class="inline-flex items-center px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs shadow"
+              >
+                <i class="material-icons text-sm">edit</i>
+              </a>
+              <form
+                method="post"
+                action="{{
+                  path('app_application_delete', { id: application.id })
+                }}"
+                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');"
+                class="inline"
+              >
+                <input
+                  type="hidden"
+                  name="_token"
+                  value="{{ csrf_token('delete' ~ application.id) }}"
+                />
+                <button
+                  type="submit"
+                  class="inline-flex items-center px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs shadow"
+                >
+                  <i class="material-icons text-sm">close</i>
+                </button>
+              </form>
             </div>
-        </div>
-    </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td
+            colspan="7"
+            class="px-4 py-4 text-gray-500 italic flex items-center gap-2"
+          >
+            <i class="material-icons rotate-90">subdirectory_arrow_right</i>
+            Aucune candidature enregistrée.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}

@@ -1,19 +1,123 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}New Contact{% endblock %}
-
-{% form_theme form 'bootstrap_5_layout.html.twig' %}
-
+{% extends 'base.html.twig' %} {% block title %}Ajouter un contact{% endblock %}
 {% block body %}
+<div
+  class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-white shadow rounded-md"
+>
+  <h1 class="text-2xl font-bold leading-7 text-gray-900">
+    Ajouter un contact
+  </h1>
 
-    <div class="container-fluid p-5">
+  {{ form_start(form) }}
 
-        <h1 class="pb-3">Ajouter un contact</h1>
+  <div>
+      <p class="mt-1 text-sm leading-6 text-gray-600">
+        Complétez les informations personnelles et professionnelles du contact.
+      </p>
 
-        {{ include('contact/_form.html.twig') }}
+      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-3">
+          {{ form_label(form.firstname, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.firstname, {
+                attr: {
+                  class:
+                    "block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 italic",
+                  placeholder: "Prénom"
+                }
+              })
+            }}
+          </div>
+        </div>
 
-        <a href="{{ path('app_contact_index') }}">Retour</a>
+        <div class="sm:col-span-3">
+          {{ form_label(form.lastname, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.lastname, {
+                attr: {
+                  class:
+                    "block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 italic",
+                  placeholder: "Nom"
+                }
+              })
+            }}
+          </div>
+        </div>
 
-    </div>
+        <div class="sm:col-span-4">
+          {{ form_label(form.email, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.email, {
+                attr: {
+                  class:
+                    "block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 italic",
+                  placeholder: "Adresse email"
+                }
+              })
+            }}
+          </div>
+        </div>
 
+        <div class="sm:col-span-2">
+          {{ form_label(form.phone, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.phone, {
+                attr: {
+                  class:
+                    "block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 italic",
+                  placeholder: "Téléphone"
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-6">
+          {{ form_label(form.social, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.social, {
+                attr: {
+                  class:
+                    "block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 italic",
+                  placeholder: "Réseaux sociaux (LinkedIn, etc.)"
+                }
+              })
+            }}
+          </div>
+        </div>
+        </div>
+      </div>
+
+  <div class="mt-6 flex items-center justify-end gap-x-4">
+    <a
+      href="{{ path('app_contact_index') }}"
+      class="text-sm font-semibold text-gray-900 hover:underline"
+      >Annuler</a
+    >
+    <a
+      href="{{ path('app_company_new') }}"
+      class="rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+      >Ajouter une entreprise</a
+    >
+    <button
+      type="submit"
+      class="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700"
+    >
+      {{ button_label|default('Enregistrer') }}
+    </button>
+  </div>
+
+  </div>
+
+  {{ form_end(form) }}
+</div>
 {% endblock %}

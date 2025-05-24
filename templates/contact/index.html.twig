@@ -1,84 +1,88 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Mes contacts{% endblock %} {%
+block body %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Mes contacts</h1>
+    <a
+      href="{{ path('app_contact_new') }}"
+      class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow"
+    >
+      <i class="material-icons mr-2 text-base">add</i> Ajouter un contact
+    </a>
+  </div>
 
-{% block title %}Contact index{% endblock %}
-
-{% block body %}
-    {# BARRE DE NAV #}
-    {% include 'tools/navbar.html.twig' %}
-
-    <div class="d-flex align-items-center">
-        <h1>Contact index</h1>
-        <a href="{{ path('app_contact_new') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green"
-                 viewBox="0 0 256 256">
-                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H136v32a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h32V88a8,8,0,0,1,16,0v32h32A8,8,0,0,1,176,128Z"></path>
-            </svg>
-        </a>
-    </div>
-
-    <div class="container-fluid">
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Social</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for contact in contacts %}
-                <tr>
-                    <td>{{ contact.id }}</td>
-                    <td>{{ contact.firstname }}</td>
-                    <td>{{ contact.lastname }}</td>
-                    <td>{{ contact.email }}</td>
-                    <td>+33 {{ contact.phone }}</td>
-                    <td>{{ contact.social }}</td>
-                    <td>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <a href="{{ path('app_contact_show', {'id': contact.id}) }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="blue"
-                                     viewBox="0 0 256 256">
-                                    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"></path>
-                                </svg>
-                            </a>
-                            <a href="{{ path('app_contact_edit', {'id': contact.id}) }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000"
-                                     viewBox="0 0 256 256">
-                                    <path d="M201.54,54.46A104,104,0,0,0,54.46,201.54,104,104,0,0,0,201.54,54.46ZM88,206.37V176h80v30.37A88.38,88.38,0,0,1,88,206.37ZM104,144h48v16H104Zm14-16,10-48h0l10,48Zm72.22,62.23c-2,2-4.08,3.87-6.22,5.64V176a16,16,0,0,0-16-16V144a16,16,0,0,0-13.61-15.8L143.66,76.74a16,16,0,0,0-31.32,0L101.61,128.2A16,16,0,0,0,88,144v16a16,16,0,0,0-16,16v19.87c-2.14-1.77-4.22-3.64-6.22-5.64a88,88,0,1,1,124.44,0Z"></path>
-                                </svg>
-                            </a>
-                            <a href="{{ path('app_contact_new') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green"
-                                     viewBox="0 0 256 256">
-                                    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H136v32a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h32V88a8,8,0,0,1,16,0v32h32A8,8,0,0,1,176,128Z"></path>
-                                </svg>
-                            </a>
-                            <form method="post" action="{{ path('app_contact_delete', {'id': contact.id}) }}"
-                                  onsubmit="return confirm('Are you sure you want to delete this item?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id) }}">
-                                <button class="btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red"
-                                         viewBox="0 0 256 256">
-                                        <path d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="7">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
+  <div class="overflow-x-auto bg-white shadow-md rounded">
+    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-center font-medium text-gray-600">N°</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Nom</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Email</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Téléphone</th>
+          <th class="px-4 py-3 font-medium text-gray-600">Réseaux</th>
+          <th class="px-4 py-3 text-right font-medium text-gray-600">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% for contact in contacts %}
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 text-center text-gray-800">{{ contact.id }}</td>
+          <td class="px-4 py-2 text-gray-800">
+            {{ contact.firstname }} {{ contact.lastname }}
+          </td>
+          <td class="px-4 py-2 text-gray-800">{{ contact.email }}</td>
+          <td class="px-4 py-2 text-gray-800">+33 {{ contact.phone }}</td>
+          <td class="px-4 py-2 text-gray-800">{{ contact.social }}</td>
+          <td class="px-4 py-2 text-right">
+            <div class="flex justify-end space-x-2">
+              <a
+                href="{{ path('app_contact_show', { id: contact.id }) }}"
+                class="inline-flex items-center px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-xs shadow"
+              >
+                <i class="material-icons text-sm">person</i>
+              </a>
+              <a
+                href="{{ path('app_contact_edit', { id: contact.id }) }}"
+                class="inline-flex items-center px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs shadow"
+              >
+                <i class="material-icons text-sm">edit</i>
+              </a>
+              <form
+                method="post"
+                action="{{ path('app_contact_delete', { id: contact.id }) }}"
+                onsubmit="return confirm('Supprimer ce contact ?');"
+                class="inline"
+              >
+                <input
+                  type="hidden"
+                  name="_token"
+                  value="{{ csrf_token('delete' ~ contact.id) }}"
+                />
+                <button
+                  type="submit"
+                  class="inline-flex items-center px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs shadow"
+                >
+                  <i class="material-icons text-sm">close</i>
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td
+            colspan="7"
+            class="px-4 py-4 text-gray-500 italic flex items-center gap-2"
+          >
+            <i class="material-icons rotate-90">subdirectory_arrow_right</i>
+            Aucun contact enregistré.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}

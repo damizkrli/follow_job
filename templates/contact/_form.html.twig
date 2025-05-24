@@ -1,4 +1,21 @@
-{{ form_start(form) }}
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire contact{% endblock %}
+
+{% block body %}
+<div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-xl font-semibold text-gray-800 mb-4">Formulaire contact</h1>
+
+    {{ form_start(form) }}
+    <div class="space-y-6">
         {{ form_widget(form) }}
-<button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
-{{ form_end(form) }}
+    </div>
+
+    <div class="mt-6 flex justify-end">
+        <button class="rounded-md bg-indigo-600 px-4 py-2 text-white text-sm font-medium shadow hover:bg-indigo-700">
+            {{ button_label|default('Sauvegarder') }}
+        </button>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

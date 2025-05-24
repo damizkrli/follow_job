@@ -1,42 +1,64 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Contact{% endblock %}
-
+{% extends 'base.html.twig' %} {% block title %}Détail du contact{% endblock %}
 {% block body %}
-    <h1>Contact</h1>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="bg-white shadow-md rounded p-6 space-y-6">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">
+      {{ contact.firstname }} {{ contact.lastname }}
+    </h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ contact.id }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ contact.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ contact.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ contact.email }}</td>
-            </tr>
-            <tr>
-                <th>Phone</th>
-                <td>{{ contact.phone }}</td>
-            </tr>
-            <tr>
-                <th>Social</th>
-                <td>{{ contact.social }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
+      <div>
+        <span class="font-medium text-gray-600">Email :</span>
+        <p class="text-gray-800">{{ contact.email }}</p>
+      </div>
+      <div>
+        <span class="font-medium text-gray-600">Téléphone :</span>
+        <p class="text-gray-800">+33 {{ contact.phone }}</p>
+      </div>
+      <div>
+        <span class="font-medium text-gray-600">Réseaux sociaux :</span>
+        <p class="text-gray-800">{{ contact.social }}</p>
+      </div>
+      <div>
+        <span class="font-medium text-gray-600">Entreprise :</span>
+        <p class="text-gray-800">
+          {{ contact.company ? contact.company.name : "--" }}
+        </p>
+      </div>
+    </div>
 
-    <a href="{{ path('app_contact_index') }}">back to list</a>
-
-    <a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
-
-    {{ include('contact/_delete_form.html.twig') }}
+    <div class="flex justify-end space-x-2 pt-6 border-t">
+      <a
+        href="{{ path('app_contact_edit', { id: contact.id }) }}"
+        class="inline-flex items-center px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs shadow"
+      >
+        <i class="material-icons text-sm">edit</i>
+      </a>
+      <a
+        href="{{ path('app_contact_index') }}"
+        class="inline-flex items-center px-2 py-1 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded text-xs shadow"
+      >
+        <i class="material-icons text-sm">arrow_back</i>
+      </a>
+      <form
+        method="post"
+        action="{{ path('app_contact_delete', { id: contact.id }) }}"
+        onsubmit="return confirm('Supprimer ce contact ?');"
+        class="inline"
+      >
+        <input
+          type="hidden"
+          name="_token"
+          value="{{ csrf_token('delete' ~ contact.id) }}"
+        />
+        <button
+          type="submit"
+          class="inline-flex items-center px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs shadow"
+        >
+          <i class="material-icons text-sm">close</i>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

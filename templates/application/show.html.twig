@@ -1,42 +1,99 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Détail de la candidature{%
+endblock %} {% block body %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">
+    Détails de la candidature
+  </h1>
 
-{% block title %}Application{% endblock %}
-
-{% block body %}
-    <h1>Application</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ application.id }}</td>
-            </tr>
-            <tr>
-                <th>Job_title</th>
-                <td>{{ application.jobTitle }}</td>
-            </tr>
-            <tr>
-                <th>Sent</th>
-                <td>{{ application.sent ? application.sent|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Response</th>
-                <td>{{ application.response ? application.response|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Link</th>
-                <td>{{ application.link }}</td>
-            </tr>
-            <tr>
-                <th>Note</th>
-                <td>{{ application.note }}</td>
-            </tr>
-        </tbody>
+  <div
+    class="overflow-hidden rounded-lg shadow border border-gray-200 bg-white"
+  >
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+      <tbody class="divide-y divide-gray-100">
+        <tr>
+          <th
+            scope="row"
+            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium w-1/3"
+          >
+            ID
+          </th>
+          <td class="px-6 py-4 text-gray-800">{{ application.id }}</td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium"
+          >
+            Intitulé du poste
+          </th>
+          <td class="px-6 py-4 text-gray-800">{{ application.jobTitle }}</td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium"
+          >
+            Date d'envoi
+          </th>
+          <td class="px-6 py-4 text-gray-800">
+            {{ application.sent ? application.sent|date('d/m/Y à H:i') : '—' }}
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium"
+          >
+            Réponse
+          </th>
+          <td class="px-6 py-4 text-gray-800">
+            {{ application.response ? application.response|date('d/m/Y à H:i') : '—' }}
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium"
+          >
+            Lien
+          </th>
+          <td class="px-6 py-4 text-blue-600 hover:underline">
+            <a href="{{ application.link }}" target="_blank">{{
+              application.link
+            }}</a>
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium"
+          >
+            Note
+          </th>
+          <td class="px-6 py-4 text-gray-800 whitespace-pre-line">
+            {{ application.note | raw }}
+          </td>
+        </tr>
+      </tbody>
     </table>
+  </div>
 
-    <a href="{{ path('app_application_index') }}">back to list</a>
+  <div class="flex flex-wrap gap-3 mt-6">
+    <a
+      href="{{ path('app_application_index') }}"
+      class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded text-sm shadow"
+    >
+      Retour à la liste
+    </a>
 
-    <a href="{{ path('app_application_edit', {'id': application.id}) }}">edit</a>
+    <a
+      href="{{ path('app_application_edit', { id: application.id }) }}"
+      class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded text-sm shadow"
+    >
+      Modifier
+    </a>
 
-    {{ include('application/_delete_form.html.twig') }}
+    {{ include("application/_delete_form.html.twig") }}
+  </div>
+</div>
 {% endblock %}
