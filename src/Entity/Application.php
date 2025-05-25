@@ -81,6 +81,12 @@ class Application
     #[ORM\JoinColumn(nullable: true)]
     private ?Contact $contact = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $company = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $jobboard = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -164,6 +170,30 @@ class Application
     public function setContact(?Contact $contact): static
     {
         $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getCompany(): ?string
+    {
+        return $this->company;
+    }
+
+    public function setCompany(string $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getJobboard(): ?string
+    {
+        return $this->jobboard;
+    }
+
+    public function setJobboard(string $jobboard): static
+    {
+        $this->jobboard = $jobboard;
 
         return $this;
     }

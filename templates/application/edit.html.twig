@@ -21,14 +21,6 @@ endblock %} {% block body %}
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-4">
           {{ form_label(form.job_title, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
-
-
-
-
-
-
-
-
           }}) }}
           <div class="mt-2">
             {{
@@ -45,14 +37,6 @@ endblock %} {% block body %}
 
         <div class="sm:col-span-3">
           {{ form_label(form.sent, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
-
-
-
-
-
-
-
-
           }}) }}
           <div class="mt-2">
             {{
@@ -69,14 +53,6 @@ endblock %} {% block body %}
 
         <div class="sm:col-span-3">
           {{ form_label(form.response, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
-
-
-
-
-
-
-
-
           }}) }}
           <div class="mt-2">
             {{
@@ -93,14 +69,6 @@ endblock %} {% block body %}
 
         <div class="sm:col-span-6">
           {{ form_label(form.link, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
-
-
-
-
-
-
-
-
           }}) }}
           <div class="mt-2">
             {{
@@ -116,15 +84,39 @@ endblock %} {% block body %}
         </div>
 
         <div class="sm:col-span-3">
+          {{ form_label(form.company, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.company, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Entreprise"
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          {{ form_label(form.jobboard, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
+          }}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.jobboard, {
+                attr: {
+                  class:
+                    "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Intitulé du poste"
+                }
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
           {{ form_label(form.contact, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
-
-
-
-
-
-
-
-
           }}) }}
           <div class="mt-2">
             {{
@@ -141,8 +133,6 @@ endblock %} {% block body %}
 
         <div class="sm:col-span-3">
           {{ form_label(form.statut, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'
-
-
           }}) }}
           <div class="mt-2">
             {{

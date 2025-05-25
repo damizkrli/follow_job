@@ -78,6 +78,36 @@ endblock %} {% block body %}
           </div>
         </div>
 
+                <div class="sm:col-span-3">
+          {{ form_label(form.company, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.company, {
+                attr: {
+                  class:
+                    "block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Google, Microsoft, etc."
+                }
+              })
+            }}
+          </div>
+        </div>
+
+                <div class="sm:col-span-3">
+          {{ form_label(form.jobboard, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+          <div class="mt-2">
+            {{
+              form_widget(form.jobboard, {
+                attr: {
+                  class:
+                    "block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:italic",
+                  placeholder: "Linkedin, France Travail, etc."
+                }
+              })
+            }}
+          </div>
+        </div>
+
         <div class="sm:col-span-3">
           {{ form_label(form.contact, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
           <div class="mt-2">

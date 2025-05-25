@@ -13,15 +13,6 @@ endblock %} {% block body %}
         <tr>
           <th
             scope="row"
-            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium w-1/3"
-          >
-            ID
-          </th>
-          <td class="px-6 py-4 text-gray-800">{{ application.id }}</td>
-        </tr>
-        <tr>
-          <th
-            scope="row"
             class="bg-gray-50 px-6 py-4 text-gray-600 font-medium"
           >
             Intitulé du poste
@@ -62,6 +53,24 @@ endblock %} {% block body %}
               application.link
             }}</a>
           </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium"
+          >
+            Entreprise
+          </th>
+          <td class="px-6 py-4 text-gray-800">{{ application.company }}</td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+            class="bg-gray-50 px-6 py-4 text-gray-600 font-medium"
+          >
+            Plateforme
+          </th>
+          <td class="px-6 py-4 text-gray-800">{{ application.jobboard }}</td>
         </tr>
         <tr>
           <th

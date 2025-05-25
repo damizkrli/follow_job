@@ -9,6 +9,7 @@ use App\Entity\JobBoard;
 use App\Repository\CompanyRepository;
 use App\Repository\ContactRepository;
 use App\Repository\JobBoardRepository;
+use Doctrine\DBAL\Types\TextType as TypesTextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -75,6 +76,26 @@ class ApplicationType extends AbstractType
                 ],
                 'attr'     => [
                     'placeholder' => 'Lien vers l\'annonce',
+                ]
+            ])
+            ->add('company', TextType::class, [
+                'label' => 'Entreprise',
+                'required' => true,
+                'attr'     => [
+                    'placeholder' => 'Google, Microsoft ...'
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating',
+                ]
+            ])
+            ->add('jobboard', TextType::class, [
+                'label' => 'Plateforme',
+                'required' => false,
+                'attr'     => [
+                    'placeholder' => 'Plateformes'
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating',
                 ]
             ])
             ->add('note', TextareaType::class, [
