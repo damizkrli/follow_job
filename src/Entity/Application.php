@@ -20,13 +20,13 @@ class Application
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 40)]
+    #[ORM\Column(length: 80)]
     #[Assert\NotBlank(
         message: "Le nom du poste est obligatoire."
     )]
     #[Assert\Length(
         min: 2,
-        max: 40,
+        max: 80,
         minMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou plus.',
         maxMessage: 'Cette valeur devrait comporter {{ limit }} caractères ou moins.'
     )]
@@ -86,6 +86,10 @@ class Application
 
     #[ORM\Column(length: 100)]
     private ?string $jobboard = null;
+
+    public function __construct() {
+        $this->sent = new \DateTime();
+    }
 
     public function getId(): ?int
     {
