@@ -6,6 +6,7 @@ use App\Entity\Application;
 use App\Form\ApplicationType;
 use App\Repository\ApplicationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +16,21 @@ use Symfony\Component\Routing\Attribute\Route;
 class ApplicationController extends AbstractController
 {
     #[Route('/', name: 'app_application_index', methods: ['GET'])]
-    public function index(ApplicationRepository $applicationRepository): Response
+    public function index(ApplicationRepository $applicationRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $query = $applicationRepository->createQueryBuilder('a')
+            ->orderBy('a.sent', 'DESC')
+            ->getQuery()
+        ;
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('application/index.html.twig', [
-            'applications' => $applicationRepository->findBy([], ['sent' => 'ASC']),
+            'pagination' => $pagination,
         ]);
     }
 
