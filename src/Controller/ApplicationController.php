@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 #[Route('/candidatures')]
 class ApplicationController extends AbstractController
@@ -19,7 +18,7 @@ class ApplicationController extends AbstractController
     public function index(ApplicationRepository $applicationRepository): Response
     {
         return $this->render('application/index.html.twig', [
-            'applications' => $applicationRepository->findAll(),
+            'applications' => $applicationRepository->findBy([], ['sent' => 'ASC']),
         ]);
     }
 
@@ -33,7 +32,6 @@ class ApplicationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($application);
             $entityManager->flush();
-            dump($request->request->all());
 
             return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
         }

@@ -15,23 +15,17 @@
     <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
       <thead class="bg-gray-50">
         <tr>
-          <th class="px-4 py-3 text-center font-medium text-gray-600">N°</th>
           <th class="px-4 py-3 font-medium text-gray-600">Intitulé du poste</th>
           <th class="px-4 py-3 font-medium text-gray-600">Date d'envoi</th>
           <th class="px-4 py-3 font-medium text-gray-600">Lien</th>
           <th class="px-4 py-3 font-medium text-gray-600">Entreprise</th>
           <th class="px-4 py-3 font-medium text-gray-600">Job Board</th>
-          <th class="px-4 py-3 text-right font-medium text-gray-600">
-            Actions
-          </th>
+          <th class="px-4 py-3 text-right font-medium text-gray-600"></th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
         {% for application in applications %}
         <tr class="hover:bg-gray-50">
-          <td class="px-4 py-2 text-center text-gray-800">
-            {{ application.id }}
-          </td>
           <td class="px-4 py-2 text-gray-800">{{ application.jobtitle }}</td>
           <td class="px-4 py-2 text-gray-800">
             {{ application.sent ? application.sent|date('d/m/Y') : '' }}
