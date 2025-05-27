@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: symfony_php
+    user: "${UID}:${GID}"
     volumes:
       - .:/app
     ports:
