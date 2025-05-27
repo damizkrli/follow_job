@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\JobOfferApiService;
+use App\Service\RemoteOkJobService;
 
 class HomeController extends AbstractController
 {
@@ -19,7 +21,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/{title}', name: 'home')]
-    public function index(Request $request, string $title): Response
+    public function index(Request $request, string $title, JobOfferApiService $jobService): Response
     {
         $expectedSlug = 'follow-job-homepage';
 
@@ -27,9 +29,14 @@ class HomeController extends AbstractController
             return new RedirectResponse($this->generateUrl('home', ['title' => $expectedSlug]));
         }
 
+        $offers = $jobService->fetchOffers();
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'slug' => $expectedSlug
+            'slug' => $expectedSlug,
+            'offers' => $offers,
         ]);
     }
+
+
 }

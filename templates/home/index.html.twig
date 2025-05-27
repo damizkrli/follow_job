@@ -1,7 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}FOLLOW JOB{% endblock %}
 
 {% block body %}
+<div class="p-8">
+  <h1 class="text-2xl mb-2">Offres d'emplois</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="flex flex-col bg-white rounded-xl shadow p-4 h-full">
+      <h2 class="text-lg font-bold mb-2">France Travail</h2>
+      <div class="flex-1">
+        <ul class="space-y-4">
+          {% for offer in offers %}
+            <li class="p-4 border rounded shadow bg-white">
+              {% if offer.origineOffre.urlOrigine is defined %}
+                <a
+                  href="{{ offer.origineOffre.urlOrigine }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:underline"
+                >
+                  {{ offer.intitule }} <span aria-hidden="true">↗</span>
+                </a>
+              {% else %}
+                <span class="text-gray-500">{{ offer.intitule }} (lien indisponible)</span>
+              {% endif %}
+
+              <p class="text-sm text-gray-600">
+                {{ offer.entreprise.nom ?? "Entreprise non précisée" }} –
+                {{ offer.lieuTravail.libelle ?? "Lieu inconnu" }}
+              </p>
+              <p class="text-sm mt-2">
+                <strong>Date :</strong> {{ offer.dateCreation|date('d/m/Y') }}
+              </p>
+            </li>
+          {% else %}
+            <li>Aucune offre trouvée.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bloc 2 : Placeholder Adzuna -->
+    <div class="flex flex-col bg-white rounded-xl shadow p-4 h-full">
+      <h2 class="text-lg font-bold mb-2">Adzuna</h2>
+      <div class="flex-1">
+        <p class="text-sm text-gray-500">Intégration en cours...</p>
+      </div>
+    </div>
+
+    <!-- Bloc 3 : Placeholder CareerJet / Jooble -->
+    <div class="flex flex-col bg-white rounded-xl shadow p-4 h-full">
+      <h2 class="text-lg font-bold mb-2">Autre jobboard</h2>
+      <div class="flex-1">
+        <p class="text-sm text-gray-500">À définir...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}
