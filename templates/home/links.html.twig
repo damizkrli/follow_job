@@ -1,0 +1,109 @@
+<div class="relative mt-4 sm:mt-0 flex justify-center items-center gap-4">
+
+  <!-- Bouton + Menu Dropdown -->
+  <div class="relative inline-block w-max" id="dropdownWrapper">
+    <button
+      id="dropdownButton"
+      type="button"
+      onclick="document.getElementById('dropdownMenu').classList.toggle('hidden')"
+      class="inline-flex items-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring"
+    >
+      Réseaux & Liens
+      <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div
+      id="dropdownMenu"
+      class="hidden absolute mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+      role="menu"
+    >
+      {% if external_links is empty %}
+        <p class="px-4 py-2 text-sm text-gray-500">Aucun lien disponible.</p>
+      {% else %}
+        {% for link in external_links %}
+          <a href="{{ link.url }}" target="_blank" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            {% if link.icon %}
+              <img src="{{ asset('uploads/icons/' ~ link.icon) }}" alt="{{ link.name }}" class="w-5 h-5" />
+            {% endif %}
+            {{ link.name }}
+          </a>
+        {% endfor %}
+      {% endif %}
+      <hr class="my-1 border-t">
+        <a href="{{ path('external_link_manage') }}" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 font-semibold">
+          Modifier 
+        </a>
+    </div>
+  </div>
+
+  <!-- Bouton Ajouter (icône + tooltip) -->
+  <button
+    type="button"
+    onclick="document.getElementById('modalForm').classList.remove('hidden')"
+    class="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring relative group"
+    aria-label="Ajouter un lien"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+    </svg>
+    <span class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      Ajouter un lien
+    </span>
+  </button>
+</div>
+
+<!-- Modal d'ajout -->
+<div id="modalForm" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-75 flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto p-6 relative">
+    <button
+      type="button"
+      onclick="document.getElementById('modalForm').classList.add('hidden')"
+      class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+    >&times;</button>
+
+    <h2 class="text-lg font-semibold mb-4">Ajouter un lien externe</h2>
+
+    {{ form_start(form) }}
+      <div class="mb-4">
+        {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm'}}) }}
+        {{ form_errors(form.name) }}
+      </div>
+
+      <div class="mb-4">
+        {{ form_label(form.url, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.url, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm'}}) }}
+        {{ form_errors(form.url) }}
+      </div>
+
+      <div class="mb-4">
+        {{ form_label(form.icon, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.icon, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm'}}) }}
+        {{ form_errors(form.icon) }}
+      </div>
+
+      <div class="text-right">
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Ajouter</button>
+      </div>
+    {{ form_end(form) }}
+  </div>
+</div>
+
+<!-- Script : clic extérieur -->
+<script>
+  document.addEventListener('click', function (event) {
+    const menu = document.getElementById('dropdownMenu');
+    const button = document.getElementById('dropdownButton');
+
+    if (!menu || !button) return;
+
+    const isClickInside = button.contains(event.target) || menu.contains(event.target);
+
+    if (!isClickInside) {
+      menu.classList.add('hidden');
+    }
+  });
+</script>

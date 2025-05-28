@@ -1,0 +1,28 @@
+<ul class="space-y-4">
+    {% for offer in offers %}
+    <li class="p-4 border rounded shadow bg-white">
+        {% if offer.origineOffre.urlOrigine is defined %}
+        <a
+            href="{{ offer.origineOffre.urlOrigine }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-600 hover:underline"
+        >
+            {{ offer.intitule }} <span aria-hidden="true">↗</span>
+        </a>
+        {% else %}
+        <span class="text-gray-500">{{ offer.intitule }} (lien indisponible)</span>
+        {% endif %}
+
+        <p class="text-sm text-gray-600">
+        {{ offer.entreprise.nom ?? "Entreprise non précisée" }} –
+        {{ offer.lieuTravail.libelle ?? "Lieu inconnu" }}
+        </p>
+        <p class="text-sm mt-2">
+        <strong>Date :</strong> {{ offer.dateCreation|date('d/m/Y') }}
+        </p>
+    </li>
+    {% else %}
+    <li>Aucune offre trouvée.</li>
+    {% endfor %}
+</ul>
