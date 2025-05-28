@@ -19,6 +19,8 @@ class ApplicationController extends AbstractController
     public function index(ApplicationRepository $applicationRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $query = $applicationRepository->createQueryBuilder('a')
+            ->where('a.statut != :refused')
+            ->setParameter('refused', 'Refusée')
             ->orderBy('a.sent', 'DESC')
             ->getQuery()
         ;
@@ -89,5 +91,14 @@ class ApplicationController extends AbstractController
         }
 
         return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('candidatures-refusees', name: 'app_application_refused', methods: ['GET'])]
+    public function applicationRefused(ApplicationRepository $applicationRepository): Response {
+        $refusedApplication = $applicationRepository->findBy(['statut' => 'refusée']);
+
+        return $this->render('application/refused.html.twig', [
+            'applications' => $refusedApplication,
+        ]);
     }
 }

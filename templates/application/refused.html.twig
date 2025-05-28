@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block title %}Candidatures refusées{% endblock %}
+
+{% block body %}
+<h1 class="text-2xl font-bold mb-6 text-red-600">Candidatures refusées</h1>
+
+<div class="overflow-x-auto bg-white shadow-md rounded">
+  <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-4 py-3 font-medium text-gray-600">Intitulé</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Date</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Entreprise</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Job Board</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      {% for application in applications %}
+        <tr class="hover:bg-red-50">
+          <td class="px-4 py-2">{{ application.jobtitle }}</td>
+          <td class="px-4 py-2">{{ application.sent ? application.sent|date('d/m/Y') : '' }}</td>
+          <td class="px-4 py-2">{{ application.company ?? '--' }}</td>
+          <td class="px-4 py-2">{{ application.jobboard ?? '--' }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="4" class="px-4 py-4 text-gray-500 italic">Aucune candidature refusée</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<a href="{{ path('home', {'title': 'follow-job-homepage'}) }}" class="inline-block mt-6 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm rounded shadow">
+  ← Retour au tableau de bord
+</a>
+{% endblock %}
