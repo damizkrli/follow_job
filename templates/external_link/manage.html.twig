@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des liens{% endblock %}
+
+{% block body %}
+<h1 class="text-2xl font-bold mb-6">Modifier les liens externes</h1>
+
+<table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+  <thead class="bg-gray-100 text-gray-700 text-sm uppercase">
+    <tr>
+      <th class="text-left px-4 py-2">Nom</th>
+      <th class="text-left px-4 py-2">URL</th>
+      <th class="px-4 py-2 text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for link in links %}
+      <tr class="border-t">
+        <form method="post" action="{{ path('external_link_update', {id: link.id}) }}">
+          <td class="px-4 py-2">
+            <input type="text" name="name" value="{{ link.name }}" class="w-full border rounded px-2 py-1 text-sm" required>
+          </td>
+          <td class="px-4 py-2">
+            <input type="url" name="url" value="{{ link.url }}" class="w-full border rounded px-2 py-1 text-sm" required>
+          </td>
+          <td class="px-4 py-2 text-center">
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+              Enregistrer
+            </button>
+          </td>
+        </form>
+      </tr>
+    {% else %}
+      <tr>
+        <td colspan="3" class="px-4 py-4 text-center text-gray-500">Aucun lien enregistré</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
