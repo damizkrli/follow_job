@@ -1,25 +1,45 @@
-<nav class="bg-white border-b border-gray-200 shadow">
+<nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
       <div class="flex items-center space-x-4">
-        <a href="#" class="text-xl font-bold text-blue-600">FOLLOW JOB</a>
+        <a href="#" class="text-xl font-bold text-blue-600 dark:text-blue-400">FOLLOW JOB</a>
       </div>
-      <div class="hidden md:flex space-x-6">
+      <div class="hidden md:flex space-x-6 items-center">
         <a
           href="{{ path('home', { title: 'follow-job-homepage' | slugify }) }}"
-          class="text-gray-700 hover:text-blue-600 text-sm font-medium transition"
-          >Accueil</a
-        >
+          class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition"
+        >Accueil</a>
         <a
           href="{{ path('app_application_index') }}"
-          class="text-gray-700 hover:text-blue-600 text-sm font-medium transition"
-          >Candidatures</a
-        >
+          class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition"
+        >Candidatures</a>
         <a
           href="{{ path('app_contact_index') }}"
-          class="text-gray-700 hover:text-blue-600 text-sm font-medium transition"
-          >Contacts</a
-        >
+          class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition"
+        >Contacts</a>
+
+        <form method="get" action="{{ path('toggle_dark_mode') }}" class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm {{ app.session.get('dark_mode') ? 'text-gray-400' : 'text-yellow-500' }}">
+            light_mode
+          </span>
+        
+          <button
+            type="submit"
+            class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none
+                   {{ app.session.get('dark_mode') ? 'bg-blue-600' : 'bg-gray-300' }}"
+            aria-label="Basculer le mode sombre"
+          >
+            <span
+              class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ease-in-out
+                     {{ app.session.get('dark_mode') ? 'translate-x-6' : 'translate-x-1' }}"
+            ></span>
+          </button>
+        
+          <span class="material-symbols-outlined text-sm {{ app.session.get('dark_mode') ? 'text-blue-400' : 'text-gray-400' }}">
+            dark_mode
+          </span>
+        </form>
+
       </div>
     </div>
   </div>

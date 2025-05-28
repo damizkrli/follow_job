@@ -3,40 +3,38 @@
 {% block title %}FOLLOW JOB{% endblock %}
 
 {% block body %}
-<div class="p-8">
+<div class="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
 
-<div class="flex flex-col sm:flex-row items-center justify-between bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg shadow mb-6">
-  <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-    {% include "home/count.html.twig" %}
+  <div class="flex flex-col sm:flex-row items-center justify-between bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-100 px-4 py-3 rounded-lg shadow mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+      {% include "home/count.html.twig" %}
+    </div>
+
+    {% include 'home/links.html.twig' with { external_links: external_links, form: form } %}
   </div>
 
-  {% include 'home/links.html.twig' with { external_links: external_links, form: form } %}
-
-</div>
-
-
   <h1 class="text-2xl mb-2">Offres d'emplois</h1>
+
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div class="flex flex-col bg-white rounded-xl shadow p-4 h-full">
-      <h2 class="text-lg font-bold mb-2">France Travail</h2>
-      <div class="flex-1">
+    <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
+      <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">France Travail</h2>
+      <div class="flex-1 text-gray-800 dark:text-gray-200">
         {% include "home/API/francetravail.html.twig" %}
       </div>
     </div>
 
-    <!-- Bloc 2 : Placeholder Adzuna -->
-    <div class="flex flex-col bg-white rounded-xl shadow p-4 h-full">
+
+    <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
       <h2 class="text-lg font-bold mb-2">Adzuna</h2>
       <div class="flex-1">
-        <p class="text-sm text-gray-500">Intégration en cours...</p>
+        <p class="text-sm text-gray-500 dark:text-gray-300">Intégration en cours...</p>
       </div>
     </div>
 
-    <!-- Bloc 3 : Placeholder CareerJet / Jooble -->
-    <div class="flex flex-col bg-white rounded-xl shadow p-4 h-full">
+    <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
       <h2 class="text-lg font-bold mb-2">Autre jobboard</h2>
       <div class="flex-1">
-        <p class="text-sm text-gray-500">À définir...</p>
+        <p class="text-sm text-gray-500 dark:text-gray-300">À définir...</p>
       </div>
     </div>
   </div>
