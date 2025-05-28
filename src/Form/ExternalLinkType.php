@@ -25,10 +25,6 @@ class ExternalLinkType extends AbstractType
                 'constraints' => [new NotBlank(), new Url()],
                 'label' => 'URL',
             ])
-            ->add('icon', FileType::class, [
-                'required' => false,
-                'label' => 'Code SVG ou classe CSS',
-            ])
         ;
     }
 

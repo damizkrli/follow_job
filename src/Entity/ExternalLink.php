@@ -23,9 +23,6 @@ class ExternalLink
     #[Assert\Url(message: 'L’URL "{{ value }}" n’est pas valide.')]
     private ?string $url = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $icon = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -55,15 +52,4 @@ class ExternalLink
         return $this;
     }
 
-    public function getIcon(): ?string
-    {
-        return $this->icon;
-    }
-
-    public function setIcon(?string $icon): static
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
 }

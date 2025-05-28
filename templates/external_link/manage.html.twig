@@ -1,40 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des liens{% endblock %}
+{% block title %}Gestion des liens externes{% endblock %}
 
 {% block body %}
-<h1 class="text-2xl font-bold mb-6">Modifier les liens externes</h1>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Gestion des liens externes</h1>
+    <a href="{{ path('home', { title: 'follow-job-homepage' }) }}"
+       class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow">
+      <i class="material-icons mr-2 text-base">arrow_back</i> Retour au tableau de bord
+    </a>
+  </div>
 
-<table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
-  <thead class="bg-gray-100 text-gray-700 text-sm uppercase">
-    <tr>
-      <th class="text-left px-4 py-2">Nom</th>
-      <th class="text-left px-4 py-2">URL</th>
-      <th class="px-4 py-2 text-center">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for link in links %}
-      <tr class="border-t">
-        <form method="post" action="{{ path('external_link_update', {id: link.id}) }}">
-          <td class="px-4 py-2">
-            <input type="text" name="name" value="{{ link.name }}" class="w-full border rounded px-2 py-1 text-sm" required>
-          </td>
-          <td class="px-4 py-2">
-            <input type="url" name="url" value="{{ link.url }}" class="w-full border rounded px-2 py-1 text-sm" required>
-          </td>
-          <td class="px-4 py-2 text-center">
-            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
-              Enregistrer
-            </button>
-          </td>
-        </form>
-      </tr>
-    {% else %}
-      <tr>
-        <td colspan="3" class="px-4 py-4 text-center text-gray-500">Aucun lien enregistré</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <div class="overflow-x-auto bg-white shadow-md rounded">
+    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 font-medium text-gray-600">Nom</th>
+          <th class="px-4 py-3 font-medium text-gray-600">URL</th>
+          <th class="px-4 py-3 text-right font-medium text-gray-600"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% for link in links %}
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2">
+              <form method="post" action="{{ path('external_link_update', { id: link.id }) }}" class="flex gap-2 items-center">
+                <input type="text" name="name" value="{{ link.name }}" class="w-full border rounded px-2 py-1 text-sm" required>
+            </td>
+            <td class="px-4 py-2">
+                <input type="url" name="url" value="{{ link.url }}" class="w-full border rounded px-2 py-1 text-sm" required>
+            </td>
+            <td class="px-4 py-2 text-right">
+                <div class="flex justify-end items-center space-x-2">
+                  <button type="submit" class="inline-flex items-center px-2 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-xs shadow">
+                    <i class="material-icons text-sm">save</i>
+                  </button>
+              </form>
+
+              <form method="post"
+                    action="{{ path('external_link_delete', { id: link.id }) }}"
+                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce lien ?');"
+                    class="inline">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ link.id) }}">
+                <button type="submit" class="inline-flex items-center px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs shadow">
+                  <i class="material-icons text-sm">close</i>
+                </button>
+              </form>
+                </div>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="3" class="px-4 py-4 text-gray-500 italic flex items-center gap-2">
+              <i class="material-icons rotate-90">subdirectory_arrow_right</i>
+              Aucun lien externe enregistré.
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}

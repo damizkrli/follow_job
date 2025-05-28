@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class ExternalLinkController extends AbstractController
 {
-    #[Route('/external/link', name: 'app_external_link')]
+    #[Route('/liens-externes', name: 'app_external_link')]
     public function index(): Response
     {
         return $this->render('external_link/index.html.twig', [
@@ -21,7 +21,7 @@ final class ExternalLinkController extends AbstractController
         ]);
     }
 
-    #[Route('/external-link/new', name: 'external_link_new', methods: ['GET', 'POST'])]
+    #[Route('/liens-externes/ajouter', name: 'external_link_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $link = new ExternalLink();
@@ -40,7 +40,7 @@ final class ExternalLinkController extends AbstractController
         ]);
     }
 
-    #[Route('/external-links/manage', name: 'external_link_manage')]
+    #[Route('/liens-externes/modification', name: 'external_link_manage')]
     public function manage(ExternalLinkRepository $repo): Response
     {
         return $this->render('external_link/manage.html.twig', [
@@ -65,4 +65,17 @@ final class ExternalLinkController extends AbstractController
         $this->addFlash('success', 'Lien mis à jour.');
         return $this->redirectToRoute('external_link_manage');
     }
+
+    #[Route('/external-links/delete/{id}', name: 'external_link_delete', methods: ['POST'])]
+    public function delete(Request $request, ExternalLink $link, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $link->getId(), $request->request->get('_token'))) {
+            $em->remove($link);
+            $em->flush();
+            $this->addFlash('success', 'Lien supprimé.');
+        }
+
+        return $this->redirectToRoute('external_link_manage');
+    }
+
 }
