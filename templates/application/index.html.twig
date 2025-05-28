@@ -1,38 +1,48 @@
-{% extends 'base.html.twig' %} {% block title %}Mes candidatures{% endblock %}
+{% extends 'base.html.twig' %}
+{% block title %}Mes candidatures{% endblock %}
 {% import 'pagination/tailwind_pagination.html.twig' as macros %}
 
 {% block body %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Mes Candidatures</h1>
-    <a
-  href="{{ path('app_application_new') }}"
-  class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow transform transition-transform duration-150 hover:scale-105">
-  <span class="material-symbols-outlined text-base mr-2 leading-none">add_circle</span>Ajouter une candidature</a>
-    <a href="{{ path('app_application_refused') }}"
-   class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded shadow mt-4">
-  Voir les candidatures refusées
-</a>
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Mes Candidatures</h1>
 
+    <div class="flex flex-col sm:flex-row gap-3">
+      <a
+        href="{{ path('app_application_new') }}"
+        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow transform transition-transform duration-150 hover:scale-105"
+      >
+        <span class="material-symbols-outlined text-base mr-2 leading-none">add_circle</span>
+        Ajouter une candidature
+      </a>
+
+      <a
+        href="{{ path('app_application_refused') }}"
+        class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded shadow transform transition-transform duration-150 hover:scale-105"
+      >
+        <span class="material-symbols-outlined text-base mr-2 leading-none">block</span>
+        Voir les candidatures refusées
+      </a>
+    </div>
   </div>
 
-  <div class="overflow-x-auto bg-white shadow-md rounded">
-    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
-      <thead class="bg-gray-50">
+  <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-md rounded">
+    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
+      <thead class="bg-gray-50 dark:bg-gray-800">
         <tr>
-          <th class="px-4 py-3 font-medium text-gray-600">Intitulé du poste</th>
-          <th class="px-4 py-3 font-medium text-gray-600">Date d'envoi</th>
-          <th class="px-4 py-3 font-medium text-gray-600">Lien</th>
-          <th class="px-4 py-3 font-medium text-gray-600">Entreprise</th>
-          <th class="px-4 py-3 font-medium text-gray-600">Job Board</th>
-          <th class="px-4 py-3 text-right font-medium text-gray-600"></th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Intitulé du poste</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Date d'envoi</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Lien</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Entreprise</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Job Board</th>
+          <th class="px-4 py-3 text-right font-medium text-gray-600 dark:text-gray-300"></th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100">
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
         {% for application in pagination %}
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-2 text-gray-800">{{ application.jobtitle }}</td>
-          <td class="px-4 py-2 text-gray-800">
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobtitle }}</td>
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
             {{ application.sent ? application.sent|date('d/m/Y') : '' }}
           </td>
           <td class="px-4 py-2">
@@ -43,33 +53,27 @@
               <span class="material-symbols-outlined">open_in_new</span>
             </a>
           </td>
-          <td class="px-4 py-2 text-gray-800">
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
             {{ application.company ?? "--" }}
           </td>
-          <td class="px-4 py-2 text-gray-800">{{ application.jobboard }}</td>
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobboard }}</td>
           <td class="px-4 py-2 text-right">
             <div class="flex justify-end space-x-2">
               <a
-                href="{{
-                  path('app_application_show', { id: application.id })
-                }}"
+                href="{{ path('app_application_show', { id: application.id }) }}"
                 class="inline-flex items-center px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-xs shadow"
               >
                 <span class="material-symbols-outlined">info</span>
               </a>
               <a
-                href="{{
-                  path('app_application_edit', { id: application.id })
-                }}"
+                href="{{ path('app_application_edit', { id: application.id }) }}"
                 class="inline-flex items-center px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs shadow"
               >
                 <span class="material-symbols-outlined">edit</span>
               </a>
               <form
                 method="post"
-                action="{{
-                  path('app_application_delete', { id: application.id })
-                }}"
+                action="{{ path('app_application_delete', { id: application.id }) }}"
                 onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');"
                 class="inline"
               >
@@ -92,9 +96,9 @@
         <tr>
           <td
             colspan="7"
-            class="px-4 py-4 text-gray-500 italic flex items-center gap-2"
+            class="px-4 py-4 text-gray-500 dark:text-gray-400 italic flex items-center gap-2"
           >
-            <i class="material-icons rotate-90">subdirectory_arrow_right</i>
+            <span class="material-symbols-outlined rotate-90">subdirectory_arrow_right</span>
             Aucune candidature enregistrée.
           </td>
         </tr>
@@ -104,6 +108,5 @@
   </div>
 
   {{ macros.render_pagination(pagination) }}
-
 </div>
 {% endblock %}
