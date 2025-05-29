@@ -19,6 +19,10 @@
       tinymce.init({
         selector: "textarea.tinymce",
         menubar: "",
+        skin: "{{ app.session.get('dark_mode') ? 'oxide-dark' : 'oxide' }}",
+        content_css: "{{ app.session.get('dark_mode') ? 'dark' : 'default' }}",
+        height: 300,
+        branding: false
       });
     </script>
 
