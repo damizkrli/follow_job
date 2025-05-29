@@ -45,12 +45,16 @@
           <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
             {{ application.sent ? application.sent|date('d/m/Y') : '' }}
           </td>
-          <td class="px-4 py-2">
+          <td class="px-4 py-2 max-w-xs">
             <a
               href="{{ application.link }}"
-              class="inline-flex items-center px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded shadow"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="{{ application.link }}"
+              class="inline-flex items-center gap-1 text-blue-600 hover:underline truncate max-w-[180px]"
             >
-              <span class="material-symbols-outlined">open_in_new</span>
+              <span class="truncate">{{ application.link }}</span>
+              <span class="material-symbols-outlined text-sm">open_in_new</span>
             </a>
           </td>
           <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
@@ -58,37 +62,49 @@
           </td>
           <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobboard }}</td>
           <td class="px-4 py-2 text-right">
-            <div class="flex justify-end space-x-2">
-              <a
-                href="{{ path('app_application_show', { id: application.id }) }}"
-                class="inline-flex items-center px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-xs shadow"
+            <div class="relative inline-block text-left">
+              <button
+                type="button"
+                data-dropdown-button
+                class="inline-flex items-center justify-center w-8 h-8 rounded-full text-gray-600 hover:text-black dark:text-gray-300 dark:hover:text-white focus:outline-none"
+                aria-haspopup="true"
+                aria-expanded="false"
               >
-                <span class="material-symbols-outlined">info</span>
-              </a>
-              <a
-                href="{{ path('app_application_edit', { id: application.id }) }}"
-                class="inline-flex items-center px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs shadow"
+                <span class="material-symbols-outlined text-base">more_vert</span>
+              </button>
+
+              <div
+                class="dropdown-menu hidden absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10"
+                role="menu"
               >
-                <span class="material-symbols-outlined">edit</span>
-              </a>
-              <form
-                method="post"
-                action="{{ path('app_application_delete', { id: application.id }) }}"
-                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');"
-                class="inline"
-              >
-                <input
-                  type="hidden"
-                  name="_token"
-                  value="{{ csrf_token('delete' ~ application.id) }}"
-                />
-                <button
-                  type="submit"
-                  class="inline-flex items-center px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs shadow"
-                >
-                  <span class="material-symbols-outlined">delete</span>
-                </button>
-              </form>
+                <div class="py-1">
+                  <a
+                    href="{{ path('app_application_show', { id: application.id }) }}"
+                    class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <span class="material-symbols-outlined text-base">info</span> Détails
+                  </a>
+                  <a
+                    href="{{ path('app_application_edit', { id: application.id }) }}"
+                    class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <span class="material-symbols-outlined text-base">edit</span> Modifier
+                  </a>
+                  <form
+                    method="post"
+                    action="{{ path('app_application_delete', { id: application.id }) }}"
+                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');"
+                  >
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}" />
+                    <button
+                      type="submit"
+                      class="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-gray-700"
+                    >
+                      <span class="material-symbols-outlined text-base">delete</span> Supprimer
+                    </button>
+                  </form>
+                </div>
+              </div>
             </div>
           </td>
         </tr>
@@ -109,4 +125,19 @@
 
   {{ macros.render_pagination(pagination) }}
 </div>
+
+<script>
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+    
+    const btn = e.target.closest('[data-dropdown-button]');
+    if (btn) {
+      const menu = btn.nextElementSibling;
+      if (menu && menu.classList.contains('dropdown-menu')) {
+        menu.classList.toggle('hidden');
+      }
+    }
+  });
+</script>
+
 {% endblock %}
