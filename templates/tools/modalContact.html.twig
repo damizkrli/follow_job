@@ -1,0 +1,66 @@
+<div
+  id="modalContact"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center"
+  style="background-color: rgba(15, 23, 42, 0.75)"
+  onclick="closeModalOnClickOutside(event)"
+>
+  <div
+    class="rounded-lg shadow-lg w-full max-w-md mx-auto p-6 relative
+           {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
+    onclick="event.stopPropagation()"
+  >
+    <button
+      type="button"
+      onclick="document.getElementById('modalContact').classList.add('hidden')"
+      class="absolute top-2 right-2 text-gray-400 hover:text-gray-200 dark:hover:text-white text-2xl font-bold"
+    >&times;</button>
+
+    <h2 class="text-lg font-semibold mb-4">Ajouter un contact</h2>
+
+    {{ form_start(form) }}
+
+      <div class="mb-4">
+        {{ form_label(form.name, null, { 'label_attr': { 'class': 'block text-base font-medium mb-1 ' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700') } }) }}
+        {{ form_widget(form.name, {
+          'attr': {
+            'class': 'block w-full border rounded-md py-2 px-3 text-base shadow-sm focus:ring focus:ring-blue-300 ' ~
+                      (app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'),
+            'placeholder': 'Nom du contact'
+          }
+        }) }}
+        {{ form_errors(form.name) }}
+      </div>
+
+      <div class="mb-4">
+        {{ form_label(form.email, null, { 'label_attr': { 'class': 'block text-base font-medium mb-1 ' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700') } }) }}
+        {{ form_widget(form.email, {
+          'attr': {
+            'class': 'block w-full border rounded-md py-2 px-3 text-base shadow-sm focus:ring focus:ring-blue-300 ' ~
+                      (app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'),
+            'placeholder': 'email@exemple.com'
+          }
+        }) }}
+        {{ form_errors(form.email) }}
+      </div>
+
+      <div class="text-right">
+        <button
+          type="submit"
+          class="px-5 py-2 bg-green-600 text-white text-base rounded hover:bg-green-700"
+        >
+          Ajouter
+        </button>
+      </div>
+
+    {{ form_end(form) }}
+  </div>
+</div>
+
+<script>
+  function closeModalOnClickOutside(event) {
+    const modal = document.getElementById('modalContact');
+    if (event.target === modal) {
+      modal.classList.add('hidden');
+    }
+  }
+</script>

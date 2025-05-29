@@ -56,7 +56,7 @@ class ContactType extends AbstractType
                 ],
             ])
             ->add('social', UrlType::class, [
-                'label' => 'Profile Social',
+                'label' => 'Profil Linkedin',
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'https://www.linkedIn.com',
