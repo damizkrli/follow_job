@@ -77,10 +77,6 @@ class Application
     )]
     private ?string $statut = "Envoyée";
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Contact $contact = null;
-
     #[ORM\Column(length: 100)]
     private ?string $company = null;
 
@@ -164,18 +160,6 @@ class Application
     public function setStatut(?string $statut): void
     {
         $this->statut = trim(strtoupper($statut));
-    }
-
-    public function getContact(): ?Contact
-    {
-        return $this->contact;
-    }
-
-    public function setContact(?Contact $contact): static
-    {
-        $this->contact = $contact;
-
-        return $this;
     }
 
     public function getCompany(): ?string

@@ -105,20 +105,6 @@ class ApplicationType extends AbstractType
                         'class' => 'tinymce',
                     ]
             ])
-            ->add('contact', EntityType::class, [
-                'class'         => Contact::class,
-                'placeholder'   => 'Sélectionner un contact',
-                'choice_label'  => 'firstname',
-                'row_attr'      => [
-                    'class' => 'form-floating',
-                ],
-                'query_builder' => function (ContactRepository $contactRepository) {
-                    return $contactRepository
-                        ->createQueryBuilder('contact')
-                        ->orderBy('contact.firstname', 'ASC');
-                },
-                'required'      => false,
-            ])
         ;
     }
 
