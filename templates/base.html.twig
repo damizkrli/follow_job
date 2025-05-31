@@ -2,38 +2,32 @@
 <html lang="fr" class="{{ app.session.get('dark_mode') ? 'dark' : '' }}">
   <head>
     <meta charset="UTF-8" />
+    
+    <title>{% block title %}Mon application{% endblock %}</title>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         darkMode: 'class'
       }
     </script>
-    <title>{% block title %}Mon application{% endblock %}</title>
-    <link rel="icon"href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <script
-      src="https://cdn.tiny.cloud/1/v9rzxa44ju9akzbll9s6pyeuc9u12sfd87dhmj7mr9xlzykx/tinymce/6/tinymce.min.js"
-      referrerpolicy="origin"
-    ></script>
-    <script>
-      tinymce.init({
-        selector: "textarea.tinymce",
-        menubar: "",
-        skin: "{{ app.session.get('dark_mode') ? 'oxide-dark' : 'oxide' }}",
-        content_css: "{{ app.session.get('dark_mode') ? 'dark' : 'default' }}",
-        height: 300,
-        branding: false
-      });
-    </script>
 
     {% block stylesheets %}{% endblock %}
   </head>
+
   <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
     {% include 'tools/navbar.html.twig' %}
 
     <main class="flex-grow container mx-auto px-4 py-6">
       {% block body %}{% endblock %}
     </main>
+
+    <script src="https://cdn.tiny.cloud/1/v9rzxa44ju9akzbll9s6pyeuc9u12sfd87dhmj7mr9xlzykx/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="{{ asset('js/modalApplications.js') }}"></script>
 
     {% block javascripts %}{% endblock %}
   </body>
