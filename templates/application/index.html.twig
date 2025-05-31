@@ -8,21 +8,22 @@
     <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Mes Candidatures</h1>
 
     <div class="flex flex-col sm:flex-row gap-3">
-      <a
-        href="{{ path('app_application_new') }}"
-        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow transform transition-transform duration-150 hover:scale-105"
-      >
+      <button 
+        type="button"
+        onclick="openModalCreateApplication()"
+        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow transform transition-transform duration-150 hover:scale-105">
         <span class="material-symbols-outlined text-base mr-2 leading-none">add_circle</span>
         Ajouter une candidature
-      </a>
+      </button>
 
-      <a
-        href="{{ path('app_application_refused') }}"
-        class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded shadow transform transition-transform duration-150 hover:scale-105"
-      >
+      <button 
+        type="button"
+        onclick="openModalRefusedApplications()"
+        class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded shadow transform transition-transform duration-150 hover:scale-105">
         <span class="material-symbols-outlined text-base mr-2 leading-none">block</span>
         Voir les candidatures refusées
-      </a>
+      </button>
+
     </div>
   </div>
 
@@ -79,13 +80,14 @@
               >
                 <div class="py-1">
                   <a
-                    href="{{ path('app_application_show', { id: application.id }) }}"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span class="material-symbols-outlined text-base">info</span> Détails
+                    href="javascript:void(0);"
+                    onclick="openModalShowApplication({{ application.id }})"
+                    class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="material-symbols-outlined text-base">info</span> Consulter
                   </a>
                   <a
-                    href="{{ path('app_application_edit', { id: application.id }) }}"
+                    href="javascript:void(0);"
+                    onclick="openModalEditApplication({{ application.id }})"
                     class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <span class="material-symbols-outlined text-base">edit</span> Modifier
@@ -108,6 +110,10 @@
             </div>
           </td>
         </tr>
+
+        {% include 'tools/modalEditApplication.html.twig' with { application: application } %}
+        {% include 'tools/modalShowApplication.html.twig' with { application: application } %}
+
         {% else %}
         <tr>
           <td
@@ -124,20 +130,9 @@
   </div>
 
   {{ macros.render_pagination(pagination) }}
-</div>
+  {% include 'tools/modalApplications.html.twig' %}
+  {% include 'tools/modalRefusedApplication.html.twig' %}
 
-<script>
-  document.addEventListener('click', function (e) {
-    document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
-    
-    const btn = e.target.closest('[data-dropdown-button]');
-    if (btn) {
-      const menu = btn.nextElementSibling;
-      if (menu && menu.classList.contains('dropdown-menu')) {
-        menu.classList.toggle('hidden');
-      }
-    }
-  });
-</script>
+</div>
 
 {% endblock %}

@@ -1,0 +1,77 @@
+<div
+  id="modalApplicationCreate"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-y-auto"
+  style="background-color: rgba(15, 23, 42, 0.75)"
+  onclick="closeModalOnClickOutside(event)"
+>
+  <div
+    class="rounded-lg shadow-lg w-full max-w-4xl mx-auto p-8 relative
+      {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
+    onclick="event.stopPropagation()"
+  >
+    <button
+      type="button"
+      onclick="document.getElementById('modalApplicationCreate').classList.add('hidden')"
+      class="absolute top-2 right-2 text-gray-400 hover:text-gray-200 dark:hover:text-white text-2xl font-bold"
+    >&times;</button>
+
+    <h2 class="text-2xl font-semibold mb-6">Ajouter une candidature</h2>
+
+    {{ form_start(form) }}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% for field in [
+        form.job_title,
+        form.statut,
+        form.sent,
+        form.response,
+        form.link,
+        form.company,
+        form.jobboard
+      ] %}
+        <div>
+          {{ form_label(field, null, {
+            'label_attr': {
+              'class': 'block text-base font-medium mb-1 ' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700')
+            }
+          }) }}
+          {{ form_widget(field, {
+            'attr': {
+              'class': 'block w-full rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 ' ~ 
+                (app.session.get('dark_mode')
+                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400')
+            }
+          }) }}
+          {{ form_errors(field) }}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="mt-6">
+      {{ form_label(form.note, null, {
+        'label_attr': {
+          'class': 'block text-base font-medium mb-1 ' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700')
+        }
+      }) }}
+      {{ form_widget(form.note, {
+        'attr': {
+          'class': 'tinymce block w-full h-32 rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 ' ~
+            (app.session.get('dark_mode')
+              ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+              : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400')
+        }
+      }) }}
+      {{ form_errors(form.note) }}
+    </div>
+
+    <div class="text-right mt-8">
+      <button
+        type="submit"
+        class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-lg rounded shadow"
+      >
+        Ajouter
+      </button>
+    </div>
+    {{ form_end(form) }}
+  </div>
+</div>

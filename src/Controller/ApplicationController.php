@@ -15,26 +15,33 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/candidatures')]
 class ApplicationController extends AbstractController
 {
-    #[Route('/', name: 'app_application_index', methods: ['GET'])]
-    public function index(ApplicationRepository $applicationRepository, Request $request, PaginatorInterface $paginator): Response
+    #[Route('/applications', name: 'app_application_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, ApplicationRepository $applicationRepository, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
-        $query = $applicationRepository->createQueryBuilder('a')
-            ->where('a.statut != :refused')
-            ->setParameter('refused', 'Refusée')
-            ->orderBy('a.sent', 'DESC')
-            ->getQuery()
-        ;
-
-        $pagination = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            10
-        );
-
+        $query = $applicationRepository->createQueryBuilder('a')->orderBy('a.sent', 'DESC')->getQuery();
+        $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 10);
+        $refusedApplications = $applicationRepository->findBy(['statut' => 'Refusée']);
+    
+        $application = new Application();
+        $form = $this->createForm(ApplicationType::class, $application);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($application);
+            $em->flush();
+        
+            $this->addFlash('success', 'Candidature ajoutée avec succès.');
+        
+            return $this->redirectToRoute('app_application_index');
+        }
+    
         return $this->render('application/index.html.twig', [
             'pagination' => $pagination,
+            'form' => $form->createView(),
+            'refusedApplications' => $refusedApplications,
         ]);
     }
+
 
     #[Route('/ajouter/', name: 'app_application_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

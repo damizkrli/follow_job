@@ -1,0 +1,49 @@
+<div
+  id="modalRefusedApplications"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-y-auto"
+  style="background-color: rgba(15, 23, 42, 0.75)"
+  onclick="closeModalOnClickOutside(event)"
+>
+  <div
+    class="rounded-lg shadow-lg w-full max-w-7xl mx-auto p-8 relative overflow-x-auto
+           {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
+    onclick="event.stopPropagation()"
+  >
+    <button
+      type="button"
+      onclick="document.getElementById('modalRefusedApplications').classList.add('hidden')"
+      class="absolute top-2 right-2 text-gray-400 hover:text-gray-200 dark:hover:text-white text-2xl font-bold"
+    >&times;</button>
+
+    <h2 class="text-2xl font-semibold mb-6 text-red-500">Candidatures refusées</h2>
+
+    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left rounded">
+      <thead class="bg-gray-50 dark:bg-gray-800">
+        <tr>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Intitulé</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Date</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Entreprise</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Job Board</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+        {% for application in refusedApplications %}
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobtitle }}</td>
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
+            {{ application.sent ? application.sent|date('d/m/Y') : '' }}
+          </td>
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.company ?? "--" }}</td>
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobboard }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="4" class="px-4 py-4 text-center text-gray-500 dark:text-gray-400 italic">
+            Aucune candidature refusée.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

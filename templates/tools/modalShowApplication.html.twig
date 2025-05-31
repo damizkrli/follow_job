@@ -1,0 +1,67 @@
+<div
+  id="modalApplicationShow-{{ application.id }}"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-y-auto transition-all duration-300 bg-slate-900/75"
+  onclick="closeModalOnClickOutside(event)">
+  <div
+    class="rounded-lg shadow-lg w-full max-w-4xl mx-auto p-8 relative {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
+    onclick="event.stopPropagation()"
+  >
+    <button
+      type="button"
+      onclick="closeModal(`modalApplicationShow-{{ application.id }}`)"
+      class="absolute top-2 right-2 text-gray-400 hover:text-gray-200 dark:hover:text-white text-2xl font-bold"
+    >&times;</button>
+
+    <h2 class="text-2xl font-semibold mb-6">Détails de la candidature</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div>
+        <p class="text-sm font-semibold">Intitulé du poste</p>
+        <p>{{ application.jobtitle }}</p>
+      </div>
+      <div>
+        <p class="text-sm font-semibold">Statut</p>
+        <p>{{ application.statut }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div>
+        <p class="text-sm font-semibold">Date d'envoi</p>
+        <p>{{ application.sent ? application.sent|date('d/m/Y') : '-' }}</p>
+      </div>
+      <div>
+        <p class="text-sm font-semibold">Date de réponse</p>
+        <p>{{ application.response ? application.response|date('d/m/Y') : '-' }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div>
+        <p class="text-sm font-semibold">Plateforme</p>
+        <p>{{ application.jobboard }}</p>
+      </div>
+      <div>
+        <p class="text-sm font-semibold">Entreprise</p>
+        <p>{{ application.company }}</p>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <p class="text-sm font-semibold">Lien vers l'annonce</p>
+      <a
+        href="{{ application.link }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-blue-500 hover:underline break-words"
+      >
+        {{ application.link }}
+      </a>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold mb-2">Note</p>
+      <div class="whitespace-pre-line">{{ application.note|raw }}</div>
+    </div>
+  </div>
+</div>

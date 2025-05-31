@@ -1,0 +1,128 @@
+<div
+  id="modalApplicationEdit-{{ application.id }}"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-y-auto"
+  style="background-color: rgba(15, 23, 42, 0.75)"
+  onclick="closeModalOnClickOutside(event)"
+>
+  <div
+    class="rounded-lg shadow-lg w-full max-w-4xl mx-auto p-8 relative
+      {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
+    onclick="event.stopPropagation()"
+  >
+    <button
+      type="button"
+      onclick="document.getElementById('modalApplicationEdit-{{ application.id }}').classList.add('hidden')"
+      class="absolute top-2 right-2 text-gray-400 hover:text-gray-200 dark:hover:text-white text-2xl font-bold"
+    >&times;</button>
+
+    <h2 class="text-2xl font-semibold mb-6">Modifier la candidature</h2>
+
+    <form method="post" action="{{ path('app_application_edit', { id: application.id }) }}">
+      <input type="hidden" name="_token" value="{{ csrf_token('edit' ~ application.id) }}">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {# Intitulé du poste #}
+        <div>
+          <label class="block text-base font-medium mb-1 {{ app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700' }}">Intitulé du poste</label>
+          <input
+            type="text"
+            name="application[job_title]"
+            value="{{ application.jobtitle }}"
+            class="block w-full rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 {{ app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400' }}"
+          />
+        </div>
+
+        {# Statut #}
+        <div>
+          <label class="block text-base font-medium mb-1 {{ app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700' }}">Statut</label>
+          <select
+            name="application[statut]"
+            class="block w-full rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 {{ app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900' }}"
+          >
+            {% for key, value in {
+              'Envoyée': 'Envoyée',
+              'En attente': 'En attente',
+              'Refusée': 'Refusée',
+              'Acceptée': 'Acceptée'
+            } %}
+              <option value="{{ value }}" {% if application.statut == value %}selected{% endif %}>{{ key }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        {# Date d'envoi #}
+        <div>
+          <label class="block text-base font-medium mb-1 {{ app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700' }}">Date d'envoi</label>
+          <input
+            type="date"
+            name="application[sent]"
+            value="{{ application.sent ? application.sent|date('Y-m-d') : '' }}"
+            class="block w-full rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 {{ app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900' }}"
+          />
+        </div>
+
+        {# Date de réponse #}
+        <div>
+          <label class="block text-base font-medium mb-1 {{ app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700' }}">Date de réponse</label>
+          <input
+            type="date"
+            name="application[response]"
+            value="{{ application.response ? application.response|date('Y-m-d') : '' }}"
+            class="block w-full rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 {{ app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900' }}"
+          />
+        </div>
+
+        {# Lien vers l'annonce #}
+        <div>
+          <label class="block text-base font-medium mb-1 {{ app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700' }}">Lien vers l'annonce</label>
+          <input
+            type="url"
+            name="application[link]"
+            value="{{ application.link }}"
+            class="block w-full rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 {{ app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900' }}"
+          />
+        </div>
+
+        {# Entreprise #}
+        <div>
+          <label class="block text-base font-medium mb-1 {{ app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700' }}">Entreprise</label>
+          <input
+            type="text"
+            name="application[company]"
+            value="{{ application.company }}"
+            class="block w-full rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 {{ app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900' }}"
+          />
+        </div>
+
+        {# Job Board #}
+        <div>
+          <label class="block text-base font-medium mb-1 {{ app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700' }}">Plateforme</label>
+          <input
+            type="text"
+            name="application[jobboard]"
+            value="{{ application.jobboard }}"
+            class="block w-full rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 {{ app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900' }}"
+          />
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <label class="block text-base font-medium mb-1 {{ app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700' }}">Note</label>
+        <textarea
+          id="note-{{ application.id }}"
+          name="application[note]"
+          class="tinymce block w-full h-32 rounded-md border px-3 py-2 shadow-sm focus:ring focus:ring-blue-300 {{ app.session.get('dark_mode') ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900' }}"
+        >{{ application.note }}</textarea>
+      </div>
+
+      <div class="text-right mt-8">
+        <button
+          type="submit"
+          class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg rounded shadow"
+        >
+          Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
