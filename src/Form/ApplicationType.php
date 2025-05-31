@@ -101,9 +101,6 @@ class ApplicationType extends AbstractType
             ->add('note', TextareaType::class, [
                     'required' => false,
                     'label' => 'Note',
-                    'attr' => [
-                        'class' => 'tinymce',
-                    ]
             ])
         ;
     }

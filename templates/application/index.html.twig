@@ -3,9 +3,11 @@
 {% import 'pagination/tailwind_pagination.html.twig' as macros %}
 
 {% block body %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Mes Candidatures</h1>
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 md:mb-0">
+      Mes Candidatures
+    </h2>
 
     <div class="flex flex-col sm:flex-row gap-3">
       <button 
@@ -23,116 +25,149 @@
         <span class="material-symbols-outlined text-base mr-2 leading-none">block</span>
         Voir les candidatures refusées
       </button>
-
     </div>
   </div>
 
-  <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-md rounded">
-    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
-      <thead class="bg-gray-50 dark:bg-gray-800">
-        <tr>
-          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Intitulé du poste</th>
-          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Date d'envoi</th>
-          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Lien</th>
-          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Entreprise</th>
-          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Job Board</th>
-          <th class="px-4 py-3 text-right font-medium text-gray-600 dark:text-gray-300"></th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-        {% for application in pagination %}
-        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobtitle }}</td>
-          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
-            {{ application.sent ? application.sent|date('d/m/Y') : '' }}
-          </td>
-          <td class="px-4 py-2 max-w-xs">
-            <a
-              href="{{ application.link }}"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="{{ application.link }}"
-              class="inline-flex items-center gap-1 text-blue-600 hover:underline truncate max-w-[180px]"
-            >
-              <span class="truncate">{{ application.link }}</span>
-              <span class="material-symbols-outlined text-sm">open_in_new</span>
-            </a>
-          </td>
-          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
-            {{ application.company ?? "--" }}
-          </td>
-          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobboard }}</td>
-          <td class="px-4 py-2 text-right">
-            <div class="relative inline-block text-left">
-              <button
-                type="button"
-                data-dropdown-button
-                class="inline-flex items-center justify-center w-8 h-8 rounded-full text-gray-600 hover:text-black dark:text-gray-300 dark:hover:text-white focus:outline-none"
-                aria-haspopup="true"
-                aria-expanded="false"
+  <!-- Partie Desktop -->
+  <div class="hidden md:block">
+    <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-md rounded">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
+        <thead class="bg-gray-50 dark:bg-gray-800">
+          <tr>
+            <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Intitulé du poste</th>
+            <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Date d'envoi</th>
+            <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Lien</th>
+            <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Entreprise</th>
+            <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Job Board</th>
+            <th class="px-4 py-3 text-right font-medium text-gray-600 dark:text-gray-300"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+          {% for application in pagination %}
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+            <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobtitle }}</td>
+            <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
+              {{ application.sent ? application.sent|date('d/m/Y') : '' }}
+            </td>
+            <td class="px-4 py-2 max-w-xs">
+              <a
+                href="{{ application.link }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="{{ application.link }}"
+                class="inline-flex items-center gap-1 text-blue-600 hover:underline truncate max-w-[180px]"
               >
-                <span class="material-symbols-outlined text-base">more_vert</span>
-              </button>
+                <span class="truncate">{{ application.link }}</span>
+                <span class="material-symbols-outlined text-sm">open_in_new</span>
+              </a>
+            </td>
+            <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
+              {{ application.company ?? "--" }}
+            </td>
+            <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobboard }}</td>
+            <td class="px-4 py-2 text-right">
+              <div class="relative inline-block text-left">
+                <button
+                  type="button"
+                  data-dropdown-button
+                  class="inline-flex items-center justify-center w-8 h-8 rounded-full text-gray-600 hover:text-black dark:text-gray-300 dark:hover:text-white focus:outline-none"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span class="material-symbols-outlined text-base">more_vert</span>
+                </button>
 
-              <div
-                class="dropdown-menu hidden absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10"
-                role="menu"
-              >
-                <div class="py-1">
-                  <a
-                    href="javascript:void(0);"
-                    onclick="openModalShowApplication({{ application.id }})"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <span class="material-symbols-outlined text-base">info</span> Consulter
-                  </a>
-                  <a
-                    href="javascript:void(0);"
-                    onclick="openModalEditApplication({{ application.id }})"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span class="material-symbols-outlined text-base">edit</span> Modifier
-                  </a>
-                  <form
-                    method="post"
-                    action="{{ path('app_application_delete', { id: application.id }) }}"
-                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');"
-                  >
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}" />
-                    <button
-                      type="submit"
-                      class="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-gray-700"
+                <div
+                  class="dropdown-menu hidden absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10"
+                  role="menu"
+                >
+                  <div class="py-1">
+                    <a
+                      href="javascript:void(0);"
+                      onclick="openModalShowApplication({{ application.id }})"
+                      class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <span class="material-symbols-outlined text-base">info</span> Consulter
+                    </a>
+                    <a
+                      href="javascript:void(0);"
+                      onclick="openModalEditApplication({{ application.id }})"
+                      class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
-                      <span class="material-symbols-outlined text-base">delete</span> Supprimer
-                    </button>
-                  </form>
+                      <span class="material-symbols-outlined text-base">edit</span> Modifier
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-        {% include 'tools/modalEditApplication.html.twig' with { application: application } %}
-        {% include 'tools/modalShowApplication.html.twig' with { application: application } %}
+  <!-- Partie Mobile -->
+  <div class="block md:hidden space-y-4">
+    {% for application in pagination %}
+    <div
+      role="button"
+      onclick="openModalShowApplication({{ application.id }})"
+      class="cursor-pointer bg-white dark:bg-gray-800 p-4 rounded shadow hover:shadow-md transition-shadow duration-300"
+    >
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+        {{ application.jobtitle }}
+      </h3>
 
-        {% else %}
-        <tr>
-          <td
-            colspan="7"
-            class="px-4 py-4 text-gray-500 dark:text-gray-400 italic flex items-center gap-2"
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+        <strong>Entreprise :</strong> {{ application.company }}
+      </p>
+
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+        <strong>Date :</strong> {{ application.sent|date('d/m/Y') }}
+      </p>
+
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-1 truncate">
+        <strong>Annonce :</strong> {{ application.link }}
+      </p>
+
+      <div class="flex justify-end gap-2 mt-4">
+        <button
+          type="button"
+          onclick="event.stopPropagation(); openModalEditApplication({{ application.id }})"
+          class="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white text-xs font-medium rounded shadow flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">edit</span>
+          Modifier
+        </button>
+
+        <form
+          method="post"
+          action="{{ path('app_application_delete', { id: application.id }) }}"
+          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette candidature ?');"
+          onclick="event.stopPropagation();"
+        >
+          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}" />
+          <button
+            type="submit"
+            class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded shadow flex items-center gap-1"
           >
-            <span class="material-symbols-outlined rotate-90">subdirectory_arrow_right</span>
-            Aucune candidature enregistrée.
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+            <span class="material-symbols-outlined text-base">delete</span>
+            Supprimer
+          </button>
+        </form>
+      </div>
+    </div>
+
+    {% include 'tools/modalShowApplication.html.twig' with { application: application } %}
+    {% endfor %}
   </div>
 
   {{ macros.render_pagination(pagination) }}
+
+  {% for application in pagination %}
+    {% include 'tools/modalEditApplication.html.twig' with { application: application } %}
+    {% include 'tools/modalShowApplication.html.twig' with { application: application } %}
+  {% endfor %}
+
   {% include 'tools/modalApplications.html.twig' %}
   {% include 'tools/modalRefusedApplication.html.twig' %}
-
-</div>
-
 {% endblock %}

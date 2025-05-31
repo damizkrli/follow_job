@@ -9,7 +9,6 @@ function openModalCreateApplication() {
   const modal = document.getElementById("modalApplicationCreate");
   if (modal) {
     modal.classList.remove("hidden");
-    setTimeout(initTinyMCE, 100);
   }
 }
 
@@ -17,7 +16,6 @@ function openModalEditApplication(id) {
   const modal = document.getElementById("modalApplicationEdit-" + id);
   if (modal) {
     modal.classList.remove("hidden");
-    setTimeout(() => initTinyMCEEdit(id), 100);
   }
 }
 
@@ -35,48 +33,11 @@ function openModalRefusedApplications() {
   }
 }
 
-function initTinyMCE() {
-  if (typeof tinymce !== "undefined") {
-    if (tinymce.editors.length > 0) {
-      tinymce.editors.forEach((editor) => editor.remove());
-    }
-    tinymce.init({
-      selector: "textarea.tinymce",
-      menubar: "",
-      skin: darkModeSkin(),
-      content_css: darkModeContentCss(),
-      height: 300,
-      branding: false,
-    });
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.add("hidden");
   }
-}
-
-function initTinyMCEEdit(id) {
-  if (typeof tinymce !== "undefined") {
-    if (tinymce.editors.length > 0) {
-      tinymce.editors.forEach((editor) => editor.remove());
-    }
-    tinymce.init({
-      selector: "#note-" + id,
-      menubar: "",
-      skin: darkModeSkin(),
-      content_css: darkModeContentCss(),
-      height: 300,
-      branding: false,
-    });
-  }
-}
-
-function darkModeSkin() {
-  return document.documentElement.classList.contains("dark")
-    ? "oxide-dark"
-    : "oxide";
-}
-
-function darkModeContentCss() {
-  return document.documentElement.classList.contains("dark")
-    ? "dark"
-    : "default";
 }
 
 document.addEventListener("click", function (e) {

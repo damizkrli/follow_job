@@ -42,52 +42,32 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-
-    #[Route('/ajouter/', name: 'app_application_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $application = new Application();
-        $form = $this->createForm(ApplicationType::class, $application);
-        $form->handleRequest($request);
-    
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($application);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('application/new.html.twig', [
-            'application' => $application,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/details/{id}', name: 'app_application_show', methods: ['GET'])]
-    public function show(Application $application): Response
-    {
-        return $this->render('application/show.html.twig', [
-            'application' => $application,
-        ]);
-    }
-
-    #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['POST'])]
     public function edit(Request $request, Application $application, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ApplicationType::class, $application);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
+        $data = $request->request->all('application'); // <-- ici maintenant c'est bon
+    
+        if (empty($data)) {
+            $this->addFlash('error', 'Données invalides.');
+            return $this->redirectToRoute('app_application_index');
         }
-
-        return $this->render('application/edit.html.twig', [
-            'application' => $application,
-            'form' => $form,
-        ]);
+    
+        // Mets à jour les champs
+        $application->setJobTitle($data['job_title'] ?? $application->getJobTitle());
+        $application->setStatut($data['statut'] ?? $application->getStatut());
+        $application->setSent(!empty($data['sent']) ? new \DateTime($data['sent']) : null);
+        $application->setResponse(!empty($data['response']) ? new \DateTime($data['response']) : null);
+        $application->setLink($data['link'] ?? $application->getLink());
+        $application->setCompany($data['company'] ?? $application->getCompany());
+        $application->setJobboard($data['jobboard'] ?? $application->getJobboard());
+        $application->setNote($data['note'] ?? $application->getNote());
+    
+        $entityManager->flush();
+    
+        $this->addFlash('success', 'Candidature modifiée avec succès.');
+        return $this->redirectToRoute('app_application_index');
     }
+
 
     #[Route('/{id}', name: 'app_application_delete', methods: ['POST'])]
     public function delete(Request $request, Application $application, EntityManagerInterface $entityManager): Response
@@ -100,9 +80,17 @@ class ApplicationController extends AbstractController
         return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/details/{id}', name: 'app_application_show', methods: ['GET'])]
+    public function show(Application $application): Response
+    {
+        return $this->render('application/show.html.twig', [
+            'application' => $application,
+        ]);
+    }
+
     #[Route('candidatures-refusees', name: 'app_application_refused', methods: ['GET'])]
     public function applicationRefused(ApplicationRepository $applicationRepository): Response {
-        $refusedApplication = $applicationRepository->findBy(['statut' => 'refusée']);
+        $refusedApplication = $applicationRepository->findBy(['statut' => 'Refusée']);
 
         return $this->render('application/refused.html.twig', [
             'applications' => $refusedApplication,
