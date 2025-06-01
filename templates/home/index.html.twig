@@ -5,7 +5,7 @@
 {% block body %}
 <div class="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
 
-  <div class="flex flex-col sm:flex-row items-center justify-between bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-100 px-4 py-3 rounded-lg shadow mb-6">
+  <div class="flex flex-col sm:flex-row items-center justify-between bg-blue-50 dark:bg-green-950 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-100 px-4 py-3 rounded-lg shadow mb-6">
     <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
       {% include "home/count.html.twig" %}
     </div>
@@ -13,32 +13,35 @@
     {% include 'home/links.html.twig' with { external_links: external_links, form: form } %}
   </div>
 
-  <h1 class="text-2xl mb-2">Offres d'emplois</h1>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
-      <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">France Travail</h2>
+      <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">Offre France Travail</h2>
       <div class="flex-1 text-gray-800 dark:text-gray-200">
         {% include "home/API/francetravail.html.twig" %}
       </div>
     </div>
 
+    <div class="col-span-2 flex flex-col gap-6">
 
-    <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
-      <h2 class="text-lg font-bold mb-2">Adzuna</h2>
-      <div class="flex-1">
-        <p class="text-sm text-gray-500 dark:text-gray-300">Intégration en cours...</p>
+      <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">Évènement France Travail</h2>
+        <div class="flex-1 text-gray-800 dark:text-gray-200">
+          <p class="text-sm text-gray-500 dark:text-gray-300 italic">Fonctionnalité à venir ...</p>
+        </div>
       </div>
+
+      <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">API Marché du travail</h2>
+        <div class="flex-1 text-gray-800 dark:text-gray-200">
+          <p class="text-sm text-gray-500 dark:text-gray-300 italic">Fonctionnalité à venir ...</p>
+        </div>
+      </div>
+
     </div>
 
-    <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
-      <h2 class="text-lg font-bold mb-2">Autre jobboard</h2>
-      <div class="flex-1">
-        <p class="text-sm text-gray-500 dark:text-gray-300">À définir...</p>
-      </div>
-    </div>
-  </div>
 </div>
+
 
 <script>
   document.addEventListener('click', function (event) {

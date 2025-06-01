@@ -1,16 +1,18 @@
-    <div>
-    {# {{ todayCount }} #}
-      <span class="font-semibold">12</span> candidatures aujourd’hui
-    </div>
-    <div>
-    {# {{ responseCount }} #}
-      <span class="font-semibold">0</span> réponses reçues
-    </div>
-        <div>
-    {# {{ responseCount }} #}
-      <span class="font-semibold">0</span> entretiens passés
-    </div>
-            <div>
-    {# {{ responseCount }} #}
-      <span class="font-semibold">0</span> proposition reçues
-    </div>
+    {% if applicationSentToday == 0 %}
+      <div>
+        Vous n'avez envoyé aucune candidatures aujourd’hui.
+      </div>
+    {% elseif applicationSentToday <= 5 %}
+      <div>
+        Vous n'avez envoyé que <span class="font-semibold">{{ applicationSentToday }}</span> candidatures aujourd’hui, {{ applicationsThisWeek }} cette semaine
+      </div>
+    {% else %}
+      <div>
+        Vous avez envoyé
+        <span class="font-semibold">{{ applicationSentToday }}</span> candidatures aujourd’hui,
+        <span class="font-semibold">{{ applicationsThisWeek }}</span> cette semaine,
+        <span class="font-semibold">{{ applicationsThisMonth }}</span> ce mois-ci et
+        <span class="font-semibold">{{ applicationsThisYear }}</span> cette année.
+      </div>
+    {% endif %}
+    

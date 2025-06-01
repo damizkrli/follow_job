@@ -16,18 +16,29 @@ class ApplicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Application::class);
     }
 
-    public function countApplicationByDate(\DateTimeImmutable $date): int {
+    public function countApplicationsByDate(\DateTimeImmutable $date): int {
         $qb = $this->createQueryBuilder('a');
 
         return (int) $qb
             ->select('count(a.id)')
-            ->where('a.createdAt' >= ':startOfDay')
-            ->andWhere('a.createdAt' <= ':endOfDay')
+            ->where('a.createdAt >= :startOfDay')
+            ->andWhere('a.createdAt <= :endOfDay')
             ->setParameter('startOfDay', $date->setTime(0,0,0))
             ->setParameter('endOfDay', $date->modify('+1 day')->setTime(0,0,0))
             ->getQuery()
             ->getSingleScalarResult()
         ;
+    }
+
+        public function countByDateRange(\DateTimeImmutable $start, \DateTimeImmutable $end): int
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->where('c.createdAt BETWEEN :start AND :end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
 }
