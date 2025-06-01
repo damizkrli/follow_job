@@ -15,20 +15,32 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/candidatures')]
 class ApplicationController extends AbstractController
 {
-    #[Route('/', name: 'app_application_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, ApplicationRepository $applicationRepository, EntityManagerInterface $em, PaginatorInterface $paginator): Response
+
+    public function __construct(
+        private ApplicationRepository $applicationRepository, 
+        private EntityManagerInterface $entityManager, 
+        private PaginatorInterface $paginator,
+    )
     {
-        $query = $applicationRepository->createQueryBuilder('a')->orderBy('a.sent', 'DESC')->getQuery();
-        $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 10);
-        $refusedApplications = $applicationRepository->findBy(['statut' => 'Refusée']);
+        $this->entityManager = $entityManager;
+        $this->applicationRepository = $applicationRepository;
+        $this->paginator = $paginator;
+    }
+
+    #[Route('/', name: 'app_application_index', methods: ['GET', 'POST'])]
+    public function index(Request $request): Response
+    {
+        $query = $this->applicationRepository->createQueryBuilder('a')->orderBy('a.sent', 'DESC')->getQuery();
+        $pagination = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
+        $refusedApplications = $this->applicationRepository->findBy(['statut' => 'Refusée']);
     
         $application = new Application();
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($application);
-            $em->flush();
+            $this->entityManager->persist($application);
+            $this->entityManager->flush();
         
             $this->addFlash('success', 'Candidature ajoutée avec succès.');
         
@@ -43,7 +55,7 @@ class ApplicationController extends AbstractController
     }
 
     #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['POST'])]
-    public function edit(Request $request, Application $application, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Application $application): Response
     {
         $data = $request->request->all('application'); // <-- ici maintenant c'est bon
     
@@ -52,7 +64,6 @@ class ApplicationController extends AbstractController
             return $this->redirectToRoute('app_application_index');
         }
     
-        // Mets à jour les champs
         $application->setJobTitle($data['job_title'] ?? $application->getJobTitle());
         $application->setStatut($data['statut'] ?? $application->getStatut());
         $application->setSent(!empty($data['sent']) ? new \DateTime($data['sent']) : null);
@@ -62,7 +73,7 @@ class ApplicationController extends AbstractController
         $application->setJobboard($data['jobboard'] ?? $application->getJobboard());
         $application->setNote($data['note'] ?? $application->getNote());
     
-        $entityManager->flush();
+        $this->entityManager->flush();
     
         $this->addFlash('success', 'Candidature modifiée avec succès.');
         return $this->redirectToRoute('app_application_index');
@@ -70,11 +81,11 @@ class ApplicationController extends AbstractController
 
 
     #[Route('/{id}', name: 'app_application_delete', methods: ['POST'])]
-    public function delete(Request $request, Application $application, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Application $application): Response
     {
         if ($this->isCsrfTokenValid('delete'.$application->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($application);
-            $entityManager->flush();
+            $this->entityManager->remove($application);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
@@ -89,8 +100,8 @@ class ApplicationController extends AbstractController
     }
 
     #[Route('candidatures-refusees', name: 'app_application_refused', methods: ['GET'])]
-    public function applicationRefused(ApplicationRepository $applicationRepository): Response {
-        $refusedApplication = $applicationRepository->findBy(['statut' => 'Refusée']);
+    public function applicationRefused(): Response {
+        $refusedApplication = $this->applicationRepository->findBy(['statut' => 'Refusée']);
 
         return $this->render('application/refused.html.twig', [
             'applications' => $refusedApplication,

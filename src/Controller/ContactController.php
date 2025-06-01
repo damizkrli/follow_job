@@ -14,17 +14,27 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/contact')]
 class ContactController extends AbstractController
 {
-    #[Route('/', name: 'app_contact_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, ContactRepository $contactRepository, EntityManagerInterface $em): Response
+
+    public function __construct(
+        private ContactRepository $contactRepository, 
+        private EntityManagerInterface $entityManager
+    )
     {
-        $contacts = $contactRepository->findAll();
+        $this->entityManager = $entityManager;
+        $this->contactRepository = $contactRepository;
+    }
+
+    #[Route('/', name: 'app_contact_index', methods: ['GET', 'POST'])]
+    public function index(Request $request): Response
+    {
+        $contacts = $this->contactRepository->findAll();
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($contact);
-            $em->flush();
+            $this->entityManager->persist($contact);
+            $this->entityManager->flush();
 
             $this->addFlash('success', 'Contact ajouté avec succès.');
             return $this->redirectToRoute('app_contact_index');
@@ -38,15 +48,15 @@ class ContactController extends AbstractController
 
 
     #[Route('/new', name: 'app_contact_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($contact);
-            $entityManager->flush();
+            $this->entityManager->persist($contact);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -66,28 +76,27 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contact/{id}/edit', name: 'app_contact_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Contact $contact, EntityManagerInterface $em): Response
+    public function edit(Request $request, Contact $contact): Response
     {
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->entityManager->flush();
             $this->addFlash('success', 'Contact modifié avec succès');
             return $this->redirectToRoute('app_contact_index');
         }
     
-        // Si GET direct (non utilisé ici), ou erreur
         return $this->redirectToRoute('app_contact_index');
     }
 
 
     #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
-    public function delete(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Contact $contact): Response
     {
         if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($contact);
-            $entityManager->flush();
+            $this->entityManager->remove($contact);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
