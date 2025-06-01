@@ -35,7 +35,7 @@ class ApplicationController extends AbstractController
             return $this->redirectToRoute('app_application_index');
         }
     
-        return $this->render('application/index.html.twig', [
+        return $this->render('application/indexes/index.html.twig', [
             'pagination' => $pagination,
             'form' => $form->createView(),
             'refusedApplications' => $refusedApplications,

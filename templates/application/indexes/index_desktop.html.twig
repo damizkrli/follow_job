@@ -1,35 +1,4 @@
-{% extends 'base.html.twig' %}
-{% block title %}Mes candidatures{% endblock %}
-{% import 'pagination/tailwind_pagination.html.twig' as macros %}
-
-{% block body %}
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-    
-    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 md:mb-0">
-      Mes Candidatures
-    </h2>
-
-    <div class="flex flex-col sm:flex-row gap-3">
-      <button 
-        type="button"
-        onclick="openModalCreateApplication()"
-        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow">
-        <span class="material-symbols-outlined text-base mr-2 leading-none">add_circle</span>
-        Ajouter une candidature
-      </button>
-
-      <button 
-        type="button"
-        onclick="openModalRefusedApplications()"
-        class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded shadow">
-        <span class="material-symbols-outlined text-base mr-2 leading-none">block</span>
-        Voir les candidatures refusées
-      </button>
-    </div>
-  </div>
-
-  <!-- Partie Desktop -->
-  <div class="hidden md:block">
+<div class="hidden md:block">
     <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-md rounded">
       <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
         <thead class="bg-gray-50 dark:bg-gray-800">
@@ -106,68 +75,7 @@
     </div>
   </div>
 
-  <!-- Partie Mobile -->
-  <div class="block md:hidden space-y-4">
-    {% for application in pagination %}
-    <div
-      role="button"
-      onclick="openModalShowApplication({{ application.id }})"
-      class="cursor-pointer bg-white dark:bg-gray-800 p-4 rounded shadow hover:shadow-md transition-shadow duration-300"
-    >
-      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-        {{ application.jobtitle }}
-      </h3>
-
-      <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
-        <strong>Entreprise :</strong> {{ application.company }}
-      </p>
-
-      <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
-        <strong>Date :</strong> {{ application.sent|date('d/m/Y') }}
-      </p>
-
-      <p class="text-sm text-gray-600 dark:text-gray-400 mb-1 truncate">
-        <strong>Annonce :</strong> {{ application.link }}
-      </p>
-
-      <div class="flex justify-end gap-2 mt-4">
-        <button
-          type="button"
-          onclick="event.stopPropagation(); openModalEditApplication({{ application.id }})"
-          class="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white text-xs font-medium rounded shadow flex items-center gap-1">
-          <span class="material-symbols-outlined text-base">edit</span>
-          Modifier
-        </button>
-
-        <form
-          method="post"
-          action="{{ path('app_application_delete', { id: application.id }) }}"
-          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette candidature ?');"
-          onclick="event.stopPropagation();"
-        >
-          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}" />
-          <button
-            type="submit"
-            class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded shadow flex items-center gap-1"
-          >
-            <span class="material-symbols-outlined text-base">delete</span>
-            Supprimer
-          </button>
-        </form>
-      </div>
-    </div>
-
+{% for application in pagination %}
     {% include 'tools/modalShowApplication.html.twig' with { application: application } %}
-    {% endfor %}
-  </div>
-
-  {{ macros.render_pagination(pagination) }}
-
-  {% for application in pagination %}
     {% include 'tools/modalEditApplication.html.twig' with { application: application } %}
-    {% include 'tools/modalShowApplication.html.twig' with { application: application } %}
-  {% endfor %}
-
-  {% include 'tools/modalApplications.html.twig' %}
-  {% include 'tools/modalRefusedApplication.html.twig' %}
-{% endblock %}
+{% endfor %}

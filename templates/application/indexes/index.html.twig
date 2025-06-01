@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes candidatures{% endblock %}
+{% import 'pagination/tailwind_pagination.html.twig' as macros %}
+
+{% block body %}
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 md:mb-0">
+      Mes Candidatures
+    </h2>
+
+    <div class="flex flex-col sm:flex-row gap-3">
+      <button 
+        type="button"
+        onclick="openModalCreateApplication()"
+        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow">
+        <span class="material-symbols-outlined text-base mr-2 leading-none">add_circle</span>
+        Ajouter une candidature
+      </button>
+
+      <button 
+        type="button"
+        onclick="openModalRefusedApplications()"
+        class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded shadow">
+        <span class="material-symbols-outlined text-base mr-2 leading-none">block</span>
+        Voir les candidatures refusées
+      </button>
+    </div>
+  </div>
+
+  {% include "application/indexes/index_desktop.html.twig" %}
+  {% include "application/indexes/index_mobile.html.twig" %}
+
+  {{ macros.render_pagination(pagination) }}
+
+  {% for application in pagination %}
+    {% include 'tools/modalEditApplication.html.twig' with { application: application } %}
+    {% include 'tools/modalShowApplication.html.twig' with { application: application } %}
+  {% endfor %}
+
+  {% include 'tools/modalApplications.html.twig' %}
+  {% include 'tools/modalRefusedApplication.html.twig' %}
+{% endblock %}

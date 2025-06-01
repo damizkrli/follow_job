@@ -18,7 +18,6 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {% for contact in contacts %}
       <div class="relative bg-white dark:bg-gray-800 shadow rounded-lg p-4 flex items-center gap-4">
-        {# Bouton suppression #}
         <form
           method="post"
           action="{{ path('app_contact_delete', { id: contact.id }) }}"
@@ -33,7 +32,6 @@
           >&times;</button>
         </form>
 
-        {# Bouton édition #}
         <button
           type="button"
           onclick="openEditModal({{ contact.id }})"
@@ -66,7 +64,7 @@
         </div>
       </div>
 
-      {# MODALE ÉDITION pour chaque contact #}
+      {# Modal Edit Contact #}
       <div
         id="editModal-{{ contact.id }}"
         class="fixed inset-0 z-50 hidden flex items-center justify-center"
@@ -74,8 +72,7 @@
         onclick="closeModalOnClickOutside(event)"
       >
         <div
-          class="rounded-lg shadow-lg w-full max-w-md mx-auto p-6 relative
-                {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
+          class="rounded-lg shadow-lg w-full max-w-md mx-auto p-6 relative {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
           onclick="event.stopPropagation()"
         >
           <button
@@ -99,13 +96,15 @@
             
             {% for field, label in fields %}
               <div class="mb-4">
-                <label for="{{ field }}-{{ contact.id }}" class="block text-sm font-medium">{{ label }}</label>
+                <label for="{{ field }}-{{ contact.id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {{ label }}
+                </label>
                 <input
                   type="{{ field == 'email' ? 'email' : (field == 'social' ? 'url' : 'text') }}"
                   name="contact[{{ field }}]"
                   id="{{ field }}-{{ contact.id }}"
                   value="{{ attribute(contact, field) }}"
-                  class="w-full mt-1 rounded border px-3 py-2"
+                  class="w-full mt-1 rounded border border-gray-300 dark:border-gray-600 px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
             {% endfor %}
@@ -123,7 +122,7 @@
   </div>
 </div>
 
-{# MODALE AJOUT #}
+{# Modal Create Contact #}
 <div
   id="modalContact"
   class="fixed inset-0 z-50 hidden flex items-center justify-center"
@@ -131,8 +130,7 @@
   onclick="closeModalOnClickOutside(event)"
 >
   <div
-    class="rounded-lg shadow-lg w-full max-w-md mx-auto p-6 relative
-          {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
+    class="rounded-lg shadow-lg w-full max-w-md mx-auto p-6 relative {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
     onclick="event.stopPropagation()"
   >
     <button
@@ -146,8 +144,8 @@
     {{ form_start(form) }}
       {% for field in [form.firstname, form.lastname, form.email, form.phone, form.social] %}
         <div class="mb-4">
-          {{ form_label(field) }}
-          {{ form_widget(field, { attr: { class: 'w-full mt-1 rounded border px-3 py-2' } }) }}
+          {{ form_label(field, null, { label_attr: { class: 'block text-sm font-medium text-gray-700 dark:text-gray-300' } }) }}
+          {{ form_widget(field, { attr: { class: 'w-full mt-1 rounded border border-gray-300 dark:border-gray-600 px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white' } }) }}
           {{ form_errors(field) }}
         </div>
       {% endfor %}
