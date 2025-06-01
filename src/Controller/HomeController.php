@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ApplicationStatisticsService;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomeController extends AbstractController
 {
@@ -29,6 +30,7 @@ class HomeController extends AbstractController
         $this->applicationStatisticsService = $applicationStatisticsService;
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/', name: 'app_application_home')]
     public function index(Request $request): Response {
 
