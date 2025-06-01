@@ -16,28 +16,18 @@ class ApplicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Application::class);
     }
 
-    //    /**
-    //     * @return Application[] Returns an array of Application objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function countApplicationByDate(\DateTimeImmutable $date): int {
+        $qb = $this->createQueryBuilder('a');
 
-    //    public function findOneBySomeField($value): ?Application
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return (int) $qb
+            ->select('count(a.id)')
+            ->where('a.createdAt' >= ':startOfDay')
+            ->andWhere('a.createdAt' <= ':endOfDay')
+            ->setParameter('startOfDay', $date->setTime(0,0,0))
+            ->setParameter('endOfDay', $date->modify('+1 day')->setTime(0,0,0))
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
 }

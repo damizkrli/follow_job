@@ -83,8 +83,15 @@ class Application
     #[ORM\Column(length: 100)]
     private ?string $jobboard = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function __construct() {
         $this->sent = new \DateTime();
+
+	if ($this->createdAt === null) {
+            $this->createdAt = new \DateTimeImmutable();
+    	}
     }
 
     public function getId(): ?int
@@ -182,6 +189,18 @@ class Application
     public function setJobboard(string $jobboard): static
     {
         $this->jobboard = $jobboard;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
