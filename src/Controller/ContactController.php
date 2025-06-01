@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/contact')]
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact_index', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_contact_index', methods: ['GET', 'POST'])]
     public function index(Request $request, ContactRepository $contactRepository, EntityManagerInterface $em): Response
     {
         $contacts = $contactRepository->findAll();

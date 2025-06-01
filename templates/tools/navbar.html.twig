@@ -4,18 +4,15 @@
 <nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow" x-data="{ open: false }">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
 
-    <!-- Logo -->
     <div class="flex items-center">
       <a href="#" class="text-2xl font-bold text-blue-600 dark:text-blue-400">FOLLOW JOB</a>
     </div>
 
-    <!-- Desktop Menu -->
     <div class="hidden md:flex space-x-6 items-center">
-      <a href="{{ path('home', { title: 'follow-job-homepage' | slugify }) }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">Accueil</a>
+      <a href="{{ path('app_application_home') }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">Accueil</a>
       <a href="{{ path('app_application_index') }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">Candidatures</a>
       <a href="{{ path('app_contact_index') }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">Contacts</a>
 
-      <!-- Dark Mode Toggle Desktop -->
       <form method="get" action="{{ path('toggle_dark_mode') }}" class="flex items-center gap-2">
         <span class="material-symbols-outlined text-sm {{ app.session.get('dark_mode') ? 'text-gray-400' : 'text-yellow-500' }}">
           light_mode
@@ -37,7 +34,6 @@
       </form>
     </div>
 
-    <!-- Burger button mobile -->
     <div class="md:hidden flex items-center">
       <button @click="open = !open" class="text-gray-700 dark:text-gray-200 focus:outline-none">
         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -51,7 +47,6 @@
 
   </div>
 
-  <!-- Mobile Menu avec transition -->
   <div 
     x-show="open"
     x-transition:enter="transition ease-out duration-300"
@@ -63,11 +58,10 @@
     class="md:hidden"
   >
     <div class="flex flex-col space-y-4 py-4 items-start ms-5">
-      <a href="{{ path('home', { title: 'follow-job-homepage' | slugify }) }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-lg font-medium transition">Accueil</a>
+      <a href="{{ path('app_application_home') }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-lg font-medium transition">Accueil</a>
       <a href="{{ path('app_application_index') }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-lg font-medium transition">Candidatures</a>
       <a href="{{ path('app_contact_index') }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-lg font-medium transition">Contacts</a>
 
-      <!-- Dark Mode Toggle Mobile -->
       <form method="get" action="{{ path('toggle_dark_mode') }}" class="flex items-center gap-2 pt-4">
         <span class="material-symbols-outlined text-sm {{ app.session.get('dark_mode') ? 'text-gray-400' : 'text-yellow-500' }}">
           light_mode

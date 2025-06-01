@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/candidatures')]
 class ApplicationController extends AbstractController
 {
-    #[Route('/applications', name: 'app_application_index', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_application_index', methods: ['GET', 'POST'])]
     public function index(Request $request, ApplicationRepository $applicationRepository, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
         $query = $applicationRepository->createQueryBuilder('a')->orderBy('a.sent', 'DESC')->getQuery();
