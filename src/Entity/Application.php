@@ -176,7 +176,7 @@ class Application
 
     public function setCompany(string $company): static
     {
-        $this->company = $company;
+        $this->company = strtoupper(trim($company));
 
         return $this;
     }
@@ -188,7 +188,7 @@ class Application
 
     public function setJobboard(string $jobboard): static
     {
-        $this->jobboard = $jobboard;
+        $this->jobboard = ucwords(strtolower(trim($jobboard)));
 
         return $this;
     }

@@ -41,4 +41,47 @@ class ApplicationRepository extends ServiceEntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function getApplicationsQuerySortedBySentAndIdDesc()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.sent', 'DESC')
+            ->addOrderBy('a.id', 'DESC')
+            ->getQuery();
+    }
+
+    public function findApplicationsWithSearch(?array $criteria)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        if (!empty($criteria['sent'])) {
+            $startOfDay = (clone $criteria['sent'])->setTime(0, 0, 0);
+            $endOfDay = (clone $criteria['sent'])->setTime(23, 59, 59);
+
+            $qb->andWhere('a.sent BETWEEN :startOfDay AND :endOfDay')
+            ->setParameter('startOfDay', $startOfDay)
+            ->setParameter('endOfDay', $endOfDay);
+        }
+
+        if (!empty($criteria['company'])) {
+            $qb->andWhere('a.company LIKE :company')
+            ->setParameter('company', '%' . strtoupper($criteria['company']) . '%'); // Uppercase pour cohérence avec la base
+        }
+
+        if (!empty($criteria['jobTitle'])) {
+            $qb->andWhere('LOWER(a.job_title) LIKE LOWER(:jobTitle)')
+            ->setParameter('jobTitle', '%' . strtolower($criteria['jobTitle']) . '%');
+        }
+
+        if (!empty($criteria['jobboard'])) {
+            $qb->andWhere('LOWER(a.jobboard) LIKE LOWER(:jobboard)')
+            ->setParameter('jobboard', '%' . strtolower($criteria['jobboard']) . '%');
+        }
+
+        $qb->orderBy('a.sent', 'DESC')
+        ->addOrderBy('a.id', 'DESC');
+
+        return $qb->getQuery();
+    }
+
+
 }

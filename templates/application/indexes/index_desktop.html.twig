@@ -1,8 +1,12 @@
 <div class="hidden md:block">
+
+    {% include "tools/formSearch.html.twig" %}
+
     <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-md rounded">
       <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
         <thead class="bg-gray-50 dark:bg-gray-800">
           <tr>
+            <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">ID</th>
             <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Intitulé du poste</th>
             <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Date d'envoi</th>
             <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Lien</th>
@@ -14,6 +18,7 @@
         <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
           {% for application in pagination %}
           <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+            <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.id }}</td>
             <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobtitle }}</td>
             <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
               {{ application.sent ? application.sent|date('d/m/Y') : '' }}
