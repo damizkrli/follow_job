@@ -4,12 +4,13 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: symfony_php
-    user: "${UID}:${GID}"
-    volumes:
-      - .:/app
     ports:
       - "8000:8000"
     command: php -S 0.0.0.0:8000 -t public
+    volumes:
+      - type: bind
+        source: ./public
+        target: /app/public
 
   symfony_db:
     image: mysql:8.0
