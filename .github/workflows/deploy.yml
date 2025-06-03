@@ -23,7 +23,7 @@ jobs:
 
       - name: Copy project to server
         run: |
-          rsync -avz --delete --exclude '.git' ./ admin@<ton-ip-publique>:~/followjob
+          rsync -avz --delete --exclude '.git' ./ admin@13.39.3.240:~/followjob
 
       - name: SSH into server and deploy
         run: |
