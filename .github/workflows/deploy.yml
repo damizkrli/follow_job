@@ -26,6 +26,15 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no admin@13.36.167.72 << 'EOF'
             cd ~/followjob
+            # Install composer if not already installed
+            if ! [ -x "$(command -v composer)" ]; then
+              php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+              php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+              php -r "unlink('composer-setup.php');"
+            fi
+            # Install dependencies
+            composer install --no-interaction --no-dev --optimize-autoloader
+            # Docker restart
             docker-compose down
             docker-compose up -d --build
           EOF
