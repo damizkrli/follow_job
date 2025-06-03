@@ -1,0 +1,31 @@
+name: Deploy Symfony App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Copy project to server
+        run: |
+          rsync -avz --delete --exclude 'vendor' --exclude '.git' ./ admin@13.36.167.72:~/followjob
+
+      - name: Build and run containers
+        run: |
+          ssh admin@13.36.167.72 << 'EOF'
+            cd ~/followjob
+            docker-compose down
+            docker-compose up -d --build
+          EOF
