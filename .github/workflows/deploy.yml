@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader --no-scripts
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -20,21 +23,12 @@ jobs:
 
       - name: Copy project to server
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" --delete --exclude 'vendor' --exclude '.git' ./ admin@13.36.167.72:~/followjob
+          rsync -avz --delete --exclude '.git' ./ admin@<ton-ip-publique>:~/followjob
 
-      - name: Build and run containers
+      - name: SSH into server and deploy
         run: |
-          ssh -o StrictHostKeyChecking=no admin@13.36.167.72 << 'EOF'
+          ssh -o StrictHostKeyChecking=no admin@<ton-ip-publique> << 'EOF'
             cd ~/followjob
-            # Install composer if not already installed
-            if ! [ -x "$(command -v composer)" ]; then
-              php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-              php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-              php -r "unlink('composer-setup.php');"
-            fi
-            # Install dependencies
-            composer install --no-interaction --no-dev --optimize-autoloader
-            # Docker restart
-            docker-compose down
-            docker-compose up -d --build
+            docker-compose down || true
+            docker-compose up --build -d
           EOF
