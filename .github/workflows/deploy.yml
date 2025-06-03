@@ -1,4 +1,4 @@
-name: Deploy Symfony App
+name: deploy
 
 on:
   push:
@@ -10,11 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up job
+        run: echo "Starting Deployment 🚀"
+
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install Composer Dependencies
-        run: composer install --no-dev --optimize-autoloader --no-scripts
+        run: composer install --no-dev --prefer-dist --no-scripts --optimize-autoloader
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.7.0
@@ -27,8 +30,17 @@ jobs:
 
       - name: SSH into server and deploy
         run: |
-          ssh -o StrictHostKeyChecking=no admin@13.39.3.240 << 'EOF'
+          ssh -o StrictHostKeyChecking=no admin@${{ secrets.SERVER_IP }} << 'EOF'
             cd ~/followjob
-            docker-compose down || true
-            docker-compose up --build -d
+            docker-compose down -v || true
+            docker-compose up -d --build
           EOF
+
+      - name: Post Set up SSH
+        run: echo "SSH Closed."
+
+      - name: Post Checkout code
+        run: echo "Code ready."
+
+      - name: Complete job
+        run: echo "✅ Deployment finished."
