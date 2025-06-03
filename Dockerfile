@@ -10,7 +10,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --optimize-autoloader
+RUN composer install --optimize-autoloader --no-scripts
 
 EXPOSE 8000
 
