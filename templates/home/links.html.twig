@@ -16,25 +16,27 @@
     <div
       id="dropdownMenu"
       class="hidden absolute mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
-      role="menu"
-    >
-      {% if external_links is empty %}
-        <p class="px-4 py-2 text-sm text-gray-500">Aucun lien disponible.</p>
-      {% else %}
-        {% for link in external_links %}
-          <div class="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            <a href="{{ link.url }}" target="_blank" class="flex-1 truncate">{{ link.name }}</a>
-            <button
-              type="button"
-              onclick="copyToClipboard('{{ link.url }}')"
-              class="ml-2 p-1 text-blue-600 hover:text-blue-800"
-              title="Copier le lien"
-            >
-              📋
-            </button>
-          </div>
-        {% endfor %}
-      {% endif %}
+      role="menu">
+      {% for link in external_links %}
+        <div class="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+          <a href="{{ link.url }}" target="_blank" class="flex-1 truncate">{{ link.name }}</a>
+          <button
+            type="button"
+            onclick="copyToClipboard('{{ link.url }}')"
+            class="ml-2 p-1 text-gray-600 hover:text-gray-800"
+            title="Copier le lien"
+          >
+            <span class="material-symbols-outlined text-xl">content_copy</span>
+          </button>
+        </div>
+      {% endfor %}
+
+      <div
+        id="toast"
+        class="fixed bottom-5 right-5 hidden bg-green-600 text-white px-4 py-2 rounded shadow-lg text-sm transition-opacity duration-300 opacity-0">
+        Copié dans le presse-papier !
+      </div>
+
       <hr class="my-1 border-t">
         <a href="{{ path('external_link_manage') }}" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 font-semibold">
           Modifier 

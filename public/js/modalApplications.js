@@ -62,6 +62,32 @@ function copyToClipboard(text) {
   );
 }
 
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(
+    function () {
+      showToast("Lien copié dans le presse-papier !");
+    },
+    function (err) {
+      showToast("Erreur lors de la copie : " + err);
+    }
+  );
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.remove("hidden");
+  toast.classList.add("opacity-100");
+
+  setTimeout(() => {
+    toast.classList.add("opacity-0");
+    setTimeout(() => {
+      toast.classList.add("hidden");
+      toast.classList.remove("opacity-100");
+    }, 300); // attendre la fin de la transition
+  }, 2000);
+}
+
 document.addEventListener("click", function (e) {
   document
     .querySelectorAll(".dropdown-menu")

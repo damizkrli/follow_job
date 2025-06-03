@@ -13,10 +13,21 @@
       <button 
         type="button"
         onclick="openModalCreateApplication()"
-        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow">
+        class="hidden md:inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow">
         <span class="material-symbols-outlined text-base mr-2 leading-none">add_circle</span>
         Ajouter une candidature
       </button>
+
+      <button
+        type="button"
+        onclick="openModalCreateApplication()"
+        id="addApplicationButton"
+        aria-label="Ajouter une candidature"
+        class="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 md:hidden lg:hidden flex items-center justify-center">
+        <span class="material-symbols-outlined text-3xl">add</span>
+      </button>
+
+
 
       <button 
         type="button"
