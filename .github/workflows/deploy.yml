@@ -20,11 +20,11 @@ jobs:
 
       - name: Copy project to server
         run: |
-          rsync -avz --delete --exclude 'vendor' --exclude '.git' ./ admin@13.36.167.72:~/followjob
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" --delete --exclude 'vendor' --exclude '.git' ./ admin@13.36.167.72:~/followjob
 
       - name: Build and run containers
         run: |
-          ssh admin@13.36.167.72 << 'EOF'
+          ssh -o StrictHostKeyChecking=no admin@13.36.167.72 << 'EOF'
             cd ~/followjob
             docker-compose down
             docker-compose up -d --build
