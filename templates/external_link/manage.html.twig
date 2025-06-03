@@ -5,36 +5,32 @@
 {% block body %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Gestion des liens externes</h1>
-    <a href="{{ path('app_application_home') }}"
-       class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow">
-      <i class="material-icons mr-2 text-base">arrow_back</i> Retour au tableau de bord
-    </a>
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Liens externes</h1>
   </div>
 
-  <div class="overflow-x-auto bg-white shadow-md rounded">
-    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
-      <thead class="bg-gray-50">
+  <div class="overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded hidden md:block">
+    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
+      <thead class="bg-gray-50 dark:bg-gray-700">
         <tr>
-          <th class="px-4 py-3 font-medium text-gray-600">Nom</th>
-          <th class="px-4 py-3 font-medium text-gray-600">URL</th>
-          <th class="px-4 py-3 text-right font-medium text-gray-600"></th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Nom</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">URL</th>
+          <th class="px-4 py-3 text-right font-medium text-gray-600 dark:text-gray-300"></th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100">
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-600">
         {% for link in links %}
-          <tr class="hover:bg-gray-50">
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
             <td class="px-4 py-2">
               <form method="post" action="{{ path('external_link_update', { id: link.id }) }}" class="flex gap-2 items-center">
-                <input type="text" name="name" value="{{ link.name }}" class="w-full border rounded px-2 py-1 text-sm" required>
+                <input type="text" name="name" value="{{ link.name }}" class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white" required>
             </td>
             <td class="px-4 py-2">
-                <input type="url" name="url" value="{{ link.url }}" class="w-full border rounded px-2 py-1 text-sm" required>
+                <input type="url" name="url" value="{{ link.url }}" class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white" required>
             </td>
             <td class="px-4 py-2 text-right">
                 <div class="flex justify-end items-center space-x-2">
                   <button type="submit" class="inline-flex items-center px-2 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-xs shadow">
-                    <i class="material-icons text-sm">save</i>
+                    <span class="material-symbols-outlined">save</span>
                   </button>
               </form>
 
@@ -44,7 +40,7 @@
                     class="inline">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ link.id) }}">
                 <button type="submit" class="inline-flex items-center px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs shadow">
-                  <i class="material-icons text-sm">close</i>
+                  <span class="material-symbols-outlined">delete</span>
                 </button>
               </form>
                 </div>
@@ -61,5 +57,49 @@
       </tbody>
     </table>
   </div>
+
+  <div class="block md:hidden space-y-4">
+    {% for link in links %}
+      <div class="bg-white dark:bg-gray-800 shadow rounded p-4 space-y-4">
+        <form method="post" action="{{ path('external_link_update', { id: link.id }) }}" class="space-y-3">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nom</label>
+            <input type="text" name="name" value="{{ link.name }}" class="w-full border rounded px-3 py-2 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">URL</label>
+            <input type="url" name="url" value="{{ link.url }}" class="w-full border rounded px-3 py-2 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white" required>
+          </div>
+          <div class="flex justify-end items-center pt-2">
+            <button type="submit" class="inline-flex items-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded text-sm shadow me-2">
+              <span class="material-symbols-outlined">save</span>
+            </button>
+        </form>
+        <form method="post"
+              action="{{ path('external_link_delete', { id: link.id }) }}"
+              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce lien ?');"
+              class="inline">
+          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ link.id) }}">
+          <button type="submit" class="inline-flex items-center px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-sm shadow">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        </form>
+          </div>
+      </div>
+    {% else %}
+      <div class="text-gray-500 dark:text-gray-300 italic flex items-center gap-2">
+        <i class="material-icons rotate-90">subdirectory_arrow_right</i>
+        Aucun lien externe enregistré.
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="flex justify-end">
+    <a href="{{ path('app_application_home') }}"
+      class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow mt-3">
+      <span class="material-symbols-outlined">arrow_back_ios</span> Retour
+    </a>
+  </div>
+
 </div>
 {% endblock %}
