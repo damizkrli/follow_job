@@ -22,9 +22,17 @@
         <p class="px-4 py-2 text-sm text-gray-500">Aucun lien disponible.</p>
       {% else %}
         {% for link in external_links %}
-          <a href="{{ link.url }}" target="_blank" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            {{ link.name }}
-          </a>
+          <div class="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <a href="{{ link.url }}" target="_blank" class="flex-1 truncate">{{ link.name }}</a>
+            <button
+              type="button"
+              onclick="copyToClipboard('{{ link.url }}')"
+              class="ml-2 p-1 text-blue-600 hover:text-blue-800"
+              title="Copier le lien"
+            >
+              📋
+            </button>
+          </div>
         {% endfor %}
       {% endif %}
       <hr class="my-1 border-t">
@@ -50,18 +58,3 @@
 </div>
 
 {% include "tools/modalExternalLink.html.twig" %}
-
-<script>
-  document.addEventListener('click', function (event) {
-    const menu = document.getElementById('dropdownMenu');
-    const button = document.getElementById('dropdownButton');
-
-    if (!menu || !button) return;
-
-    const isClickInside = button.contains(event.target) || menu.contains(event.target);
-
-    if (!isClickInside) {
-      menu.classList.add('hidden');
-    }
-  });
-</script>

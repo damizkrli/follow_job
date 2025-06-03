@@ -49,7 +49,7 @@ class HomeController extends AbstractController
             $this->entityManager->persist($externalLink);
             $this->entityManager->flush();
             $this->addFlash('success', 'Lien ajouté avec succès.');
-            return $this->redirectToRoute('home', []);
+            return $this->redirectToRoute('app_application_home', []);
         }
 
         $offers = $this->jobService->fetchOffers();

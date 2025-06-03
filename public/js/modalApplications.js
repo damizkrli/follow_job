@@ -40,6 +40,28 @@ function closeModal(modalId) {
   }
 }
 
+function resetFormAndClose(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    const form = modal.querySelector("form");
+    if (form) {
+      form.reset();
+    }
+    modal.classList.add("hidden");
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(
+    function () {
+      alert("Lien copié dans le presse-papier !");
+    },
+    function (err) {
+      alert("Erreur lors de la copie : " + err);
+    }
+  );
+}
+
 document.addEventListener("click", function (e) {
   document
     .querySelectorAll(".dropdown-menu")
