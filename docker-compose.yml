@@ -12,7 +12,7 @@ services:
         source: .
         target: /app
       - type: bind
-        source: ./.env.local
+        source: .
         target: /app/.env.local
 
   symfony_db:
