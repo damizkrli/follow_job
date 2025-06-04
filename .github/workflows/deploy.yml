@@ -21,6 +21,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Fix folder permissions
+        run: ssh -o StrictHostKeyChecking=no admin@13.39.3.240 "sudo chown -R admin:admin ~/followjob"
+
       - name: Clean remote folder
         run: ssh -o StrictHostKeyChecking=no admin@13.39.3.240 "rm -rf ~/followjob"
 
