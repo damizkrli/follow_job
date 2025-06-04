@@ -9,8 +9,11 @@ services:
     command: php -S 0.0.0.0:8000 -t public
     volumes:
       - type: bind
-        source: ./public
-        target: /app/public
+        source: .
+        target: /app
+      - type: bind
+        source: ./.env.local
+        target: /app/.env.local
 
   symfony_db:
     image: mysql:8.0
@@ -36,4 +39,3 @@ services:
 
 volumes:
   follow_job_database_data:
-
