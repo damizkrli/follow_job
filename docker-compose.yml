@@ -11,7 +11,10 @@ services:
       - APP_ENV=prod
     volumes:
       - type: bind
-        source: ./env.local
+        source: .
+        target: /app
+      - type: bind
+        source: ./.env.local
         target: /app/.env.local
 
   symfony_db:
