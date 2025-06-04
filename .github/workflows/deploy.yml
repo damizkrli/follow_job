@@ -21,8 +21,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Clean remote folder
+        run: ssh -o StrictHostKeyChecking=no admin@13.39.3.240 "rm -rf ~/followjob"
+
       - name: Copy project to server
-        run: rsync -avz -e "ssh -o StrictHostKeyChecking=no" --delete --exclude 'vendor' --exclude '.git' ./ admin@13.39.3.240:~/followjob
+        run: rsync -az -e "ssh -o StrictHostKeyChecking=no" --exclude 'vendor' --exclude '.git' ./ admin@13.39.3.240:~/followjob
 
       - name: SSH into server and deploy
         run: |
