@@ -13,9 +13,6 @@ services:
       - type: bind
         source: .
         target: /app
-      - type: bind
-        source: ./.env.local
-        target: /app/.env.local
 
   symfony_db:
     image: mysql:8.0

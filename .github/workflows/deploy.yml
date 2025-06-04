@@ -21,12 +21,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Copy project to server
+      - name: Copy project to server (NO DELETE)
         run: |
-          rsync -az --delete \
+          rsync -az \
           --exclude 'vendor' \
           --exclude '.git' \
-          --exclude '.env.local' \
           -e "ssh -o StrictHostKeyChecking=no" \
           ./ admin@13.39.3.240:~/followjob
 
