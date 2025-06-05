@@ -1,5 +1,9 @@
 <?php
 
+if (class_exists(Symfony\Bundle\DebugBundle\DebugBundle::class)) {
+    $bundles[Symfony\Bundle\DebugBundle\DebugBundle::class] = ['dev' => true];
+}
+
 return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
