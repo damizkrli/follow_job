@@ -2,7 +2,7 @@
 
     {% include "tools/formSearch.html.twig" %}
 
-    <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-md rounded">
+    <div class="max-h-[70vh] overflow-y-auto bg-white dark:bg-gray-900 shadow-md rounded">
       <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
         <thead class="bg-gray-50 dark:bg-gray-800">
           <tr>
@@ -39,38 +39,19 @@
               {{ application.company ?? "--" }}
             </td>
             <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobboard }}</td>
-            <td class="px-4 py-2 text-right">
-              <div class="relative inline-block text-left">
-                <button
-                  type="button"
-                  data-dropdown-button
-                  class="inline-flex items-center justify-center w-8 h-8 rounded-full text-gray-600 hover:text-black dark:text-gray-300 dark:hover:text-white focus:outline-none"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <span class="material-symbols-outlined text-base">more_vert</span>
+            <td class="px-4 py-2 text-right flex justify-end gap-2">
+              <button onclick="openModalShowApplication({{ application.id }})" class="text-gray-600 hover:text-blue-600">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              <button onclick="openModalEditApplication({{ application.id }})" class="text-gray-600 hover:text-yellow-500">
+                <span class="material-symbols-outlined text-base">edit</span>
+              </button>
+              <form method="post" action="{{ path('app_application_delete', {id: application.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette candidature ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}">
+                <button type="submit" class="text-gray-600 hover:text-red-600">
+                  <span class="material-symbols-outlined text-base">delete</span>
                 </button>
-
-                <div
-                  class="dropdown-menu hidden absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10"
-                  role="menu"
-                >
-                  <div class="py-1">
-                    <a
-                      href="javascript:void(0);"
-                      onclick="openModalShowApplication({{ application.id }})"
-                      class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <span class="material-symbols-outlined text-base">info</span> Consulter
-                    </a>
-                    <a
-                      href="javascript:void(0);"
-                      onclick="openModalEditApplication({{ application.id }})"
-                      class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <span class="material-symbols-outlined text-base">edit</span> Modifier
-                    </a>
-                  </div>
-                </div>
-              </div>
+              </form>
             </td>
           </tr>
           {% endfor %}
@@ -84,3 +65,4 @@
     {% include 'tools/modalEditApplication.html.twig' with { application: application } %}
 
 {% endfor %}
+
