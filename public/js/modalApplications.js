@@ -62,17 +62,6 @@ function copyToClipboard(text) {
   );
 }
 
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(
-    function () {
-      showToast("Lien copié dans le presse-papier !");
-    },
-    function (err) {
-      showToast("Erreur lors de la copie : " + err);
-    }
-  );
-}
-
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
@@ -84,7 +73,7 @@ function showToast(message) {
     setTimeout(() => {
       toast.classList.add("hidden");
       toast.classList.remove("opacity-100");
-    }, 300); // attendre la fin de la transition
+    }, 300);
   }, 2000);
 }
 

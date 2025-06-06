@@ -1,12 +1,18 @@
     {% if applicationSentToday == 0 %}
       <div>
-        Vous n'avez envoyé aucune candidatures aujourd’hui.
+        Vous n'avez envoyé aucune candidatures aujourd’hui,
+        <span class="font-semibold">{{ applicationsThisWeek }}</span> cette semaine,
+        <span class="font-semibold">{{ applicationsThisMonth }}</span> ce mois-ci et
+        <span class="font-semibold">{{ applicationsThisYear }}</span> cette année.
       </div>
     {% elseif applicationSentToday <= 5 %}
       <div>
-        Vous n'avez envoyé que <span class="font-semibold">{{ applicationSentToday }}</span> candidatures aujourd’hui, {{ applicationsThisWeek }} cette semaine
+        Vous n'avez envoyé que <span class="font-semibold">{{ applicationSentToday }}</span> candidatures aujourd’hui, 
+        <span class="font-semibold">{{ applicationsThisWeek }}</span> cette semaine,
+        <span class="font-semibold">{{ applicationsThisMonth }}</span> ce mois-ci et
+        <span class="font-semibold">{{ applicationsThisYear }}</span> cette année.
       </div>
-    {% else %}
+    
       <div>
         Vous avez envoyé
         <span class="font-semibold">{{ applicationSentToday }}</span> candidatures aujourd’hui,

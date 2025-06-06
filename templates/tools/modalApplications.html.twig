@@ -1,19 +1,12 @@
-<div
-  id="modalApplicationCreate"
-  class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-y-auto"
+<div id="modalApplicationCreate" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 overflow-y-auto"
   style="background-color: rgba(15, 23, 42, 0.75)"
-  onclick="closeModalOnClickOutside(event)"
->
+  onclick="closeModalOnClickOutside(event)">
   <div
     class="relative rounded-lg shadow-lg w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 text-gray-800 dark:text-white overflow-y-auto max-h-[90vh] p-6 sm:p-8
       {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}"
-    onclick="event.stopPropagation()"
-  >
-    <button
-      type="button"
-      onclick="closeModal('modalApplicationCreate')"
-      class="absolute top-2 right-2 text-gray-400 hover:text-gray-200 dark:hover:text-white text-2xl font-bold"
-    >
+    onclick="event.stopPropagation()">
+    <button type="button" onclick="closeModal('modalApplicationCreate')" 
+            class="absolute top-2 right-2 text-gray-400 hover:text-gray-200 dark:hover:text-white text-2xl font-bold">
       &times;
     </button>
 
@@ -73,11 +66,8 @@
       >
         Ajouter
       </button>
-      <button
-        type="button"
-        onclick="resetFormAndClose('modalApplicationCreate')"
-        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded shadow"
-      >
+      <button type="button" onclick="resetFormAndClose('modalApplicationCreate')"
+              class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded shadow">
         Annuler
       </button>
     </div>
