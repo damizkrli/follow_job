@@ -15,18 +15,18 @@
     {{ form_start(form) }}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {% for field in [
+        form.link,
         form.job_title,
+        form.company,
+        form.jobboard,
         form.statut,
         form.sent,
         form.response,
-        form.link,
-        form.company,
-        form.jobboard
       ] %}
         <div>
           {{ form_label(field, null, {
             'label_attr': {
-              'class': 'block text-base font-medium mb-1 ' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700')
+              'class': 'block text-base font-medium mb-1' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700')
             }
           }) }}
           {{ form_widget(field, {
