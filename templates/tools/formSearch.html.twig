@@ -7,12 +7,12 @@
             <div>
                 {{ form_label(field, null, {
                     'label_attr': {
-                        'class': 'block text-sm font-medium mb-1' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700')
+                        'class': 'block text-sm font-medium mb-1 ' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700')
                     }
                 }) }}
                 {{ form_widget(field, {
                     'attr': {
-                        'class': 'block w-full rounded-md border px-3 py-2 shadow-sm text-sm focus:ring focus:ring-blue-300' ~
+                        'class': 'block w-full rounded-md border px-3 py-2 shadow-sm text-sm focus:ring focus:ring-blue-300 ' ~
                             (app.session.get('dark_mode')
                                 ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                                 : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400')
@@ -23,7 +23,8 @@
         {% endfor %}
 
         <div class="md:col-span-2 flex justify-end items-center space-x-4">
-            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded shadow">
+            <button type="submit" 
+                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded shadow">
                 <span class="material-symbols-outlined me-2">search</span> Rechercher
             </button>
             <a href="{{ path('app_application_index') }}" 
