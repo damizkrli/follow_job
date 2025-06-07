@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Application;
+use App\Entity\Status;
 use App\Form\ApplicationSearchType;
 use App\Form\ApplicationType;
 use App\Repository\ApplicationRepository;
@@ -36,7 +37,8 @@ class ApplicationController extends AbstractController
     #[Route('/', name: 'app_application_index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response|JsonResponse
     {
-        // Gestion AJAX : auto-complétion
+        $statuses = $this->entityManager->getRepository(Status::class)->findAll();
+
         if ($request->isXmlHttpRequest()) {
             $field = $request->query->get('field');
             $term = $request->query->get('term', '');
@@ -60,7 +62,6 @@ class ApplicationController extends AbstractController
             return new JsonResponse($results);
         }
 
-        // Formulaire de recherche
         $searchForm = $this->createForm(ApplicationSearchType::class, null, [
             'method' => 'GET',
         ]);
@@ -72,17 +73,14 @@ class ApplicationController extends AbstractController
             $query = $this->applicationRepository->findApplicationsWithSearch([]);
         }
 
-        // Pagination
         $pagination = $this->paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
             10
         );
 
-        // Candidatures refusées
         $refusedApplications = $this->applicationRepository->findBy(['statut' => 'Refusée']);
 
-        // Formulaire de création de candidature
         $application = new Application();
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
@@ -96,16 +94,16 @@ class ApplicationController extends AbstractController
             return $this->redirectToRoute('app_application_index');
         }
 
-        // Rendu de la vue
         return $this->render('application/indexes/index.html.twig', [
             'pagination' => $pagination,
             'form' => $form->createView(),
             'searchForm' => $searchForm->createView(),
             'refusedApplications' => $refusedApplications,
+            'statuses' => $statuses,
         ]);
     }
 
-    #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['POST'])]
+   #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['POST'])]
     public function edit(Request $request, Application $application): Response
     {
         $data = $request->request->all('application');
@@ -117,13 +115,22 @@ class ApplicationController extends AbstractController
 
         $application->setJobTitle($data['job_title'] ?? $application->getJobTitle());
         $application->setCity($data['city'] ?? $application->getCity());
-        $application->setStatut($data['statut'] ?? $application->getStatut());
         $application->setSent(!empty($data['sent']) ? new \DateTime($data['sent']) : null);
         $application->setResponse(!empty($data['response']) ? new \DateTime($data['response']) : null);
         $application->setLink($data['link'] ?? $application->getLink());
         $application->setCompany($data['company'] ?? $application->getCompany());
         $application->setJobboard($data['jobboard'] ?? $application->getJobboard());
         $application->setNote($data['note'] ?? $application->getNote());
+
+        if (!empty($data['status'])) {
+            $status = $this->entityManager->getRepository(Status::class)->find($data['status']);
+            if ($status) {
+                $application->setStatus($status);
+            } else {
+                $this->addFlash('error', 'Statut invalide.');
+                return $this->redirectToRoute('app_application_index');
+            }
+        }
 
         $this->entityManager->flush();
 

@@ -11,28 +11,24 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Status;
 
 class ApplicationType extends AbstractType
 {
-    private const STATUT = [
-        'Envoyée'    => 'Envoyée',
-        'En attente' => 'En attente',
-        'Refusée'    => 'Refusée',
-        'Acceptée'   => 'Acceptée',
-        'Supprimée'   => 'Supprimée',
-    ];
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('statut', ChoiceType::class, [
-                'choices'     => self::STATUT,
-                'label'       => "Statut",
+            ->add('status', EntityType::class, [
+                'class' => Status::class,
+                'choice_label' => 'name',
+                'label' => "Statut",
                 'placeholder' => "Choisissez un statut",
-                'required'    => false,
-                'row_attr'    => [
+                'required' => true,
+                'row_attr' => [
                     'class' => 'form-floating',
-                ]
+                ],
             ])
             ->add('job_title', TextType::class, [
                 'label'    => 'Intitulé du poste',
