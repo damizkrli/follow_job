@@ -22,23 +22,31 @@ class ApplicationSearchType extends AbstractType
             ])
             ->add('sent', DateType::class, [
                 'required' => false,
-                'widget' => 'single_text', // format HTML5 date picker
-                'label' => 'Date d\'envoi',
+                'widget' => 'single_text',
             ])
             ->add('company', SearchType::class, [
                 'required' => false,
                 'label' => 'Nom de l\'entreprise',
                 'attr' => [
-                    'placeholder' => 'Entreprise',
+                    'placeholder' => 'Google, Apple, ...',
                 ],
             ])
             ->add('jobboard', SearchType::class, [
                 'required' => false,
                 'label' => 'Job Board',
                 'attr' => [
-                    'placeholder' => 'Job Board',
+                    'placeholder' => 'Linkedin, Indeed, ...',
                 ],
-            ]);
+            ])
+            ->add('city', SearchType::class, [
+                'required' => false,
+                'label' => 'Ville',
+                'attr' => [
+                    'placeholder' => 'Bordeaux, Paris, ...'
+                ]
+            ])            
+        ;
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

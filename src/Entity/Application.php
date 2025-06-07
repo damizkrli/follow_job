@@ -86,6 +86,15 @@ class Application
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(type: 'string', length: 70, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 70,
+        minMessage: 'Le nom de la ville doit faire au moins {{ limit }} caractères.',
+        maxMessage: 'Le nom de la ville ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    private ?string $city = null;
+
     public function __construct() {
         $this->sent = new \DateTime();
 
@@ -201,6 +210,18 @@ class Application
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -21,6 +21,7 @@
       <thead class="bg-gray-50 dark:bg-gray-800">
         <tr>
           <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Intitulé</th>
+          <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Ville</th>
           <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Date</th>
           <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Entreprise</th>
           <th class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">Job Board</th>
@@ -30,6 +31,7 @@
         {% for application in refusedApplications %}
         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
           <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.jobtitle }}</td>
+          <td class="px-4 py-2 text-gray-800 dark:text-gray-100">{{ application.city }}</td>
           <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
             {{ application.sent ? application.sent|date('d/m/Y') : '' }}
           </td>

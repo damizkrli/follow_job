@@ -2,8 +2,8 @@
     {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}">
 
     {{ form_start(searchForm, {'method': 'GET'}) }}
-    <div class="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
-        {% for field in [searchForm.jobTitle, searchForm.sent, searchForm.company, searchForm.jobboard] %}
+    <div class="grid grid-cols-1 md:grid-cols-7 gap-4 items-end">
+        {% for field in [searchForm.jobTitle, searchForm.sent, searchForm.company, searchForm.jobboard, searchForm.city] %}
             <div>
                 {{ form_label(field, null, {
                     'label_attr': {
@@ -26,8 +26,9 @@
             <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded shadow">
                 <span class="material-symbols-outlined me-2">search</span> Rechercher
             </button>
-            <a href="{{ path('app_application_index') }}" class="inline-flex items-center px-4 py-2 text-gray-400 hover:text-red-600 text-sm font-medium underline">
-                Réinitialiser
+            <a href="{{ path('app_application_index') }}" 
+                class="inline-flex items-center px-4 py-2 text-white bg-red-600 hover:bg-red-700 text-xs font-medium rounded shadow">
+                <span class="material-symbols-outlined">backspace</span> Réinitialiser
             </a>
         </div>
     </div>

@@ -13,6 +13,7 @@
     <thead class="{{ app.session.get('dark_mode') ? 'bg-gray-700' : 'bg-gray-50' }}">
       <tr>
         <th class="px-4 py-3 font-medium {{ app.session.get('dark_mode') ? 'text-gray-300' : 'text-gray-600' }}">Intitulé</th>
+        <th class="px-4 py-3 font-medium {{ app.session.get('dark_mode') ? 'text-gray-300' : 'text-gray-600' }}">Ville</th>
         <th class="px-4 py-3 font-medium {{ app.session.get('dark_mode') ? 'text-gray-300' : 'text-gray-600' }}">Date</th>
         <th class="px-4 py-3 font-medium {{ app.session.get('dark_mode') ? 'text-gray-300' : 'text-gray-600' }}">Entreprise</th>
         <th class="px-4 py-3 font-medium {{ app.session.get('dark_mode') ? 'text-gray-300' : 'text-gray-600' }}">Job Board</th>
@@ -22,6 +23,7 @@
       {% for application in applications %}
         <tr class="{{ app.session.get('dark_mode') ? 'hover:bg-gray-700' : 'hover:bg-red-50' }}">
           <td class="px-4 py-2">{{ application.jobtitle }}</td>
+          <td class="px-4 py-2">{{ application.city }}</td>
           <td class="px-4 py-2">{{ application.sent ? application.sent|date('d/m/Y') : '' }}</td>
           <td class="px-4 py-2">{{ application.company ?? '--' }}</td>
           <td class="px-4 py-2">{{ application.jobboard ?? '--' }}</td>

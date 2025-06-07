@@ -105,18 +105,18 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-
     #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['POST'])]
     public function edit(Request $request, Application $application): Response
     {
-        $data = $request->request->all('application'); // <-- ici maintenant c'est bon
-    
+        $data = $request->request->all('application');
+
         if (empty($data)) {
             $this->addFlash('error', 'Données invalides.');
             return $this->redirectToRoute('app_application_index');
         }
-    
+
         $application->setJobTitle($data['job_title'] ?? $application->getJobTitle());
+        $application->setCity($data['city'] ?? $application->getCity());
         $application->setStatut($data['statut'] ?? $application->getStatut());
         $application->setSent(!empty($data['sent']) ? new \DateTime($data['sent']) : null);
         $application->setResponse(!empty($data['response']) ? new \DateTime($data['response']) : null);
@@ -124,13 +124,12 @@ class ApplicationController extends AbstractController
         $application->setCompany($data['company'] ?? $application->getCompany());
         $application->setJobboard($data['jobboard'] ?? $application->getJobboard());
         $application->setNote($data['note'] ?? $application->getNote());
-    
+
         $this->entityManager->flush();
-    
+
         $this->addFlash('success', 'Candidature modifiée avec succès.');
         return $this->redirectToRoute('app_application_index');
     }
-
 
     #[Route('/{id}', name: 'app_application_delete', methods: ['POST'])]
     public function delete(Request $request, Application $application): Response

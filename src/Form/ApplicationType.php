@@ -3,20 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Application;
-use App\Entity\Company;
-use App\Entity\Contact;
-use App\Entity\JobBoard;
-use App\Repository\CompanyRepository;
-use App\Repository\ContactRepository;
-use App\Repository\JobBoardRepository;
-use Doctrine\DBAL\Types\TextType as TypesTextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,6 +19,7 @@ class ApplicationType extends AbstractType
         'En attente' => 'En attente',
         'Refusée'    => 'Refusée',
         'Acceptée'   => 'Acceptée',
+        'Supprimée'   => 'Supprimée',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -47,6 +39,16 @@ class ApplicationType extends AbstractType
                 'required' => true,
                 'attr'     => [
                     'placeholder' => 'Développeur Web Fullstack'
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating',
+                ]
+            ])
+            ->add('city', TextType::class, [
+                'label'    => 'Ville',
+                'required' => true,
+                'attr'     => [
+                    'placeholder' => 'Bordeaux, Toulouse ...'
                 ],
                 'row_attr' => [
                     'class' => 'form-floating',
