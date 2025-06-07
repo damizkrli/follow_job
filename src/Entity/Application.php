@@ -95,6 +95,10 @@ class Application
     )]
     private ?string $city = null;
 
+    #[ORM\ManyToOne(targetEntity: Status::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Status $status = null;
+
     public function __construct() {
         $this->sent = new \DateTime();
 
@@ -223,6 +227,17 @@ class Application
     {
         $this->city = $city;
 
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
         return $this;
     }
 
