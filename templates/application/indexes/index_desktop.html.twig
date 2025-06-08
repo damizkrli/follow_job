@@ -20,12 +20,18 @@
           {% for application in pagination %}
           <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
             <td class="px-2 py-2 text-center">
-              {% if application.status.name in ['Envoye', 'En attente', 'Accepte'] %}
-                <span class="material-symbols-outlined text-green-500 text-xl">rocket_launch</span>
-              {% elseif application.status.name == 'Refuse' %}
-                <span class="material-symbols-outlined text-red-500 text-xl">cancel</span>
-              {% elseif application.status.name == 'Supprime' %}
-                <span class="material-symbols-outlined text-gray-500 text-xl">delete</span>
+              {% if application.status %}
+                {% if application.status.name in ['Envoye', 'En attente', 'Accepte'] %}
+                  <span class="material-symbols-outlined text-green-500 text-xl">rocket_launch</span>
+                {% elseif application.status.name == 'Refuse' %}
+                  <span class="material-symbols-outlined text-red-500 text-xl">cancel</span>
+                {% elseif application.status.name == 'Supprime' %}
+                  <span class="material-symbols-outlined text-gray-500 text-xl">delete</span>
+                {% else %}
+                  <span class="material-symbols-outlined text-gray-400 text-xl">help</span>
+                {% endif %}
+              {% else %}
+                <span class="material-symbols-outlined text-gray-400 text-xl">help</span>
               {% endif %}
             </td>
             <td class="px-4 py-4 text-gray-800 dark:text-gray-100">{{ application.jobtitle }}</td>
