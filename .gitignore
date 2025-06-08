@@ -1,4 +1,6 @@
 .idea
+# Ignore local Docker compose
+docker-compose.yml
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
