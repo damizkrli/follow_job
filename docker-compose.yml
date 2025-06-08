@@ -26,7 +26,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - follow_job_database_data:/var/lib/mysql
+      - followjob_follow_job_database_data:/var/lib/mysql
 
   adminer:
     image: adminer
@@ -37,4 +37,5 @@ services:
       - symfony_db
 
 volumes:
-  follow_job_database_data:
+  followjob_follow_job_database_data:
+    external: true
