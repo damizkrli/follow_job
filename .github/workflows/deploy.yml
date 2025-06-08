@@ -30,7 +30,9 @@ jobs:
           ./ admin@13.39.3.240:~/followjob
 
       - name: Stop and remove existing containers
-        run: docker compose down
+        run: |
+          docker compose down || true
+          docker compose rm -f || true
 
       - name: Build and start containers
         run: docker compose up -d --build
