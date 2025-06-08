@@ -29,6 +29,12 @@ jobs:
           -e "ssh -o StrictHostKeyChecking=no" \
           ./ admin@13.39.3.240:~/followjob
 
+      - name: Stop and remove existing containers
+        run: docker-compose down
+
+      - name: Build and start containers
+        run: docker-compose up -d --build
+
       - name: SSH into server and deploy
         run: |
           ssh -o StrictHostKeyChecking=no admin@13.39.3.240 << 'EOF'
