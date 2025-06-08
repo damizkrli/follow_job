@@ -31,8 +31,8 @@ jobs:
 
       - name: Stop and remove existing containers
         run: |
-          docker compose down || true
-          docker compose rm -f || true
+          docker ps -aq --filter "name=symfony" | xargs -r docker stop
+          docker ps -aq --filter "name=symfony" | xargs -r docker rm
 
       - name: Build and start containers
         run: docker compose up -d --build
