@@ -13,34 +13,80 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Composer Dependencies
-        run: composer install --no-dev --optimize-autoloader --no-scripts
-
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Create docker-compose.yml on the fly
+        run: |
+          cat <<EOF > docker-compose.yml
+          services:
+            followjob_php:
+              container_name: followjob_php
+              build:
+                context: .
+                dockerfile: Dockerfile
+              ports:
+                - "8000:8000"
+              volumes:
+                - .:/app
+              depends_on:
+                - followjob_db
+              environment:
+                DATABASE_URL: "mysql://followjob_user:followjob_pass@followjob_db:3306/followjob_db"
+
+            followjob_db:
+              container_name: followjob_db
+              image: mysql
+              restart: unless-stopped
+              environment:
+                MYSQL_DATABASE: followjob_db
+                MYSQL_USER: followjob_user
+                MYSQL_PASSWORD: followjob_pass
+                MYSQL_ROOT_PASSWORD: root_pass
+              volumes:
+                - followjob_db_data:/var/lib/mysql
+
+            followjob_adminer:
+              container_name: followjob_adminer
+              image: adminer
+              restart: unless-stopped
+              ports:
+                - "8080:8080"
+              depends_on:
+                - followjob_db
+
+          volumes:
+            followjob_db_data:
+          EOF
+
       - name: Copy project to server (NO DELETE)
         run: |
           rsync -az \
-          --exclude 'vendor' \
           --exclude '.git' \
+          --exclude 'node_modules' \
+          --exclude 'vendor' \
+          --exclude '.env.local' \
+          --exclude 'docker-compose.override.yml' \
           -e "ssh -o StrictHostKeyChecking=no" \
           ./ admin@13.39.3.240:~/followjob
 
-      - name: Stop and remove existing containers
+      - name: Push .env.local to server
         run: |
-          docker ps -aq --filter "name=symfony" | xargs -r docker stop
-          docker ps -aq --filter "name=symfony" | xargs -r docker rm
-
-      - name: Build and start containers
-        run: docker compose up -d --build
+          echo "${{ secrets.ENV_LOCAL_FILE }}" > .env.local
+          rsync -az -e "ssh -o StrictHostKeyChecking=no" .env.local admin@13.39.3.240:~/followjob/.env.local
+          rm .env.local
 
       - name: SSH into server and deploy
         run: |
           ssh -o StrictHostKeyChecking=no admin@13.39.3.240 << 'EOF'
             cd followjob
             docker-compose down --remove-orphans
+            docker-compose pull
             docker-compose up -d --build
+            docker exec followjob_php composer install --no-dev --optimize-autoloader --classmap-authoritative
+            docker exec followjob_php php bin/console cache:clear
+            docker exec followjob_php php bin/console cache:warmup
+            docker image prune -f
           EOF
