@@ -13,10 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H followjob.fr >> ~/.ssh/known_hosts
 
       - name: Create docker-compose.yml on the fly
         run: |
@@ -64,23 +66,23 @@ jobs:
       - name: Copy project to server (NO DELETE)
         run: |
           rsync -az \
-          --exclude '.git' \
-          --exclude 'node_modules' \
-          --exclude 'vendor' \
-          --exclude '.env.local' \
-          --exclude 'docker-compose.override.yml' \
-          -e "ssh -p 413 -o StrictHostKeyChecking=no" \
-          ./ admin@13.37.134.119:~/followjob
+            --exclude '.git' \
+            --exclude 'node_modules' \
+            --exclude 'vendor' \
+            --exclude '.env.local' \
+            --exclude 'docker-compose.override.yml' \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+            ./ admin@followjob.fr:~/followjob
 
       - name: Push .env.local to server
         run: |
           echo "${{ secrets.ENV_LOCAL_FILE }}" > .env.local
-          rsync -az -e "ssh -o StrictHostKeyChecking=no" .env.local admin@13.39.3.240:~/followjob/.env.local
+          rsync -az -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" .env.local admin@followjob.fr:~/followjob/.env.local
           rm .env.local
 
       - name: SSH into server and deploy
         run: |
-          ssh -o StrictHostKeyChecking=no admin@13.39.3.240 << 'EOF'
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no admin@followjob.fr << 'EOF'
             cd followjob
             docker-compose down --remove-orphans
             docker-compose pull
