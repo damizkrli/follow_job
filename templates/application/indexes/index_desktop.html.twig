@@ -21,7 +21,7 @@
           <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
             <td class="px-2 py-2 text-center">
               {% if application.status %}
-                {% if application.status.name in 'Envoyee' %}
+                {% if application.status.name == 'Envoyee' %}
                   <span class="material-symbols-outlined text-green-500 text-xl">rocket_launch</span>
                 {% elseif application.status.name == 'Refusee' %}
                   <span class="material-symbols-outlined text-red-500 text-xl">cancel</span>
