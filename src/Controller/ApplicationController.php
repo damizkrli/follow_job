@@ -103,7 +103,7 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-   #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['POST'])]
+        #[Route('/{id}/modifier/', name: 'app_application_edit', methods: ['POST'])]
     public function edit(Request $request, Application $application): Response
     {
         $data = $request->request->all('application');
@@ -115,13 +115,14 @@ class ApplicationController extends AbstractController
 
         $application->setJobTitle($data['job_title'] ?? $application->getJobTitle());
         $application->setCity($data['city'] ?? $application->getCity());
-        $application->setSent(!empty($data['sent']) ? new \DateTime($data['sent']) : null);
-        $application->setResponse(!empty($data['response']) ? new \DateTime($data['response']) : null);
         $application->setLink($data['link'] ?? $application->getLink());
         $application->setCompany($data['company'] ?? $application->getCompany());
         $application->setJobboard($data['jobboard'] ?? $application->getJobboard());
         $application->setNote($data['note'] ?? $application->getNote());
+        $application->setSent(!empty($data['sent']) ? new \DateTime($data['sent']) : null);
+        $application->setResponse(!empty($data['response']) ? new \DateTime($data['response']) : null);
 
+        // 🔥 Correction ici : on associe un vrai objet Status
         if (!empty($data['status'])) {
             $status = $this->entityManager->getRepository(Status::class)->find($data['status']);
             if ($status) {
