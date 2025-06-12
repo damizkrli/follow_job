@@ -86,6 +86,15 @@ class ApplicationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (null === $application->getStatus()) {
+                $defaultStatus = $this->entityManager
+                    ->getRepository(Status::class)
+                    ->findOneBy(['name' => 'Envoyee']);
+
+                if ($defaultStatus) {
+                    $application->setStatus($defaultStatus);
+                }
+            }
             $this->entityManager->persist($application);
             $this->entityManager->flush();
 

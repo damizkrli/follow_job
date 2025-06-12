@@ -1,29 +1,29 @@
 services:
-  symfony_php:
+  php:
     container_name: symfony_php
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    environment:
-      - APP_ENV=${APP_ENV}
-      - APP_DEBUG=${APP_DEBUG}
-      - DATABASE_URL=${DATABASE_URL}
     volumes:
       - .:/app
     depends_on:
       - db
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      APP_DEBUG: ${APP_DEBUG:-1}
+      DATABASE_URL: ${DATABASE_URL:-mysql://symfony:symfony@db:3306/followjob?serverVersion=8.0}
 
   db:
     container_name: followjob_db
     image: mysql:8.0
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: followjob_db
-      MYSQL_USER: followjob_user
-      MYSQL_PASSWORD: followjob_pass
-      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: followjob
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+      MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:

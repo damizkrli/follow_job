@@ -20,12 +20,13 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H followjob.fr >> ~/.ssh/known_hosts
 
-      - name: Rsync project to server
+      - name: Copy project to server (NO DELETE)
         run: |
           rsync -az \
             --exclude '.git' \
             --exclude 'node_modules' \
             --exclude 'vendor' \
+            --exclude '.env.local' \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
             ./ admin@followjob.fr:~/followjob
 
@@ -40,9 +41,10 @@ jobs:
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no admin@followjob.fr << 'EOF'
             cd followjob
             docker compose down --remove-orphans
+            docker compose pull
             docker compose up -d --build
-            docker exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative
-            docker exec symfony_php php bin/console cache:clear
-            docker exec symfony_php php bin/console cache:warmup
+            docker exec followjob_php composer install --no-dev --optimize-autoloader --classmap-authoritative
+            docker exec followjob_php php bin/console cache:clear
+            docker exec followjob_php php bin/console cache:warmup
             docker image prune -f
           EOF
