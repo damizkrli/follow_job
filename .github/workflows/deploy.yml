@@ -20,14 +20,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H followjob.fr >> ~/.ssh/known_hosts
 
-      - name: Copy project to server (NO DELETE)
+      - name: Rsync project to server
         run: |
           rsync -az \
             --exclude '.git' \
             --exclude 'node_modules' \
             --exclude 'vendor' \
-            --exclude '.env.local' \
-            --exclude 'docker-compose.override.yml' \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
             ./ admin@followjob.fr:~/followjob
 
@@ -40,26 +38,11 @@ jobs:
       - name: SSH into server and deploy
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no admin@followjob.fr << 'EOF'
-            cd ~/followjob
-
-            echo "🧹 Suppression des anciens conteneurs"
-            docker rm -f symfony_php symfony_db symfony_adminer || true
-
-            echo "🚀 Rebuild et déploiement"
-            docker-compose down --remove-orphans
-            docker-compose pull
-            docker-compose up -d --build
-
-            echo "🔐 Git safe.directory"
-            docker exec symfony_php git config --global --add safe.directory /app
-
-            echo "📦 composer install (prod)"
-            docker exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative --no-interaction --prefer-dist
-
-            echo "⚡ Symfony cache"
+            cd followjob
+            docker compose down --remove-orphans
+            docker compose up -d --build
+            docker exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative
             docker exec symfony_php php bin/console cache:clear
             docker exec symfony_php php bin/console cache:warmup
-
-            echo "🧼 Docker clean"
             docker image prune -f
           EOF
