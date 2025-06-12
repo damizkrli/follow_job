@@ -1,4 +1,4 @@
-name: deploy.yml
+name: Deploy
 
 on:
   push:
@@ -20,49 +20,6 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H followjob.fr >> ~/.ssh/known_hosts
 
-      - name: Create docker-compose.yml on the fly
-        run: |
-          cat <<EOF > docker-compose.yml
-          services:
-            followjob_php:
-              container_name: followjob_php
-              build:
-                context: .
-                dockerfile: Dockerfile
-              ports:
-                - "8000:8000"
-              volumes:
-                - .:/app
-              depends_on:
-                - followjob_db
-              environment:
-                DATABASE_URL: "mysql://followjob_user:followjob_pass@followjob_db:3306/followjob_db"
-
-            followjob_db:
-              container_name: followjob_db
-              image: mysql
-              restart: unless-stopped
-              environment:
-                MYSQL_DATABASE: followjob_db
-                MYSQL_USER: followjob_user
-                MYSQL_PASSWORD: followjob_pass
-                MYSQL_ROOT_PASSWORD: root_pass
-              volumes:
-                - followjob_db_data:/var/lib/mysql
-
-            followjob_adminer:
-              container_name: followjob_adminer
-              image: adminer
-              restart: unless-stopped
-              ports:
-                - "8080:8080"
-              depends_on:
-                - followjob_db
-
-          volumes:
-            followjob_db_data:
-          EOF
-
       - name: Copy project to server (NO DELETE)
         run: |
           rsync -az \
@@ -83,12 +40,26 @@ jobs:
       - name: SSH into server and deploy
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no admin@followjob.fr << 'EOF'
-            cd followjob
+            cd ~/followjob
+
+            echo "🧹 Suppression des anciens conteneurs"
+            docker rm -f symfony_php symfony_db symfony_adminer || true
+
+            echo "🚀 Rebuild et déploiement"
             docker-compose down --remove-orphans
             docker-compose pull
             docker-compose up -d --build
-            docker exec followjob_php composer install --no-dev --optimize-autoloader --classmap-authoritative
-            docker exec followjob_php php bin/console cache:clear
-            docker exec followjob_php php bin/console cache:warmup
+
+            echo "🔐 Git safe.directory"
+            docker exec symfony_php git config --global --add safe.directory /app
+
+            echo "📦 composer install (prod)"
+            docker exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative --no-interaction --prefer-dist
+
+            echo "⚡ Symfony cache"
+            docker exec symfony_php php bin/console cache:clear
+            docker exec symfony_php php bin/console cache:warmup
+
+            echo "🧼 Docker clean"
             docker image prune -f
           EOF
