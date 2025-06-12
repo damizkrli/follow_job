@@ -71,12 +71,6 @@ class Application
     )]
     private ?string $note = null;
 
-    #[ORM\Column(length: 10)]
-    #[Assert\NotBlank(
-        message: 'Veuillez renseigner un statut.',
-    )]
-    private ?string $statut = "Envoyée";
-
     #[ORM\Column(length: 100)]
     private ?string $company = null;
 
@@ -170,16 +164,6 @@ class Application
         $this->note = ucfirst(trim(strtolower($note)));
 
         return $this;
-    }
-
-    public function getStatut(): ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(?string $statut): void
-    {
-        $this->statut = trim(strtoupper($statut));
     }
 
     public function getCompany(): ?string

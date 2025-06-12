@@ -79,7 +79,12 @@ class ApplicationController extends AbstractController
             10
         );
 
-        $refusedApplications = $this->applicationRepository->findBy(['statut' => 'Refusée']);
+        $refusedStatus = $this->entityManager->getRepository(Status::class)->findOneBy(['name' => 'Refusee']);
+        $refusedApplications = [];
+
+        if ($refusedStatus) {
+            $refusedApplications = $this->applicationRepository->findBy(['status' => $refusedStatus]);
+        }
 
         $application = new Application();
         $form = $this->createForm(ApplicationType::class, $application);
