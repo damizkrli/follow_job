@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -149,6 +150,12 @@ class ApplicationController extends AbstractController
         $this->entityManager->flush();
 
         $this->addFlash('success', 'Candidature modifiée avec succès.');
+
+        $redirectUrl = $request->request->get('redirect_to');
+        if ($redirectUrl) {
+            return new RedirectResponse($redirectUrl);
+        }
+
         return $this->redirectToRoute('app_application_index');
     }
 
