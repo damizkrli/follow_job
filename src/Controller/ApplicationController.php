@@ -177,13 +177,4 @@ class ApplicationController extends AbstractController
             'application' => $application,
         ]);
     }
-
-    #[Route('candidatures-refusees', name: 'app_application_refused', methods: ['GET'])]
-    public function applicationRefused(): Response {
-        $refusedApplication = $this->applicationRepository->findBy(['statut' => 'Refusée']);
-
-        return $this->render('application/refused.html.twig', [
-            'applications' => $refusedApplication,
-        ]);
-    }
 }
