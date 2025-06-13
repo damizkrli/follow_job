@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ApplicationSearchType extends AbstractType
 {
@@ -44,9 +45,19 @@ class ApplicationSearchType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Bordeaux, Paris, ...'
                 ]
-            ])            
+            ])   
+            ->add('status', ChoiceType::class, [
+                'required' => false,
+                'label' => 'Statut',
+                'choices' => [
+                    'Envoyée' => 'Envoyee',
+                    'Acceptée' => 'Acceptee',
+                    'Refusée' => 'Refusee',
+                    'Supprimée' => 'Supprimee',
+                ],
+                'placeholder' => 'Tous les statuts',
+            ])
         ;
-            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -2,9 +2,10 @@
     {{ app.session.get('dark_mode') ? 'bg-gray-800 text-white' : 'bg-white text-gray-800' }}">
 
     {{ form_start(searchForm, {'method': 'GET'}) }}
-    <div class="grid grid-cols-1 md:grid-cols-7 gap-4 items-end">
-        {% for field in [searchForm.jobTitle, searchForm.sent, searchForm.company, searchForm.jobboard, searchForm.city] %}
-            <div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 items-end">
+        {% for field in [searchForm.jobTitle, searchForm.sent, searchForm.company, searchForm.jobboard, searchForm.city, searchForm.status] %}
+            <div class="lg:col-span-1">
                 {{ form_label(field, null, {
                     'label_attr': {
                         'class': 'block text-sm font-medium mb-1 ' ~ (app.session.get('dark_mode') ? 'text-gray-200' : 'text-gray-700')
@@ -22,14 +23,16 @@
             </div>
         {% endfor %}
 
-        <div class="md:col-span-2 flex justify-end items-center space-x-4">
+        <div class="flex justify-end items-center mt-2 space-x-2"></div>
+
+        <div class="flex justify-end items-center mt-2 space-x-2">
             <button type="submit" 
                 class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded shadow">
-                <span class="material-symbols-outlined me-2">search</span> Rechercher
+                <span class="material-symbols-outlined me-2">search</span>
             </button>
             <a href="{{ path('app_application_index') }}" 
                 class="inline-flex items-center px-4 py-2 text-white bg-red-600 hover:bg-red-700 text-xs font-medium rounded shadow">
-                <span class="material-symbols-outlined">backspace</span> Réinitialiser
+                <span class="material-symbols-outlined">delete</span>
             </a>
         </div>
     </div>

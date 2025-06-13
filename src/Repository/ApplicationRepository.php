@@ -77,6 +77,12 @@ class ApplicationRepository extends ServiceEntityRepository
             ->setParameter('jobboard', '%' . strtolower($criteria['jobboard']) . '%');
         }
 
+        if (!empty($criteria['status'])) {
+            $qb->andWhere('s.name = :status')
+            ->setParameter('status', $criteria['status']);
+            $qb->leftJoin('a.status', 's');
+        }
+
         $qb->orderBy('a.sent', 'DESC')
         ->addOrderBy('a.id', 'DESC');
 
