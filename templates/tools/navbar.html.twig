@@ -16,6 +16,7 @@
         <a href="{{ path('app_logout') }}" class="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 text-sm font-medium transition">Déconnexion</a>
       {% else %}
         <a href="{{ path('app_login') }}" class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 text-sm font-medium transition">Connexion</a>
+        <a href="{{path('app_register')}}" class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 text-sm font-medium transition">Créer un compte</a>
       {% endif %}
 
       <form method="get" action="{{ path('toggle_dark_mode') }}" class="flex items-center gap-2">
@@ -68,19 +69,16 @@
       <a href="{{ path('app_contact_index') }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-lg font-medium transition">Contacts</a>
     </nav>
 
-    <!-- Séparateur -->
     <hr class="border-t border-gray-200 dark:border-gray-700 w-full my-2">
 
-    <!-- Connexion + Dark mode alignés -->
     <div class="flex items-center justify-between w-full pt-4">
-      <!-- Connexion / Déconnexion -->
       {% if app.user %}
         <a href="{{ path('app_logout') }}" class="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 text-lg font-medium transition">Déconnexion</a>
       {% else %}
-        <a href="{{ path('app_login') }}" class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 text-lg font-medium transition">Connexion</a>
+        <a href="{{ path('app_login') }}" class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 text-lg font-medium transition">Connexion</a> |
+        <a href="{{path('app_register')}}" class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 text-lg font-medium transition">Créer un compte</a> |
       {% endif %}
 
-      <!-- Dark mode toggle + Icons -->
       <form method="get" action="{{ path('toggle_dark_mode') }}" class="flex items-center gap-2">
         <span class="material-symbols-outlined text-lg {{ app.session.get('dark_mode') ? 'text-gray-400' : 'text-yellow-500' }}">
           light_mode
