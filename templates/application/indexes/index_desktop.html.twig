@@ -23,6 +23,8 @@
               {% if application.status %}
                 {% if application.status.name == 'Envoyee' %}
                   <span class="material-symbols-outlined text-green-500 text-xl">rocket_launch</span>
+                {% elseif application.status.name == 'Acceptee' %}
+                  <span class="material-symbols-outlined">check_circle</span>
                 {% elseif application.status.name == 'Refusee' %}
                   <span class="material-symbols-outlined text-red-500 text-xl">cancel</span>
                 {% elseif application.status.name == 'Supprimee' %}
