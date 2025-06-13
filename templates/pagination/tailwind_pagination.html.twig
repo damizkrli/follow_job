@@ -16,6 +16,21 @@
             </li>
           {% endif %}
 
+          {% set first = pagination.paginationData.firstPageInRange %}
+          {% set last = pagination.paginationData.lastPageInRange %}
+
+          {% if first > 1 %}
+            <li>
+              <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': 1})) }}"
+                 class="px-3 py-1 rounded bg-gray-100 text-gray-800 hover:bg-gray-200">
+                1
+              </a>
+            </li>
+            {% if first > 2 %}
+              <li><span class="px-2">…</span></li>
+            {% endif %}
+          {% endif %}
+
           {% for page in pagination.paginationData.pagesInRange %}
             <li>
               <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': page})) }}"
@@ -24,6 +39,18 @@
               </a>
             </li>
           {% endfor %}
+
+          {% if last < pagination.pageCount %}
+            {% if last < pagination.pageCount - 1 %}
+              <li><span class="px-2">…</span></li>
+            {% endif %}
+            <li>
+              <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': pagination.pageCount})) }}"
+                 class="px-3 py-1 rounded bg-gray-100 text-gray-800 hover:bg-gray-200">
+                {{ pagination.pageCount }}
+              </a>
+            </li>
+          {% endif %}
 
           {% if pagination.nextPageNumber is defined %}
             <li>
