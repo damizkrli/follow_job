@@ -4,9 +4,8 @@
   onclick="closeModalOnClickOutside(event)"
 >
   <div
-    class="bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-lg w-full max-w-md mx-auto p-6 relative"
-    onclick="event.stopPropagation()"
-  >
+  class="bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-lg w-full max-w-md mx-auto p-6 relative max-h-[90vh] overflow-y-auto"
+  onclick="event.stopPropagation()">
     <button
       type="button"
       onclick="closeModal(`modalApplicationShow-{{ application.id }}`)"
