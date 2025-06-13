@@ -41,17 +41,12 @@
             <td class="px-4 py-4 text-gray-800 dark:text-gray-100">
               {{ application.sent ? application.sent|date('d/m/Y') : '' }}
             </td>
-            <td class="px-4 py-4 max-w-xs">
-              <a
-                href="{{ application.link }}"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="{{ application.link }}"
-                class="inline-flex items-center gap-1 text-blue-600 hover:underline truncate max-w-[180px]"
-              >
-                <span class="truncate">{{ application.link }}</span>
-                <span class="material-symbols-outlined text-sm">open_in_new</span>
-              </a>
+            <td class="px-2 py-2 max-w-xs">
+              <button
+                onclick="window.open('{{ application.link }}', '_blank')"
+                class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded shadow">
+                Lien vers l'annonce
+              </button>
             </td>
             <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
               {{ application.company ?? "--" }}
