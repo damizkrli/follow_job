@@ -20,7 +20,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H followjob.fr >> ~/.ssh/known_hosts
 
-      - name: Copy project to server (NO DELETE)
+      - name: Copy project to server (/var/www/follow_job)
         run: |
           rsync -az \
             --exclude '.git' \
@@ -28,18 +28,18 @@ jobs:
             --exclude 'vendor' \
             --exclude '.env.local' \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
-            ./ admin@followjob.fr:~/followjob
+            ./ admin@followjob.fr:/var/www/follow_job
 
       - name: Push .env.local to server
         run: |
           echo "${{ secrets.ENV_LOCAL_FILE }}" > .env.local
-          rsync -az -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" .env.local admin@followjob.fr:~/followjob/.env.local
+          rsync -az -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" .env.local admin@followjob.fr:/var/www/follow_job/.env.local
           rm .env.local
 
       - name: SSH into server and deploy
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no admin@followjob.fr << 'EOF'
-            cd followjob
+            cd /var/www/follow_job
             docker compose down --remove-orphans
             docker compose pull
             docker compose up -d --build
