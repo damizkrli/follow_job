@@ -77,6 +77,12 @@ class ApplicationRepository extends ServiceEntityRepository
             ->setParameter('jobboard', '%' . strtolower($criteria['jobboard']) . '%');
         }
 
+        if (!empty($criteria['city'])) {
+            $qb->andWhere('LOWER(a.city) LIKE LOWER(:city)')
+            ->setParameter('city', '%' . strtolower($criteria['city']) . '%');
+        }
+
+
         if (!empty($criteria['status'])) {
             $qb->andWhere('s.name = :status')
             ->setParameter('status', $criteria['status']);
