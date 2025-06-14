@@ -10,6 +10,7 @@ services:
       - .:/app
     depends_on:
       - db
+    restart: always
     environment:
       APP_ENV: ${APP_ENV:-dev}
       APP_DEBUG: ${APP_DEBUG:-1}
@@ -18,7 +19,7 @@ services:
   db:
     container_name: followjob_db
     image: mysql:8.0
-    restart: unless-stopped
+    restart: always
     environment:
       MYSQL_DATABASE: followjob
       MYSQL_USER: symfony
@@ -32,7 +33,7 @@ services:
   adminer:
     container_name: followjob_adminer
     image: adminer
-    restart: unless-stopped
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
