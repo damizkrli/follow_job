@@ -12,9 +12,10 @@ services:
       - db
     restart: always
     environment:
-      APP_ENV: ${APP_ENV:-dev}
-      APP_DEBUG: ${APP_DEBUG:-1}
-      DATABASE_URL: ${DATABASE_URL:-mysql://symfony:symfony@db:3306/followjob?serverVersion=8.0}
+      APP_ENV: prod
+      APP_DEBUG: 0
+      DATABASE_URL: mysql://symfony:symfony@db:3306/followjob?serverVersion=8.0
+
 
   db:
     container_name: followjob_db

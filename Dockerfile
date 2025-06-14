@@ -12,10 +12,14 @@ WORKDIR /app
 
 COPY . .
 
+RUN if [ "$APP_ENV" = "prod" ]; then \
+  cp .env.local .env; \
+  fi
+
 RUN if [ "$APP_ENV" = "dev" ]; then \
   composer install --no-interaction; \
   else \
-  composer install --optimize-autoloader --no-scripts --no-interaction --no-dev; \
+  composer install --no-scripts --no-interaction --no-dev --optimize-autoloader; \
   fi
 
 EXPOSE 8000
