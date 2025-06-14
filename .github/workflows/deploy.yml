@@ -44,7 +44,8 @@ jobs:
             docker compose pull
             docker compose up -d --build
             docker exec followjob_php composer install --no-dev --optimize-autoloader --classmap-authoritative
-            docker exec followjob_php php bin/console cache:clear
+            docker exec followjob_php php bin/console doctrine:migrations:migrate --no-interaction
+            docker exec followjob_php php bin/console cache:clear --no-warmup
             docker exec followjob_php php bin/console cache:warmup
             docker image prune -f
           EOF
