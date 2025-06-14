@@ -1,5 +1,7 @@
 FROM php:8.2-cli
 
+ARG APP_ENV=prod
+
 RUN apt-get update \
   && apt-get install -y unzip zip libzip-dev mariadb-client git \
   && docker-php-ext-install pdo pdo_mysql zip
@@ -10,7 +12,11 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --optimize-autoloader --no-scripts
+RUN if [ "$APP_ENV" = "dev" ]; then \
+  composer install --no-interaction; \
+  else \
+  composer install --optimize-autoloader --no-scripts --no-interaction --no-dev; \
+  fi
 
 EXPOSE 8000
 
