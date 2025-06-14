@@ -82,11 +82,10 @@ class ApplicationRepository extends ServiceEntityRepository
             ->setParameter('city', '%' . strtolower($criteria['city']) . '%');
         }
 
-
+        $qb->leftJoin('a.status', 's');
         if (!empty($criteria['status'])) {
             $qb->andWhere('s.name = :status')
             ->setParameter('status', $criteria['status']);
-            $qb->leftJoin('a.status', 's');
         }
 
         $qb->orderBy('a.sent', 'DESC')
