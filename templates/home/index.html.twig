@@ -18,7 +18,13 @@
     <div class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow p-4 h-full">
       <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">Offre France Travail</h2>
       <div class="flex-1 text-gray-800 dark:text-gray-200">
+      {% if not apiError %}
         {% include "home/API/francetravail.html.twig" %}
+      {% else %}
+        <div class="text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-800 p-4 rounded border border-red-300 dark:border-red-700">
+          Le service France Travail est, indépendamment de notre volonté, temporairement inaccessible.
+        </div>  
+      {% endif %}      
       </div>
     </div>
 

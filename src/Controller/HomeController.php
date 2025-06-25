@@ -52,7 +52,13 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('app_application_home', []);
         }
 
-        $offers = $this->jobService->fetchOffers();
+        try {
+            $offers = $this->jobService->fetchOffers();
+            $apiErrors = false;
+        } catch (\Exception $e) {
+            $offers = null;
+            $apiErrors = true;
+        }
 
         return $this->render('home/index.html.twig', [
             'offers' => $offers,
@@ -62,6 +68,7 @@ class HomeController extends AbstractController
             'applicationsThisWeek' => $applicationsThisWeek,
             'applicationsThisMonth' => $applicationsThisMonth,
             'applicationsThisYear' => $applicationsThisYear,
+            'apiError' => $apiErrors,
         ]);
     }
 }
