@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Application;
+use App\Entity\ExternalLink;
 use App\Entity\Status;
 use App\Form\ApplicationSearchType;
 use App\Form\ApplicationType;
+use App\Form\ExternalLinkType;
 use App\Repository\ApplicationRepository;
+use App\Service\ApplicationStatisticsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,17 +30,27 @@ class ApplicationController extends AbstractController
         private EntityManagerInterface $entityManager, 
         private PaginatorInterface $paginator,
         private ApplicationSearchType $applicationSearchType,
+        private ApplicationStatisticsService $applicationStatisticsService,
     )
     {
         $this->entityManager = $entityManager;
         $this->applicationRepository = $applicationRepository;
         $this->paginator = $paginator;
         $this->applicationSearchType = $applicationSearchType;
+        $this->applicationStatisticsService = $applicationStatisticsService;
     }
 
     #[Route('/', name: 'app_application_index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response|JsonResponse
     {
+        $applicationSentToday = $this->applicationStatisticsService->countApplicationsToday();
+        $applicationSentThisWeek = $this->applicationStatisticsService->countThisWeek();
+        $applicationSentThisMonth = $this->applicationStatisticsService->countThisMonth();
+        $applicationSentThisYear = $this->applicationStatisticsService->countThisYear();
+
+        $externalLink = new ExternalLink();
+        $externalLinkForm = $this->createForm(ExternalLinkType::class, $externalLink);
+
         $statuses = $this->entityManager->getRepository(Status::class)->findAll();
 
         if ($request->isXmlHttpRequest()) {
@@ -115,6 +128,11 @@ class ApplicationController extends AbstractController
             'searchForm' => $searchForm->createView(),
             'refusedApplications' => $refusedApplications,
             'statuses' => $statuses,
+            'external_link_form' => $externalLinkForm->createView(),
+            'applicationSentToday' => $applicationSentToday,
+            'applicationsThisWeek' => $applicationSentThisWeek,
+            'applicationsThisMonth' => $applicationSentThisMonth,
+            'applicationsThisYear' => $applicationSentThisYear,
         ]);
     }
 
