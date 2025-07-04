@@ -22,7 +22,7 @@ jobs:
 
       - name: Copy project to server (/var/www/follow_job)
         run: |
-          rsync -az \
+          rsync -az --delete \
             --exclude '.git' \
             --exclude 'node_modules' \
             --exclude 'vendor' \
