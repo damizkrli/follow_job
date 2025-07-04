@@ -27,6 +27,7 @@ jobs:
             --exclude 'node_modules' \
             --exclude 'vendor' \
             --exclude '.env.local' \
+            --exclude 'var' \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
             ./ admin@followjob.fr:/var/www/follow_job
 
