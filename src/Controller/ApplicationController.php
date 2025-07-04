@@ -43,6 +43,8 @@ class ApplicationController extends AbstractController
     #[Route('/', name: 'app_application_index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response|JsonResponse
     {
+        $user = $this->getUser(); // Toujours d'abord
+
         $applicationSentToday = $this->applicationStatisticsService->countApplicationsToday();
         $applicationSentThisWeek = $this->applicationStatisticsService->countThisWeek();
         $applicationSentThisMonth = $this->applicationStatisticsService->countThisMonth();
@@ -82,9 +84,12 @@ class ApplicationController extends AbstractController
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $query = $this->applicationRepository->findApplicationsWithSearch($searchForm->getData());
+            $query = $this->applicationRepository->findApplicationsWithSearch(
+                $searchForm->getData(),
+                $user
+            );
         } else {
-            $query = $this->applicationRepository->findApplicationsWithSearch([]);
+            $query = $this->applicationRepository->findApplicationsWithSearch([], $user);
         }
 
         $pagination = $this->paginator->paginate(
@@ -97,7 +102,10 @@ class ApplicationController extends AbstractController
         $refusedApplications = [];
 
         if ($refusedStatus) {
-            $refusedApplications = $this->applicationRepository->findBy(['status' => $refusedStatus]);
+            $refusedApplications = $this->applicationRepository->findBy([
+                'status' => $refusedStatus,
+                'user' => $user
+            ]);
         }
 
         $application = new Application();
@@ -114,6 +122,10 @@ class ApplicationController extends AbstractController
                     $application->setStatus($defaultStatus);
                 }
             }
+
+            // 🔥 Lie toujours au user connecté
+            $application->setUser($user);
+
             $this->entityManager->persist($application);
             $this->entityManager->flush();
 

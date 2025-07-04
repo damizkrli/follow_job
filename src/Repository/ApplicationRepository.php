@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Application;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -49,9 +50,11 @@ class ApplicationRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    public function findApplicationsWithSearch(?array $criteria)
+    public function findApplicationsWithSearch(?array $criteria, User $user)
     {
-        $qb = $this->createQueryBuilder('a');
+        $qb = $this->createQueryBuilder('a')
+            ->andWhere('a.user = :user')
+            ->setParameter('user', $user);
 
         if (!empty($criteria['sent'])) {
             $startOfDay = (clone $criteria['sent'])->setTime(0, 0, 0);
