@@ -40,37 +40,21 @@ jobs:
       - name: SSH into server and deploy
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no admin@followjob.fr << 'EOF'
-            set -e
             cd /var/www/follow_job
-
-            echo "📦 Stopping old containers..."
             docker-compose down --remove-orphans
-
-            echo "⬇️ Pulling latest images..."
             docker-compose pull
-
-            echo "🚀 Rebuilding containers..."
             docker-compose up -d --build
 
-            echo "⏳ Waiting for symfony_php to be ready..."
-            sleep 10
-            docker-compose ps
+            echo "⏳ Waiting for symfony_php to be healthy..."
+            until [ "$(docker inspect -f '{{.State.Health.Status}}' symfony_php)" = "healthy" ]; do
+              sleep 5
+              echo "Still waiting..."
+            done
 
-            echo "📦 Installing composer dependencies..."
             docker-compose exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative
-
-            echo "🗄️ Forcing schema update..."
-            docker-compose exec symfony_php php bin/console doctrine:schema:update --force
-
-            echo "♻️ Clearing & warming up cache..."
+            docker-compose exec symfony_php php bin/console doctrine:migrations:migrate --no-interaction
             docker-compose exec symfony_php php bin/console cache:clear --no-warmup
             docker-compose exec symfony_php php bin/console cache:warmup
 
-            echo "🔒 Fixing permissions on var/"
-            docker-compose exec symfony_php chown -R www-data:www-data var
-
-            echo "🧹 Pruning dangling images..."
             docker image prune -f
-
-            echo "✅ Deployment done!"
           EOF
