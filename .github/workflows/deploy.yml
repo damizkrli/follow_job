@@ -41,22 +41,14 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no admin@followjob.fr << 'EOF'
             cd /var/www/follow_job
-
             docker-compose down --remove-orphans
             docker-compose pull
             docker-compose up -d --build
 
-            echo "⏳ Waiting for symfony_php to be healthy..."
-            until [ "\$(docker inspect -f '{{.State.Health.Status}}' symfony_php)" = "healthy" ]; do
-              sleep 5
-              echo "Still waiting..."
-            done
-
             docker-compose exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative
             docker-compose exec symfony_php php bin/console doctrine:migrations:migrate --no-interaction
-
-            docker exec -it symfony_php php bin/console cache:clear --env=prod
-            docker exec -it symfony_php php bin/console cache:warmup --env=prod
+            docker-compose exec symfony_php php bin/console cache:clear --no-warmup
+            docker-compose exec symfony_php php bin/console cache:warmup
 
             docker image prune -f
           EOF
