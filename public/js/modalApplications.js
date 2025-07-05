@@ -90,15 +90,3 @@ document.addEventListener("click", function (e) {
     }
   }
 });
-
-document.addEventListener("DOMContentLoaded", () => {
-  const observer = new MutationObserver(() => {
-    const details = document.getElementById("filterDetails");
-    if (details) {
-      details.setAttribute("open", "");
-      observer.disconnect();
-    }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-});

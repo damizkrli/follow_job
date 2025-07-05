@@ -31,17 +31,16 @@
   </div>
 
   <div class="mb-4">
-    <details id="filterDetails" class="bg-white dark:bg-gray-800 rounded shadow p-4">
-      <!-- Bouton visible uniquement en mobile -->
-      <summary class="cursor-pointer font-medium text-gray-800 dark:text-gray-100 flex items-center justify-between md:hidden">
-        <span>Filtres de recherche</span>
-        <span class="material-symbols-outlined">expand_more</span>
-      </summary>
+    <input type="checkbox" id="toggleFilters" class="peer hidden">
 
-      <div class="mt-4 md:mt-0">
-        {% include "tools/formSearch.html.twig" %}
-      </div>
-    </details>
+    <label for="toggleFilters" class="block md:hidden w-full text-left bg-white dark:bg-gray-800 rounded shadow p-4 font-medium text-gray-800 dark:text-gray-100 flex items-center justify-between cursor-pointer">
+      <span>Filtres de recherche</span>
+      <span class="material-symbols-outlined peer-checked:rotate-180 transition-transform">expand_more</span>
+    </label>
+
+    <div class="hidden peer-checked:block md:block bg-white dark:bg-gray-800 rounded shadow p-4 mt-2 md:mt-0">
+      {% include "tools/formSearch.html.twig" %}
+    </div>
   </div>
 
 <div class="block md:hidden space-y-4">
