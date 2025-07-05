@@ -52,10 +52,14 @@ jobs:
             echo "🚀 Rebuilding containers..."
             docker-compose up -d --build
 
+            echo "⏳ Waiting for symfony_php to be ready..."
+            sleep 10
+            docker-compose ps
+
             echo "📦 Installing composer dependencies..."
             docker-compose exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative
 
-            echo "🗄️ Forcing schema update (TEMP workaround for broken migration)"
+            echo "🗄️ Forcing schema update..."
             docker-compose exec symfony_php php bin/console doctrine:schema:update --force
 
             echo "♻️ Clearing & warming up cache..."
