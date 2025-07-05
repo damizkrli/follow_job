@@ -93,11 +93,16 @@ document.addEventListener("click", function (e) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const details = document.getElementById("filterDetails");
+
+  if (!details) {
+    console.warn("⚠️ #filterDetails introuvable !");
+    return;
+  }
+
   if (window.innerWidth >= 768) {
     details.setAttribute("open", "");
   }
 
-  // Facultatif : si on redimensionne après coup
   window.addEventListener("resize", () => {
     if (window.innerWidth >= 768) {
       details.setAttribute("open", "");
