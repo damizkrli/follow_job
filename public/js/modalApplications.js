@@ -92,22 +92,13 @@ document.addEventListener("click", function (e) {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const details = document.getElementById("filterDetails");
-
-  if (!details) {
-    console.warn("⚠️ #filterDetails introuvable !");
-    return;
-  }
-
-  if (window.innerWidth >= 768) {
-    details.setAttribute("open", "");
-  }
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth >= 768) {
+  const observer = new MutationObserver(() => {
+    const details = document.getElementById("filterDetails");
+    if (details) {
       details.setAttribute("open", "");
-    } else {
-      details.removeAttribute("open");
+      observer.disconnect();
     }
   });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 });
