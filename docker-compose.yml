@@ -9,6 +9,8 @@ services:
     depends_on:
       - db
     restart: always
+    volumes:
+      - .:/app
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
