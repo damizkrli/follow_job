@@ -30,19 +30,19 @@
     </div>
   </div>
 
-<div class="mb-4">
-  <div class="block md:hidden">
-    <details class="bg-white dark:bg-gray-800 rounded shadow p-4">
-      <summary class="cursor-pointer font-medium text-gray-800 dark:text-gray-100 flex items-center justify-between">
+  <div class="mb-4">
+    <details id="filterDetails" class="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <!-- Bouton visible uniquement en mobile -->
+      <summary class="cursor-pointer font-medium text-gray-800 dark:text-gray-100 flex items-center justify-between md:hidden">
         <span>Filtres de recherche</span>
         <span class="material-symbols-outlined">expand_more</span>
       </summary>
-      <div class="mt-4">
+
+      <div class="mt-4 md:mt-0">
         {% include "tools/formSearch.html.twig" %}
       </div>
     </details>
   </div>
-</div>
 
 <div class="block md:hidden space-y-4">
 
@@ -210,4 +210,7 @@
 
   {% include 'tools/modalApplications.html.twig' %}
   {% include 'tools/modalRefusedApplication.html.twig' %}
+
+  <script src="{{ asset('js/openDetails.js') }}"></script>
+
 {% endblock %}

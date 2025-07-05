@@ -90,3 +90,19 @@ document.addEventListener("click", function (e) {
     }
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const details = document.getElementById("filterDetails");
+  if (window.innerWidth >= 768) {
+    details.setAttribute("open", "");
+  }
+
+  // Facultatif : si on redimensionne après coup
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 768) {
+      details.setAttribute("open", "");
+    } else {
+      details.removeAttribute("open");
+    }
+  });
+});
