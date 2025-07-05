@@ -43,29 +43,29 @@ jobs:
             set -e
             cd /var/www/follow_job
 
-            echo "Stopping old containers"
+            echo "📦 Stopping old containers..."
             docker-compose down --remove-orphans
 
-            echo "Pulling latest images"
+            echo "⬇️ Pulling latest images..."
             docker-compose pull
 
-            echo "Rebuilding containers"
+            echo "🚀 Rebuilding containers..."
             docker-compose up -d --build
 
-            echo "Installing composer dependencies"
-            docker exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative
+            echo "📦 Installing composer dependencies..."
+            docker-compose exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative
 
-            echo "Running migrations"
-            docker exec symfony_php php bin/console doctrine:migrations:migrate --no-interaction
+            echo "🗄️ Forcing schema update (TEMP workaround for broken migration)"
+            docker-compose exec symfony_php php bin/console doctrine:schema:update --force
 
-            echo "Clearing & warming up cache..."
-            docker exec symfony_php php bin/console cache:clear --no-warmup
-            docker exec symfony_php php bin/console cache:warmup
+            echo "♻️ Clearing & warming up cache..."
+            docker-compose exec symfony_php php bin/console cache:clear --no-warmup
+            docker-compose exec symfony_php php bin/console cache:warmup
 
-            echo "Fixing permissions on var/"
-            docker exec symfony_php chown -R www-data:www-data var
+            echo "🔒 Fixing permissions on var/"
+            docker-compose exec symfony_php chown -R www-data:www-data var
 
-            echo "Pruning dangling images"
+            echo "🧹 Pruning dangling images..."
             docker image prune -f
 
             echo "✅ Deployment done!"
