@@ -1,24 +1,22 @@
-    {% if applicationSentToday == 0 %}
+    {% if applicationSentToday >= 10 and applicationSentToday >= 15  %}
       <div>
-        Vous n'avez envoyé aucune candidatures aujourd’hui,
-        <span class="font-semibold">{{ applicationsThisWeek }}</span> cette semaine,
-        <span class="font-semibold">{{ applicationsThisMonth }}</span> ce mois-ci et
-        <span class="font-semibold">{{ applicationsThisYear }}</span> cette année.
+        ✅ Bravo, vous avez atteint votre objectif intensif.      
       </div>
-    {% elseif applicationSentToday <= 5 %}
+    {% elseif applicationSentToday >= 3 and applicationSentToday <= 5 %}
       <div>
-        Vous n'avez envoyé que <span class="font-semibold">{{ applicationSentToday }}</span> candidatures aujourd’hui, 
-        <span class="font-semibold">{{ applicationsThisWeek }}</span> cette semaine,
-        <span class="font-semibold">{{ applicationsThisMonth }}</span> ce mois-ci et
-        <span class="font-semibold">{{ applicationsThisYear }}</span> cette année.
+        ✅ Bravo, vous avez atteint votre objectif constant.
       </div>
-      {% else %}
+    {% elseif applicationSentToday == 1 %}
+    <div>
+        ✅ Bravo, vous avez atteint votre objectif "minimum vital".
+    </div>
+    {% else %}
       <div>
-        Vous avez envoyé
-        <span class="font-semibold">{{ applicationSentToday }}</span> candidatures aujourd’hui,
-        <span class="font-semibold">{{ applicationsThisWeek }}</span> cette semaine,
-        <span class="font-semibold">{{ applicationsThisMonth }}</span> ce mois-ci et
-        <span class="font-semibold">{{ applicationsThisYear }}</span> cette année.
+          0️⃣ Vous n'avez postulé à aucune offre aujourd'hui. 
+        Pour rappel, une 
+          <span class="font-bold">recherche intensive</span> 
+        se situe entre 
+          <span class="font-bold">30 et 50 candidatures</span>
+        par semaine.
       </div>
     {% endif %}
-    
