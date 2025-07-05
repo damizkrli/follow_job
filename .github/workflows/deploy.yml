@@ -44,13 +44,13 @@ jobs:
             cd /var/www/follow_job
 
             echo "Stopping old containers"
-            docker compose down --remove-orphans
+            docker-compose down --remove-orphans
 
             echo "Pulling latest images"
-            docker compose pull
+            docker-compose pull
 
             echo "Rebuilding containers"
-            docker compose up -d --build
+            docker-compose up -d --build
 
             echo "Installing composer dependencies"
             docker exec symfony_php composer install --no-dev --optimize-autoloader --classmap-authoritative
