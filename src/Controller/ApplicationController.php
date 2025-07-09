@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Application;
 use App\Entity\ExternalLink;
+use App\Entity\Jobboard;
 use App\Entity\Status;
 use App\Form\ApplicationSearchType;
 use App\Form\ApplicationType;
@@ -43,7 +44,7 @@ class ApplicationController extends AbstractController
     #[Route('/', name: 'app_application_index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response|JsonResponse
     {
-        $user = $this->getUser(); // Toujours d'abord
+        $user = $this->getUser();
 
         $applicationSentToday = $this->applicationStatisticsService->countApplicationsToday();
         $applicationSentThisWeek = $this->applicationStatisticsService->countThisWeek();
@@ -54,6 +55,7 @@ class ApplicationController extends AbstractController
         $externalLinkForm = $this->createForm(ExternalLinkType::class, $externalLink);
 
         $statuses = $this->entityManager->getRepository(Status::class)->findAll();
+        $jobboards = $this->entityManager->getRepository(Jobboard::class)->findAll();
 
         if ($request->isXmlHttpRequest()) {
             $field = $request->query->get('field');
@@ -123,7 +125,6 @@ class ApplicationController extends AbstractController
                 }
             }
 
-            // 🔥 Lie toujours au user connecté
             $application->setUser($user);
 
             $this->entityManager->persist($application);
@@ -140,6 +141,7 @@ class ApplicationController extends AbstractController
             'searchForm' => $searchForm->createView(),
             'refusedApplications' => $refusedApplications,
             'statuses' => $statuses,
+            'jobboards' => $jobboards,
             'external_link_form' => $externalLinkForm->createView(),
             'applicationSentToday' => $applicationSentToday,
             'applicationsThisWeek' => $applicationSentThisWeek,
@@ -162,7 +164,6 @@ class ApplicationController extends AbstractController
         $application->setCity($data['city'] ?? $application->getCity());
         $application->setLink($data['link'] ?? $application->getLink());
         $application->setCompany($data['company'] ?? $application->getCompany());
-        $application->setJobboard($data['jobboard'] ?? $application->getJobboard());
         $application->setNote($data['note'] ?? $application->getNote());
         $application->setSent(!empty($data['sent']) ? new \DateTime($data['sent']) : null);
         $application->setResponse(!empty($data['response']) ? new \DateTime($data['response']) : null);
@@ -173,6 +174,16 @@ class ApplicationController extends AbstractController
                 $application->setStatus($status);
             } else {
                 $this->addFlash('error', 'Statut invalide.');
+                return $this->redirectToRoute('app_application_index');
+            }
+        }
+
+        if (!empty($data['jobboard'])) {
+            $jobboard = $this->entityManager->getRepository(\App\Entity\Jobboard::class)->find($data['jobboard']);
+            if ($jobboard) {
+                $application->setJobboard($jobboard);
+            } else {
+                $this->addFlash('error', 'Plateforme invalide.');
                 return $this->redirectToRoute('app_application_index');
             }
         }

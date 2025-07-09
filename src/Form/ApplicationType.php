@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Application;
+use App\Entity\Jobboard;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -86,15 +87,15 @@ class ApplicationType extends AbstractType
                     'class' => 'form-floating',
                 ]
             ])
-            ->add('jobboard', TextType::class, [
-                'label' => 'Plateforme',
+            ->add('jobboard', EntityType::class, [
+                'class' => Jobboard::class,
+                'choice_label' => 'name',
+                'label' => "Plateforme",
+                'placeholder' => "Choisissez une plateforme",
                 'required' => false,
-                'attr'     => [
-                    'placeholder' => 'Plateformes'
-                ],
                 'row_attr' => [
                     'class' => 'form-floating',
-                ]
+                ],
             ])
             ->add('note', TextareaType::class, [
                     'required' => false,
