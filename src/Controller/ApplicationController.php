@@ -179,7 +179,7 @@ class ApplicationController extends AbstractController
         }
 
         if (!empty($data['jobboard'])) {
-            $jobboard = $this->entityManager->getRepository(\App\Entity\Jobboard::class)->find($data['jobboard']);
+            $jobboard = $this->entityManager->getRepository(Jobboard::class)->find($data['jobboard']);
             if ($jobboard) {
                 $application->setJobboard($jobboard);
             } else {
