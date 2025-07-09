@@ -74,9 +74,6 @@ class Application
     #[ORM\Column(length: 100)]
     private ?string $company = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $jobboard = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -96,6 +93,10 @@ class Application
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'applications')]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
+
+    #[ORM\ManyToOne(targetEntity:Jobboard::class, inversedBy: 'application')]
+    #[ORM\JoinColumn(nullable:true)]
+    private ?Jobboard $jobboard = null;
 
     public function __construct() {
         $this->sent = new \DateTime();
@@ -182,18 +183,6 @@ class Application
         return $this;
     }
 
-    public function getJobboard(): ?string
-    {
-        return $this->jobboard;
-    }
-
-    public function setJobboard(string $jobboard): static
-    {
-        $this->jobboard = ucwords(strtolower(trim($jobboard)));
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -237,6 +226,18 @@ class Application
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getJobboard(): ?Jobboard
+    {
+        return $this->jobboard;
+    }
+
+    public function setJobboard(?Jobboard $jobboard): static
+    {
+        $this->jobboard = $jobboard;
 
         return $this;
     }
