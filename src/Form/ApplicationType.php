@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Application;
 use App\Entity\Jobboard;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -50,14 +49,6 @@ class ApplicationType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating',
                 ]
-            ])
-            ->add('sent', DateType::class, [
-                'widget'   => 'single_text',
-                'label'    => 'Date d\'envoi',
-                'required' => true,
-                'row_attr' => [
-                    'class' => 'form-floating',
-                ],
             ])
             ->add('response', DateType::class, [
                 'widget'   => 'single_text',
