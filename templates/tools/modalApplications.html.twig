@@ -21,7 +21,6 @@
         form.company,
         form.jobboard,
         form.status,
-        form.response,
       ] %}
         <div>
           {{ form_label(field, null, {
@@ -71,6 +70,6 @@
         Annuler
       </button>
     </div>
-    {{ form_end(form) }}
+    {{ form_end(form, {'render_rest': false}) }}
   </div>
 </div>
