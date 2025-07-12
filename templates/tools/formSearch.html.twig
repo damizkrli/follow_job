@@ -1,8 +1,13 @@
 
     {{ form_start(searchForm, {'method': 'GET'}) }}
     
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 items-end">
-        {% for field in [searchForm.jobTitle, searchForm.sent, searchForm.company, searchForm.jobboard, searchForm.city, searchForm.status] %}
+    <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-4 items-end">
+        {% for field in [
+            searchForm.company,
+            searchForm.city,
+            searchForm.status
+            ]
+        %}
             <div class="lg:col-span-1">
                 {{ form_label(field, null, {
                     'label_attr': {
@@ -39,4 +44,4 @@
         </div>
     {% endif %}
 
-    {{ form_end(searchForm) }}
+    {{ form_end(searchForm, {'render_rest': false}) }}
