@@ -1,0 +1,46 @@
+name: Deploy Symfony Project with Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 🚀 Deploy to Lightsail
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🔐 Add SSH host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 🗝️ Create SSH key file for SSH commands
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github_actions_key
+          chmod 600 ~/.ssh/github_actions_key
+
+      - name: 📂 Deploy via rsync
+        uses: burnett01/rsync-deployments@5.2
+        with:
+          switches: -avz --delete --exclude='.env.local'
+          path: ./
+          remote_path: /var/www/pcclim
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: 🐳 Rebuild Docker container
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/github_actions_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            set -e
+            cd /var/www/pcclim
+            docker compose down
+            docker compose up -d --build
+            docker image prune -f
+          EOF
